@@ -1,0 +1,187 @@
+#header{
+    position: fixed;
+    height: 60px;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .95);
+    box-shadow: 0 0 15px rgba(0, 0, 0, .3);
+    z-index: 9;
+    transition: all .2s;
+}
+.header__menu{
+    flex-grow: unset;
+    flex-basis: unset !important;
+    width: 100%;
+}
+.header__menu ul{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#header .navbar-text {
+    white-space: nowrap;
+}
+#header a{
+    color: #000;
+    transition: all .2s;
+}
+#header a:hover{
+    color: #fb4226;
+}
+.right--header{
+    height: 25px;
+    width: unset !important;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+.right--header .nav-item{
+    border-right: 1px solid ;
+}
+.right--header img{
+    margin-right: 3px;
+}
+#header .header__menu .dropdown{
+    width: 150px;
+}
+.location--header{
+    color: #6c757d;
+    background-color: #fff;
+    border-color: unset;
+    border: unset;
+    text-align: initial;
+}
+.location--header .btn.focus, .btn:focus{
+    box-shadow: unset !important
+}
+.location--header .btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show>.btn-secondary.dropdown-toggle{
+background-color: #fff;
+border-color: #fff;
+color: #9b9b9b;
+;
+}
+.border--left{
+    border-left: 1px solid #9b9b9b;
+}
+.location--header.btn-secondary {
+    background-color: transparent;
+    border: none;
+    color: #9b9b9b;
+    cursor: pointer;
+    width: 100%;
+    background-image: url(../../assets/img/dropdown-icon.png);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 5px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 25px;
+}
+.img-circle img{
+    height: auto;
+    width: 30px;
+    border-radius: 25px;
+    margin-right: 5px;
+}
+#account{
+    cursor: pointer;
+    font-size: 16px;
+}
+#account a{
+    color: #9b9b9b;
+}
+/* sidebar */
+#App {
+    font-family: sans-serif;
+
+    /* Give app full page to work with */
+    height: 100vh;
+}
+
+#page-wrap {
+    text-align: center;
+
+    /* Prevent sidebar from showing a scrollbar on page */
+    overflow: auto;
+}
+
+/* Individual item */
+.bm-item {
+    display: inline-block;
+
+    /* Our sidebar item styling */
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+}
+.bm-item .nav-item a{
+    font-size: 18px;
+    color: black;
+}
+.bm-item a:hover{
+    color: #fb4226;
+}
+.bm-item #account a:hover {
+    color: #fb4226;
+}
+.bm-item .location--header{
+    padding-left: 0;
+    color: black;
+    font-size: 18px;
+}
+.bm-item.right--header .dropdown-menu {
+    width: 100% !important;
+}
+/* Change color on hover */
+.bm-item:hover {
+    color: white;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+    display: none;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: #373a47;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+    background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+    background: #fff;
+    padding: 0 1.5em;
+    font-size: 1.15em;
+    color: #aaa !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+    color: #b8b7ad;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}

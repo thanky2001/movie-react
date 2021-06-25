@@ -1,0 +1,16 @@
+- src
+ - components : chứa dump component,các components dùng để sử dụng bên trong các component khác, thông thường chỉ nhận props và render UI, ít sử lí logic , Ex: Button, card,..
+ - Pages : chứa các component cấu thành 1 page, có các xử lý logic bên trong những component này, như gọi API,...
+ - hooks : chứa các custom hooks, ví dụ : useRequest, ....
+ - services : Nơi setup API 
+ - styles : nơi đặt các file css, scss 
+  + sử dụng scss trong react :  npm i -D sass
+- utils: chứa các common function để tái sử dụng trong project 
+
+* Có redux :  
+- actions: chứa actions của redux 
+- constants : chứa constants của project và type của redux
+- reducers : chứa reducer của redux 
+
+lib: axios redux react-redux redux-thunk react-router-dom reactstrap bootstrap
+https://reactjsexample.com/minimal-side-navigation-component-for-react/ sidebar

@@ -1,0 +1,13 @@
+html{
+    scroll-behavior: smooth;
+}
+.content__wrap{
+    padding-top: 60px;
+}
+body{
+    background-color: #fff;
+}
+.test{
+    height: 400px;
+    padding-top: 60px;
+}
