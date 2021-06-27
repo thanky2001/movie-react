@@ -6,10 +6,26 @@ import './styles/Layout/Content.css';
 import './styles/Layout/Footer.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// setup Store
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import rootReducer from './reducers/index';
+
+//tạo store tổng của redux
+const middleware = applyMiddleware(thunk);
+const enhancer = compose(
+  middleware, //middleware
+  //redux devtools
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <React.Fragment>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.Fragment>,
   document.getElementById('root')
 );

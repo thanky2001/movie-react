@@ -30,6 +30,9 @@
 #header a:hover{
     color: #fb4226;
 }
+#header .navbar-toggler {
+    border: 0;
+}
 .right--header{
     height: 25px;
     width: unset !important;
@@ -58,10 +61,9 @@
 .location--header .btn-secondary:not(:disabled):not(.disabled).active,
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show>.btn-secondary.dropdown-toggle{
-background-color: #fff;
-border-color: #fff;
-color: #9b9b9b;
-;
+background-color: unset ;
+border-color: unset ;
+color: black ;
 }
 .border--left{
     border-left: 1px solid #9b9b9b;
