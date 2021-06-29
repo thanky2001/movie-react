@@ -68,6 +68,21 @@ color: black ;
 .border--left{
     border-left: 1px solid #9b9b9b;
 }
+.user-setting{
+    position: absolute;
+    right: 180px;
+    width: 120px;
+    text-align: center;
+    color: #fff;
+    background: #8a8888e6;
+}
+.user-setting p{
+    margin: 0;
+    padding: 3px;
+}
+.user-setting p:hover{
+    background: #999292d4;
+}
 .location--header.btn-secondary {
     background-color: transparent;
     border: none;

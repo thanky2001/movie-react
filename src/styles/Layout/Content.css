@@ -33,6 +33,13 @@ body{
     background-size: 100% 100%;
     background-position: center;
 }
+@-moz-document url-prefix() {
+    #login, #register {
+        background: url('../../assets/img/backapp.jpg') no-repeat scroll 0 0;
+        border-bottom: none;
+        background-size: 100% 100%;
+    }
+}
 .login__wraper{
     max-width: 360px;
     padding: 0px 32px 30px;
@@ -41,16 +48,19 @@ body{
     color: #fff;
     border-radius: 6px;
 }
+#register .login--header{
+    margin-bottom: 0;
+}
 .login--header {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .login--message{
     text-align: center;
 }
 .login--header img {
-    width: 150px;
+    width: 200px;
     cursor: pointer;
 }
 .login--close{
@@ -95,7 +105,7 @@ body{
 }
 .link--register p {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 .login--social{
     text-align: center;
@@ -115,11 +125,15 @@ body{
     color: #fff !important;
 }
 #register .login__wraper{
-    padding: 10px 30px 30px;
+    padding: 10px 30px 10px;
 }
 #register .login--header img {
     width: 140px;
     cursor: pointer;
+}
+a.close--wraper{
+    height: 18px !important;
+    display: flex !important;
 }
 #register .login--close{
     top: -26px;
@@ -130,7 +144,7 @@ body{
     justify-content: flex-end;
 }
 #register .btn--orange{
-    margin-top: 20px !important;
+    margin-top: 10px !important;
 }
 .bm-item:hover{
     color: unset;

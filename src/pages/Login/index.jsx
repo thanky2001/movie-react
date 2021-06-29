@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-import { Avatar, Button } from '@material-ui/core';
-import Tooltip from '@material-ui/core/Tooltip';
+import {Button } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
@@ -47,12 +46,12 @@ class Index extends Component {
         }
     }
     handleChange=(e)=>{
-        let {value, name,type} = e.target;
+        let {value, name} = e.target;
         let errorMessage= "";
         if(value.trim()===''){
             errorMessage = "Không được để trống";
         }
-        if(type ==='text' && (value.length < 5 || value.length > 20)){
+        if(name ==='taiKhoan' && (value.length < 5 || value.length > 20)){
             errorMessage= "Tài khoản phải từ 5 đến 20 ký tự";
         }
         this.setState({
@@ -76,6 +75,7 @@ class Index extends Component {
         for (let key in errors) {
             if (errors[key] !== '') {
                 valid = false;
+                errorMessage = {...errorMessage, [key]: "Không được để trống"}
             }
         };
         if(valid){
@@ -88,6 +88,12 @@ class Index extends Component {
     }
     render() {
         let {userInfo, isLoading, error} = this.props;
+        if (userInfo && userInfo.maLoaiNguoiDung ==="QuanTri") {
+            return <Redirect to="/admin"/>
+        }
+        if (userInfo && userInfo.maLoaiNguoiDung ==="KhachHang") {
+            return <Redirect to="/"/>
+        }
         const { classes } = this.props;
         return (
             <div id="login">
@@ -119,20 +125,6 @@ class Index extends Component {
                         {error ? <p style={{color: '#f44336', fontSize:'0.75rem', marginBottom:'0', marginTop:'3px'}}>{error}</p> : ''}
                         <Button type='submit' variant="contained" className="btn--orange"> {isLoading ? <CircularProgress size={20} color='inherit' /> : 'Đăng Nhập'}</Button>
                     </form>
-                    <div className="login--social">
-                        <p>Hoặc</p>
-                        <div className="d-flex justify-content-center">
-                            <Tooltip placement='top' title="Login with Facebook">
-                                <Avatar alt="fb" src="img/fb_login.png"/>
-                            </Tooltip>
-                            <Tooltip placement='top' title="Login with Zalo">
-                                <Avatar alt="zalo" src="img/zalo.png" />
-                            </Tooltip>
-                            <Tooltip placement='top' title="Login with Google">
-                                <Avatar alt="gg" src="img/gg.png" />
-                            </Tooltip>
-                        </div>
-                    </div>
                     <div className="link--register">
                         <p>Bạn chưa có tài khoản? <Link to="/register">Đăng Ký</Link></p>
                     </div>

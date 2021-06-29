@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from '../constants/auth';
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER } from '../constants/auth';
 import authAPI from '../services/authAPI';
 
 export function login(values){
@@ -21,4 +21,11 @@ export function login(values){
             
         }
     };
+}
+export function logOut() {
+    return (dispatch)=>{
+        dispatch({
+            type: LOGOUT_USER
+        })
+    }
 }

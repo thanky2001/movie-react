@@ -14,6 +14,7 @@ import {
     DropdownItem
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import { logOut } from '../../../actions/auth';
 
 class Header extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class Header extends Component {
             isOpen: false,
             isShowDrop: false,
             isShowDropMobile: false,
+            isShowSetting:false,
         }
     }
     showSideBar=()=>{
@@ -34,6 +36,17 @@ class Header extends Component {
     }
     handleScroll=()=>{
         window.scrollTo(0, 0)
+    }
+    logOut=(e)=>{
+        if(e){
+            e.currentTarget.parentElement.style.display = "none"
+        }
+        this.props.dispatch(logOut());
+    }
+    handleShowUserSetting=()=>{
+        this.setState({
+            isShowSetting: !this.state.isShowSetting
+        })
     }
     render() {
         let {userInfo} = this.props;
@@ -103,7 +116,7 @@ class Header extends Component {
                         </Dropdown>
                         {userInfo ? 
                         <NavItem style={{borderRight:'unset'}}>
-                            <NavLink style={{padding: '.5rem 0'}} href="#">Đăng Xuất</NavLink>
+                            <NavLink style={{padding: '.5rem 0'}} onClick={()=>{this.logOut();this.showSideBar()}} href="#">Đăng Xuất</NavLink>
                         </NavItem> : ''}
                     </Nav>
                 </Menu>
@@ -126,11 +139,17 @@ class Header extends Component {
                             </NavItem>
                         </Nav>
                         <Nav className="right--header">
-                            <div id='account' className="img-circle" >
+                            <div onMouseOver={this.handleShowUserSetting} onMouseOut={this.handleShowUserSetting}  id='account' className="img-circle" >
                                 {userInfo ? 
                                     <div className="nav-link" style={{color: '#9b9b9b'}}>
-                                        <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
-                                        {userInfo.hoTen} 
+                                        <div>
+                                            <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
+                                            {userInfo.hoTen}
+                                        </div>
+                                        <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
+                                            <p>Thông tin</p>
+                                            <p onClick={this.logOut}>Đăng xuất</p>
+                                        </div>
                                     </div> :
                                     <Link className="nav-link" to="/login">
                                         <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />

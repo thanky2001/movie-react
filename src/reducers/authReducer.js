@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "../constants/auth";
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER } from "../constants/auth";
 
 const userInfo = localStorage.getItem("userInfo") ?
 JSON.parse(localStorage.getItem("userInfo")) :
@@ -18,6 +18,9 @@ function authReducer (state = initialState, action) {
             return {...state, isLoading: false, userInfo:  action.payload.data};
         case LOGIN_FAILURE:
             return {...state, isLoading: false, errors: action.payload.error};
+        case LOGOUT_USER:
+            localStorage.removeItem("userInfo");
+            return {...state, isLoading: false, userInfo: null};
         default:
             return state;
     }
