@@ -1,7 +1,9 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles, TextField } from '@material-ui/core';
+import React,{useEffect, useState} from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { CircularProgress, makeStyles, TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../actions/auth';
 
 //style css text field
 const useStyle = makeStyles({
@@ -48,11 +50,17 @@ export default function Index() {
         email: '',
         soDT:'',
     })
+    const dispatch = useDispatch();
+    const {userInfo, errorRegister, isLoading} = useSelector((state) => state.authReducer);
+    const history= useHistory();
+    useEffect(() => {
+        redirectPage() 
+    })
     const handleChange=(e)=>{
         let {value, name} = e.target;
         let errorMessage= "";
         let valuesUp ={...values,[name]:value};
-        if (name !== 'soDT' || name !== 'hoTen') {
+        if (name !== 'soDT' && name !== 'hoTen') {
             if(value.trim()===''){
                 errorMessage = "Không được để trống";
             }
@@ -90,10 +98,12 @@ export default function Index() {
         let valid = true;
         let errorMessage = {};
         for (let key in values) {
-            if (values[key] === '') {
-                valid = false;
-                errorMessage = {...errorMessage, [key]: "Không được để trống",["hoTen"]: "",["soDT"]: ""}
-             
+            if(key !== 'hoTen' && key !== 'soDT'){
+                if (values[key] === '') {
+                    valid = false;
+                    errorMessage = {...errorMessage, [key]: "Không được để trống","hoTen": "","soDT": ""}
+                 
+                }
             }
         }
         for (let key in errors) {
@@ -103,9 +113,15 @@ export default function Index() {
             }
         };
         if(valid){
-            // this.props.dispatch(login(values));
+            dispatch(register(values));  
+            redirectPage()
         }else{
             setErrors(errorMessage);
+        }
+    }
+    const redirectPage=()=>{
+        if(userInfo){
+            history.push('/login')
         }
     }
     const classes = useStyle();
@@ -163,7 +179,8 @@ export default function Index() {
                         className="login--form"
                         helperText={errors.soDT}
                         label="Số điện thoại" />
-                    <Button type='submit' variant="contained" className="btn--orange">Đăng Ký</Button>
+                    {errorRegister ? <p style={{color: '#f44336', fontSize:'0.75rem', marginBottom:'0', marginTop:'3px'}}>{errorRegister}</p> : ''}
+                    <Button type='submit' variant="contained" className={`${isLoading ? 'loading' :''} btn--orange`}>{isLoading ? <CircularProgress size={20} color='inherit' /> : 'Đăng Ký'}</Button>
                 </form>
                 <div className="link--register">
                     <p>Bạn đã có tài khoản? <Link to="/login">Đăng Nhập</Link></p>

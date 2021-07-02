@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import ReactLoading from 'react-loading'
+import ReactLoading from 'react-loading';
 import AppLayout from "./Layouts/AppLayout/AppLayout";
 
 //Pages
@@ -9,7 +9,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 function App() {
   return (
-    <Suspense Suspense fallback = {<div><ReactLoading type = {"bars"} color = { "white" } /></div>}>
+    <Suspense fallback = {<div className="loading--component"><ReactLoading type = {"bars"} color = { "black" } /></div>}>
         <BrowserRouter>
           <Switch>
               {/* Login */}

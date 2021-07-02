@@ -139,6 +139,9 @@ a.close--wraper{
     top: -26px;
     left: 312px;    
 }
+.loading {
+    padding: 8px 35px !important;
+}
 .steps--button{
     display: flex;
     justify-content: flex-end;
@@ -148,6 +151,11 @@ a.close--wraper{
 }
 .bm-item:hover{
     color: unset;
+}
+.loading--component{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 /* reponsive */
 @media screen and (max-width: 454px) {
@@ -169,5 +177,10 @@ a.close--wraper{
     }
     #register .login--header img{
         width: 200px;
+    }
+}
+@media screen and (max-width: 400px){
+    .makeStyles-root-1 .MuiDialog-paper{
+        min-width: 300px !important;
     }
 }

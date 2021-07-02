@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import {Button } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Swal from 'sweetalert2';
 
 //style css textfield
 const styles = theme => ({
@@ -45,6 +46,18 @@ class Index extends Component {
 
         }
     }
+    componentDidMount(){
+        this.redirectPage();
+    }
+    redirectPage=()=>{
+        let {userInfo} =this.props
+        if (userInfo && userInfo.maLoaiNguoiDung ==="QuanTri") {
+            this.props.history.push('/admin')
+        }
+        if (userInfo && userInfo.maLoaiNguoiDung ==="KhachHang") {
+            this.props.history.push('/')
+        }
+    }
     handleChange=(e)=>{
         let {value, name} = e.target;
         let errorMessage= "";
@@ -80,6 +93,19 @@ class Index extends Component {
         };
         if(valid){
             this.props.dispatch(login(values));
+            setTimeout(() => {
+                let {userInfo} = this.props;
+                if(userInfo){
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Đăng nhập thành công',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                    this.redirectPage();
+                }
+            }, 300);
         }else{
             this.setState({
                 errors: errorMessage
@@ -87,13 +113,7 @@ class Index extends Component {
         }
     }
     render() {
-        let {userInfo, isLoading, error} = this.props;
-        if (userInfo && userInfo.maLoaiNguoiDung ==="QuanTri") {
-            return <Redirect to="/admin"/>
-        }
-        if (userInfo && userInfo.maLoaiNguoiDung ==="KhachHang") {
-            return <Redirect to="/"/>
-        }
+        let {isLoading, error} = this.props;
         const { classes } = this.props;
         return (
             <div id="login">
@@ -137,7 +157,7 @@ const mapStateToProps =(state)=>{
     return{
         userInfo: state.authReducer.userInfo,
         isLoading: state.authReducer.isLoading,
-        error: state.authReducer.errors,
+        error: state.authReducer.errorLog,
     }
 }
 export default withStyles(styles, { withTheme: true })(

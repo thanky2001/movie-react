@@ -49,14 +49,14 @@ class Header extends Component {
         })
     }
     render() {
-        let {userInfo} = this.props;
+        let {userInfo, showModalUserInfo} = this.props;
         return (
             <div>
                 <Menu id='menu-mobile' right isOpen={this.state.isOpen} onClose={this.showSideBar}>
                     <Nav className="mr-auto" navbar>
                         <div id='account' className="img-circle">
                             {userInfo ? 
-                                <div className="nav-link">
+                                <div onClick={showModalUserInfo} className="nav-link">
                                     <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
                                     {userInfo.hoTen} 
                                 </div> :
@@ -147,7 +147,7 @@ class Header extends Component {
                                             {userInfo.hoTen}
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
-                                            <p>Thông tin</p>
+                                            <p onClick={showModalUserInfo}>Thông tin</p>
                                             <p onClick={this.logOut}>Đăng xuất</p>
                                         </div>
                                     </div> :
