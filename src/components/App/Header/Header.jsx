@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { logOut } from '../../../actions/auth';
+import { getCurrentUser } from '../../../actions/user';
 
 class Header extends Component {
     constructor(props) {
@@ -24,6 +25,11 @@ class Header extends Component {
             isShowDrop: false,
             isShowDropMobile: false,
             isShowSetting:false,
+        }
+    }
+    componentDidMount(){
+        if (this.props.userInfo) {
+            this.props.dispatch(getCurrentUser({'taiKhoan': this.props.userInfo && this.props.userInfo.taiKhoan}))
         }
     }
     showSideBar=()=>{
@@ -49,16 +55,16 @@ class Header extends Component {
         })
     }
     render() {
-        let {userInfo, showModalUserInfo} = this.props;
+        let {userInfo, showModalUserInfo, currentUser} = this.props;
         return (
             <div>
                 <Menu id='menu-mobile' right isOpen={this.state.isOpen} onClose={this.showSideBar}>
                     <Nav className="mr-auto" navbar>
                         <div id='account' className="img-circle">
-                            {userInfo ? 
+                            {currentUser ? 
                                 <div onClick={showModalUserInfo} className="nav-link">
                                     <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
-                                    {userInfo.hoTen} 
+                                    {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen} 
                                 </div> :
                                 <Link className="nav-link" to="/login">
                                     <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
@@ -140,14 +146,14 @@ class Header extends Component {
                         </Nav>
                         <Nav className="right--header">
                             <div onMouseOver={this.handleShowUserSetting} onMouseOut={this.handleShowUserSetting}  id='account' className="img-circle" >
-                                {userInfo ? 
+                                {currentUser ? 
                                     <div className="nav-link" style={{color: '#9b9b9b'}}>
                                         <div>
                                             <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
-                                            {userInfo.hoTen}
+                                            {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
-                                            <p onClick={showModalUserInfo}>Thông tin</p>
+                                            <p onClick={()=>showModalUserInfo(userInfo.taiKhoan)}>Thông tin</p>
                                             <p onClick={this.logOut}>Đăng xuất</p>
                                         </div>
                                     </div> :
@@ -202,6 +208,7 @@ class Header extends Component {
 const mapStateToProps =(state)=>{
     return{
         userInfo: state.authReducer.userInfo,
+        currentUser: state.userReducer.currentUser,
     }
 }
 export default connect(mapStateToProps)(Header)

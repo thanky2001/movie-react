@@ -19,7 +19,6 @@ export function login(values){
                 type: LOGIN_FAILURE,
                 payload: {error: error.response.data},
             });
-            
         }
     };
 }

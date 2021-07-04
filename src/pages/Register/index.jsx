@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { CircularProgress, makeStyles, TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
@@ -53,9 +53,6 @@ export default function Index() {
     const dispatch = useDispatch();
     const {userInfo, errorRegister, isLoading} = useSelector((state) => state.authReducer);
     const history= useHistory();
-    useEffect(() => {
-        redirectPage() 
-    })
     const handleChange=(e)=>{
         let {value, name} = e.target;
         let errorMessage= "";
@@ -113,18 +110,15 @@ export default function Index() {
             }
         };
         if(valid){
-            dispatch(register(values));  
-            redirectPage()
+            dispatch(register(values));
         }else{
             setErrors(errorMessage);
         }
     }
-    const redirectPage=()=>{
-        if(userInfo){
-            history.push('/login')
-        }
-    }
     const classes = useStyle();
+    if(userInfo){
+        history.push('/login')
+    }
     return (
         <div id="register">
             <div className="login__wraper">

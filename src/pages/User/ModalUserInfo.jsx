@@ -1,8 +1,10 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, {useState } from 'react';
+import ReactLoading from 'react-loading';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeUserInfo, getCurrentUser } from '../../actions/user';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -37,11 +39,10 @@ const useStyles = makeStyles(() => ({
             color: '#fff !important'
         },
         '& .change__password':{
-            width: '100%',
-            display:'flex',
-            justifyContent: 'flex-end',
+            float: 'right',
             marginBottom: '0',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            paddingTop:'5px',
         },
         '& .change__password:hover':{
             color: '#fb4226'
@@ -55,27 +56,136 @@ const useStyles = makeStyles(() => ({
     },
 }));
 export default function ModalUserInfo(props) {
-    const userInfo = useSelector(state => state.authReducer.userInfo)
+    const dispatch = useDispatch();
+    const userInfo = useSelector(state => state.authReducer.userInfo);
+    const {currentUser, isLoading} = useSelector(state => state.userReducer);
     const classes = useStyles();
     const [isChangeInfo, setIsChangeInfo] = useState(false);
     const [isChangePassword, setIsChangePassword] = useState(false);
-    const handleChangInfo=()=>{
+    const [isCheck, setIsCheck] = useState(false)
+    const [values, setValues] = useState({})
+    const [errors, setErrors] = useState({
+        matKhau: '',
+        nhapLai:'',
+        matKhauMoi:'',
+        email: '',
+        soDT:'',
+    });
+    const handleChange=(e)=>{
+        let {value, name} = e.target;
+        let errorMessage= "";
+        let valuesUp ={...values,[name]:value};
+        if (name !== 'soDT' && name !== 'hoTen') {
+            if(value.trim()===''){
+                errorMessage = "Không được để trống";
+            }
+        }
+        if(name ==='taiKhoan' && (value.length < 5 || value.length > 20)){
+            errorMessage= "Tài khoản phải từ 5 đến 20 ký tự";
+        }
+        if (name === 'email') {
+            let regex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            if (!regex.test(value)) {
+                errorMessage = 'Không đúng định dạng';
+            }
+        }
+        if (name === 'soDT') {
+            if(value.trim() !==''){
+                let regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/
+                if (!regex.test(value)) {
+                    errorMessage = 'Không đúng định dạng';
+                }
+            }else{
+                errorMessage =''
+            }
+        }
+        if (name === 'nhapLai') {
+            if (value !== values['matKhauMoi']) {
+                errorMessage = 'Mật khẩu không trùng khớp';
+            }
+        }
+        let errorsUp={...errors, [name]: errorMessage};
+        setValues(valuesUp);
+        setErrors(errorsUp);
+    }
+    const handleChangeInfo=()=>{
         setIsChangeInfo(true);
+        !isCheck ?
+        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",}) :
+        setValues({...values,maLoaiNguoiDung: "KhachHang",})
+        setIsCheck(true);
+
     }
     const handleCloseChange=(e)=>{
         e.preventDefault();
         setIsChangeInfo(false);
         props.handleClose();
-        handleCloseChangPassword()
+        handleCloseChangPassword();
+        setIsCheck(false);
+        setErrors({
+            nhapLai:'',
+            matKhauMoi:'',
+            hoTen:'',
+            email: '',
+            soDT:'',
+        })
     }
     const handleChangPassword=()=>{
         setIsChangePassword(true);
+        !isCheck ?
+        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",nhapLai:"",matKhauMoi:""}) :
+        setValues({...values,maLoaiNguoiDung: "KhachHang",nhapLai:"",matKhauMoi:""})
+        setIsCheck(true);
     }
     const handleCloseChangPassword=()=>{
         setIsChangePassword(false);
+        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",hoTen: values.hoTen, soDT: values.soDT})
+        setErrors({...errors,nhapLai:"",matKhauMoi:""})
+    }
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        let valid = true;
+        let errorMessage = {...errors};
+        let value = {...values};
+        for (let key in values) {
+            if(key !== 'hoTen' && key !== 'soDT'){
+                if (values[key] === '') {
+                    valid = false;
+                    errorMessage = {...errorMessage, [key]: "Không được để trống","hoTen": "","soDT": ""}
+                 
+                }
+            }
+        }
+        for (let key in errors) {
+            if (errors[key] !== '') {
+                valid = false;
+                errorMessage = {...errorMessage, [key]: "Không được để trống"}
+            }
+        };
+        if(values.matKhauMoi && values.matKhauMoi.trim() !== ''){
+           value = {...value, matKhau: values.matKhauMoi};
+        }
+        if(valid){
+            dispatch(changeUserInfo(value));
+            setIsChangeInfo(false);
+            props.handleClose();
+            handleCloseChangPassword();
+            setIsCheck(false);
+            setErrors({
+                nhapLai:'',
+                matKhauMoi:'',
+                hoTen:'',
+                email: '',
+                soDT:'',
+            })
+            dispatch(getCurrentUser({'taiKhoan': userInfo && userInfo.taiKhoan}))
+        }else{
+           setErrors(errorMessage)
+        }
     }
     return (
         <div>
+            {!isLoading ?
             <Dialog
                 className={classes.root}
                 maxWidth='xs'
@@ -84,64 +194,74 @@ export default function ModalUserInfo(props) {
                 aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
                     Thông tin cá nhân
-                    <Fab className={isChangeInfo ? 'd-none' : 'd-block'} onClick={handleChangInfo} size="small" aria-label="edit">
+                    <Fab className={isChangeInfo ? 'd-none' : 'd-block'} onClick={handleChangeInfo} size="small" aria-label="edit">
                         <EditIcon />
                     </Fab>
                 </DialogTitle>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <DialogContent>
                         <TextField
                             disabled
                             margin="dense"
                             label="Tài khoản"
                             name='taiKhoan'
-                            value={userInfo && userInfo.taiKhoan}
+                            defaultValue={currentUser && currentUser.taiKhoan}
+                            fullWidth
+                        />
+                        <TextField
+                            disabled
+                            margin="dense"
+                            label="Email"
+                            name='email'
+                            defaultValue={currentUser && currentUser.email}
                             fullWidth
                         />
                         <TextField
                             disabled = {!isChangeInfo}
                             margin="dense"
                             label="Họ và Tên"
+                            onChange={handleChange}
+                            onBlur={handleChange}
                             name='hoTen'
-                            value={userInfo && userInfo.hoTen}
+                            defaultValue={currentUser && currentUser.hoTen}
                             fullWidth
                         />
                         <TextField
-                            disabled = {!isChangeInfo}
-                            margin="dense"
-                            label="Email"
-                            name='email'
-                            value={userInfo && userInfo.email}
-                            fullWidth
-                        />
-                        <TextField
+                            error = {errors.soDT && errors.soDT.trim() !=='' ? true : false}
                             disabled = {!isChangeInfo}
                             margin="dense"
                             label="Số điện thoại"
+                            onChange={handleChange}
+                            onBlur={handleChange}
+                            helperText={errors.soDT}
                             name='soDT'
-                            value={userInfo && userInfo.soDT}
+                            defaultValue={currentUser && currentUser.soDT}
                             fullWidth
                         />
                         <p onClick={handleChangPassword} className={`${ isChangePassword ? 'd-none' : 'd-flex' } change__password`}> Đổi mật khẩu</p>
                         <div className={isChangePassword ? 'd-block' : 'd-none'}>
                             <TextField
-                                margin="dense"
-                                label="Mật khẫu cũ"
-                                name='soDT'
-                                type='password'
-                                fullWidth
-                            />
-                            <TextField
+                                error = {errors.matKhauMoi && errors.matKhauMoi.trim() !=='' ? true : false}
                                 margin="dense"
                                 label="Mật khẩu mới"
-                                name='soDT'
+                                onChange={handleChange}
+                                onBlur={handleChange}
+                                helperText={errors.matKhauMoi}
+                                name='matKhauMoi'
+                                value={values.matKhauMoi || ''}
                                 type='password'
                                 fullWidth
                             />
                             <TextField
+                                error = {errors.nhapLai && errors.nhapLai.trim() !=='' ? true : false}
+                                disabled ={values.matKhauMoi === '' }
                                 margin="dense"
                                 label="Nhập lại mật khẩu mới"
-                                name='soDT'
+                                onChange={handleChange}
+                                onBlur={handleChange}
+                                helperText={errors.nhapLai}
+                                value={values.nhapLai || ''}
+                                name='nhapLai'
                                 type='password'
                                 fullWidth
                             />
@@ -149,15 +269,17 @@ export default function ModalUserInfo(props) {
                         <p onClick={handleCloseChangPassword} className={`${ isChangePassword ? 'd-flex' : 'd-none' } change__password`}> Hủy đổi mật khẩu</p>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseChange} type='submit' variant="contained" className="btn--orange">
+                        <Button onClick={handleCloseChange} variant="contained" className="btn--orange">
                             Đóng
                         </Button>
-                        <Button onClick={props.handleClose} type='submit' variant="contained" className={` ${!isChangeInfo && !isChangePassword ? 'd-none' : 'd-block'} btn--orange`} >
+                        <Button type='submit' variant="contained" className={` ${!isChangeInfo && !isChangePassword ? 'd-none' : 'd-block'} btn--orange`} >
                             Thay đổi
                         </Button>
                     </DialogActions>
                 </form>
-            </Dialog>
+            </Dialog>:
+            <div className="loading--component"><ReactLoading type = {"bars"} color = { "black" } /></div>
+            }
         </div>
     )
 }

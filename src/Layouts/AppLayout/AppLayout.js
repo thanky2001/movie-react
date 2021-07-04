@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Footer from '../../components/App/Footer/Footer';
 import Header from '../../components/App/Header/Header';
 import ModalUserInfo from '../../pages/User/ModalUserInfo';
+import { connect } from 'react-redux';
 
-export default class AppLayout extends Component {
+class AppLayout extends Component {
     constructor(props) {
         super(props);
         this.state={
@@ -14,6 +15,7 @@ export default class AppLayout extends Component {
         this.setState({
             isOpen: true
         })
+
     }
     closeModaleUserInfo =()=>{
         this.setState({
@@ -31,3 +33,4 @@ export default class AppLayout extends Component {
         )
     }
 }
+export default connect(null)(AppLayout)
