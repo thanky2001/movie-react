@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
+import Carousel from '../../../components/App/Carousel/Carousel';
+import Movies from './Movies/Movies';
+import './home.css'
 
 export default class index extends Component {
     render() {
         return (
             <div className="content__wrap">
-                <div className="test" style={{background: 'red'}}></div>
-                <div id="lich-chieu" className="test" style={{ background: '#aaa' }}></div>
+                <Carousel/>
+                <Movies/>
                 <div id="cum-rap" className="test" style={{ background: '#fff' }}></div>
                 <div id="tin-tuc" className="test" style={{ background: '#23434' }}></div>
                 <div id="ung-dung" className="test" style={{ background: '#882f2f' }}></div>

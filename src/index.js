@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Layout/Header.css';
 import './styles/Layout/Content.css';
 import './styles/Layout/Footer.css';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // setup Store

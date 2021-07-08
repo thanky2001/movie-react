@@ -1,0 +1,103 @@
+.tab__panel{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.tab--child{
+    width: 100%;
+    max-width: 940px;
+}
+.avg__point{
+    font-size: 23px;
+    background-color: rgba(12,27,54,.8);
+    border: 1px solid #1f2e46;
+    border-radius: 4px;
+    padding: 2px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #fff;
+    width: 54px;
+    text-align: center;
+    line-height: 0.75;
+    font-weight: 700;
+}
+.avg__point p{
+    margin-bottom: 0;
+}
+.box--card{
+    position: relative;
+    padding-top: 130%;
+    background-position: center, 0 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+.info {
+    position: relative;
+}
+.name__film{
+    height: 42px;
+    max-height: 42px;
+    font-size: 17px;
+    color: #000;
+    line-height: 22px;
+    margin-bottom: 0;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.info__film{
+    font-size: 13px;
+    color: #4a4a4a;
+    margin-bottom: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 8px;
+    font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.buy__now{
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 18px !important;
+    padding: 10px;
+    border: 0;
+    text-align: center;
+    background: #fb4226;
+    background: -webkit-linear-gradient(to left,#fb4226,#ce3017 100%);
+    background: -o-linear-gradient(to left,#fb4226,#ce3017 100%);
+    background: -moz-linear-gradient(to left,#fb4226,#ce3017 100%);
+    background: linear-gradient(to left,#fb4226,#ce3017 100%);
+}
+.hide--hover{
+    visibility: visible;
+    opacity: 1;
+    transition: all .2s;
+}
+.hover--info{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: 0 0;
+    background: -webkit-linear-gradient(to top,#000,transparent 100%);
+    background: -o-linear-gradient(to top,#000,transparent 100%);
+    background: -moz-linear-gradient(to top,#000,transparent 100%);
+    background: linear-gradient(to top,#000,transparent 100%);
+    top: 0;
+    border-radius: 4px;
+}
+@media screen and (max-width: 954px) {
+    .tab__panel{
+        padding: 0 15px;
+    }
+}

@@ -153,7 +153,7 @@ class Header extends Component {
                                             {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
-                                            <p onClick={()=>showModalUserInfo(userInfo.taiKhoan)}>Thông tin</p>
+                                            <p onClick={showModalUserInfo}>Thông tin</p>
                                             <p onClick={this.logOut}>Đăng xuất</p>
                                         </div>
                                     </div> :

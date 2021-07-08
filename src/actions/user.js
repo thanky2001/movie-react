@@ -1,6 +1,7 @@
 import axiosClient from "../services/axiosClient";
-import {CURRENT_USER_REQUEST, CURRENT_USER_FAILURE, CURRENT_USER_SUCCESS, CHANGE_USER_REQUEST, CHANGE_USER_SUCCESS, CHANGE_USER_FAILURE} from "../constants/user"
-
+import {CURRENT_USER_REQUEST, CURRENT_USER_FAILURE, CURRENT_USER_SUCCESS, CHANGE_USER_REQUEST, CHANGE_USER_SUCCESS} from "../constants/user"
+import {login} from'./auth';
+import Swal from "sweetalert2";
 
 
 export function getCurrentUser(values) {
@@ -22,7 +23,7 @@ export function getCurrentUser(values) {
         }
     }
 }
-export function changeUserInfo(values) {
+export function changeUserInfo(values,oldPass) {
     return async (dispatch)=>{
         dispatch({
             type: CHANGE_USER_REQUEST,
@@ -31,12 +32,29 @@ export function changeUserInfo(values) {
             const {data} = await axiosClient.put("/QuanLyNguoiDung/CapNhatThongTinNguoiDung", values);
             dispatch({
                 type: CHANGE_USER_SUCCESS,
-                payload: {data},
+                payload: {data}
             })
+            let log = {
+                taiKhoan: data.taiKhoan,
+                matKhau: data.matKhau,
+            }
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Đổi thông tin thành công',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            if (data.matKhau !== oldPass) {
+                dispatch(login(log))
+            }
         } catch (error) {
-            dispatch({
-                type: CHANGE_USER_FAILURE,
-                payload: {error: error.response.data},
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: error.response.data,
+                showConfirmButton: false,
+                timer: 1000
             })
         }
     }

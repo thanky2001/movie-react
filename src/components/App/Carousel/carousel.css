@@ -1,0 +1,110 @@
+.wrapper__trailer{
+    position: relative;
+    padding-bottom: 45%;
+}
+.slide__trailer{
+    z-index: 1;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    background-color: #e8e8e8;
+}
+.slide__trailer div{
+    /* width: 100%; */
+    height: 100%;
+}
+.slide__block img{
+    width: 100%;
+}
+.slide__trailer .slick-dots{
+    left: 50%;
+    bottom: 12%;
+    transform: translateX(-50%);
+}
+.slide__trailer .slick-dots li button{
+    background-color: #d8d8d8;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    color: transparent;
+    list-style-type: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.slide__trailer .slick-dots li.slick-active button{
+    background-color: #fb4226;
+}
+.slide__trailer .slick-dots li.slick-active button::before{
+    color: #0000;
+}
+.slide__trailer .slick-dots li button::before{
+    color: #0000;
+}
+.slide__trailer .slick-prev{
+    left: 15px;
+    background-image: url('../../../assets/img/back-session.png');
+}
+.slide__trailer .slick-arrow{
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    width: 50px;
+    height: 100px;
+    z-index: 2;
+    opacity: .5;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.slide__trailer .slick-prev::before, .slide__trailer .slick-next::before{
+    color: unset;
+}
+.slide__trailer .slick-next{
+    right: 15px;
+    background-image: url('../../../assets/img/next-session.png');
+}
+.background__linear{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: 0 0;
+    background: -webkit-linear-gradient(to top,#000,transparent 20%);
+    background: -o-linear-gradient(to top,#000,transparent 20%);
+    background: -moz-linear-gradient(to top,#000,transparent 20%);
+    background: linear-gradient(to top,#000,transparent 20%);
+    top: 0;
+}
+.slide__block{
+    height: 100%;
+}
+.play__trailer{
+    position: absolute;
+    top: 45%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index: 3;
+    background: 0 0;
+    border: none;
+    width: 70px;
+}
+.slide__trailer:hover .show--hover{
+    visibility: visible;
+    opacity: 1;
+}
+.slide__trailer .show--hover{
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s;
+}
+.slide__trailer .slick-slide {
+    position: relative;
+}

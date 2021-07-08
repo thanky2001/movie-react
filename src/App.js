@@ -9,7 +9,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 function App() {
   return (
-    <Suspense fallback = {<div className="loading--component"><ReactLoading type = {"bars"} color = { "black" } /></div>}>
+    <Suspense fallback = {<div className="loading--component"><ReactLoading type = {"bars"} color = { "#fb4226" } /></div>}>
         <BrowserRouter>
           <Switch>
               {/* Login */}

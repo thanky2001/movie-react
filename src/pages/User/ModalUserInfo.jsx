@@ -4,7 +4,7 @@ import ReactLoading from 'react-loading';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUserInfo, getCurrentUser } from '../../actions/user';
+import { changeUserInfo} from '../../actions/user';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -57,7 +57,6 @@ const useStyles = makeStyles(() => ({
 }));
 export default function ModalUserInfo(props) {
     const dispatch = useDispatch();
-    const userInfo = useSelector(state => state.authReducer.userInfo);
     const {currentUser, isLoading} = useSelector(state => state.userReducer);
     const classes = useStyles();
     const [isChangeInfo, setIsChangeInfo] = useState(false);
@@ -166,7 +165,7 @@ export default function ModalUserInfo(props) {
            value = {...value, matKhau: values.matKhauMoi};
         }
         if(valid){
-            dispatch(changeUserInfo(value));
+            dispatch(changeUserInfo(value,currentUser.matKhau));
             setIsChangeInfo(false);
             props.handleClose();
             handleCloseChangPassword();
@@ -178,7 +177,6 @@ export default function ModalUserInfo(props) {
                 email: '',
                 soDT:'',
             })
-            dispatch(getCurrentUser({'taiKhoan': userInfo && userInfo.taiKhoan}))
         }else{
            setErrors(errorMessage)
         }
@@ -278,7 +276,7 @@ export default function ModalUserInfo(props) {
                     </DialogActions>
                 </form>
             </Dialog>:
-            <div className="loading--component"><ReactLoading type = {"bars"} color = { "black" } /></div>
+            <div className="loading--component"><ReactLoading type = {"bars"} color = { "#fb4226" } /></div>
             }
         </div>
     )
