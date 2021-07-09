@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, NavLink} from 'react-router-dom';
 import { slide as Menu } from "react-burger-menu";
 import {
     Nav,
     Navbar,
     NavbarToggler,
     NavItem,
-    NavLink,
     Collapse,
     Dropdown,
     DropdownToggle,
@@ -32,16 +31,21 @@ class Header extends Component {
             this.props.dispatch(getCurrentUser({'taiKhoan': this.props.userInfo && this.props.userInfo.taiKhoan}))
         }
     }
-    showSideBar=()=>{
+    handleScroll = (id) => {
+        if(this.props.scrollToTarget && id){
+            this.props.scrollToTarget(id)
+        }else if(!id){
+            window.scrollTo(0, 0)
+        }
+    }
+    showSideBar=(id)=>{
+        this.handleScroll(id)
         this.setState({ isOpen: !this.state.isOpen })
     }
     handleClickDropdown=()=>{
         this.setState({
             isShowDropMobile: !this.state.isShowDropMobile
         })
-    }
-    handleScroll=()=>{
-        window.scrollTo(0, 0)
     }
     logOut=(e)=>{
         if(e){
@@ -58,32 +62,32 @@ class Header extends Component {
         let {userInfo, showModalUserInfo, currentUser} = this.props;
         return (
             <div>
-                <Menu id='menu-mobile' right isOpen={this.state.isOpen} onClose={this.showSideBar}>
+                <Menu id='menu-mobile' right isOpen={this.state.isOpen} onClose={()=>{this.setState({ isOpen: !this.state.isOpen })}}>
                     <Nav className="mr-auto" navbar>
                         <div id='account' className="img-circle">
                             {currentUser ? 
                                 <div onClick={showModalUserInfo} className="nav-link">
-                                    <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
+                                    <img src="img/avatar.png" alt="user" />
                                     {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen} 
                                 </div> :
                                 <Link className="nav-link" to="/login">
-                                    <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
+                                    <img src="img/avatar.png" alt="user" />
                                     Đăng nhập
                                 </Link>
                             }
                             
                         </div>
                         <NavItem>
-                            <NavLink onClick={this.showSideBar} href="#lich-chieu">Lịch Chiếu</NavLink>
+                            <NavLink onClick={(e)=>this.showSideBar('#lich-chieu',e)} to="/">Lịch Chiếu</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink onClick={this.showSideBar} href="#cum-rap">Cụm rạp</NavLink>
+                            <NavLink onClick={(e)=>this.showSideBar('#cum-rap',e)} to="/">Cụm rạp</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink onClick={this.showSideBar} href="#tin-tuc">Tin tức</NavLink>
+                            <NavLink onClick={(e)=>this.showSideBar('#tin-tuc',e)} to="/">Tin tức</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink onClick={this.showSideBar} href="#ung-dung">Ứng dụng</NavLink>
+                            <NavLink onClick={(e)=>this.showSideBar('#ung-dung',e)} to="/">Ứng dụng</NavLink>
                         </NavItem>
                     </Nav>
                     <Nav className="right--header" >
@@ -122,26 +126,26 @@ class Header extends Component {
                         </Dropdown>
                         {userInfo ? 
                         <NavItem style={{borderRight:'unset'}}>
-                            <NavLink style={{padding: '.5rem 0'}} onClick={()=>{this.logOut();this.showSideBar()}} href="#">Đăng Xuất</NavLink>
+                            <NavLink style={{padding: '.5rem 0'}} onClick={(e)=>{this.logOut(e);this.showSideBar(0,e)}} to="/">Đăng Xuất</NavLink>
                         </NavItem> : ''}
                     </Nav>
                 </Menu>
                 <Navbar id="header" light expand="md">
-                    <Link to="/"> <img onClick={this.handleScroll} height="50" src="img/web-logo.png" alt="logo.png" /></Link>
-                    <NavbarToggler onClick={this.showSideBar} />
+                    <Link to="/"> <img onClick={(e)=>this.handleScroll(0,e)} height="50" src="img/web-logo.png" alt="logo.png" /></Link>
+                    <NavbarToggler onClick={()=>{this.setState({ isOpen: !this.state.isOpen })}} />
                     <Collapse className="header__menu" navbar>
-                        <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink href="#lich-chieu">Lịch Chiếu</NavLink>
+                        <Nav className="mr-auto " navbar>
+                            <NavItem className="">
+                                <NavLink to="/"  onClick={(e)=>this.handleScroll('#lich-chieu',e)} >Lịch Chiếu</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#cum-rap">Cụm rạp</NavLink>
+                                <NavLink to="/" onClick={(e)=>this.handleScroll('#cum-rap',e)}>Cụm rạp</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#tin-tuc">Tin tức</NavLink>
+                                <NavLink to="/" onClick={(e)=>this.handleScroll('#tin-tuc',e)}>Tin tức</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href="#ung-dung">Ứng dụng</NavLink>
+                            <NavItem className='pr-0'>
+                                <NavLink to="/" onClick={(e)=>this.handleScroll('#ung-dung',e)}>Ứng dụng</NavLink>
                             </NavItem>
                         </Nav>
                         <Nav className="right--header">
@@ -149,7 +153,7 @@ class Header extends Component {
                                 {currentUser ? 
                                     <div className="nav-link" style={{color: '#9b9b9b'}}>
                                         <div>
-                                            <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
+                                            <img src="img/avatar.png" alt="user" />
                                             {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
@@ -158,7 +162,7 @@ class Header extends Component {
                                         </div>
                                     </div> :
                                     <Link className="nav-link" to="/login">
-                                        <img onClick={this.handleScroll} src="img/avatar.png" alt="user" />
+                                        <img src="img/avatar.png" alt="user" />
                                         Đăng nhập
                                     </Link>
                                 }
@@ -211,4 +215,4 @@ const mapStateToProps =(state)=>{
         currentUser: state.userReducer.currentUser,
     }
 }
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps)(withRouter(Header))

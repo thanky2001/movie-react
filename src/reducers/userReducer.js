@@ -1,3 +1,4 @@
+import { LOGOUT_USER } from "../constants/auth";
 import { CHANGE_USER_REQUEST, CHANGE_USER_SUCCESS, CURRENT_USER_FAILURE, CURRENT_USER_REQUEST, CURRENT_USER_SUCCESS } from "../constants/user";
 
 
@@ -20,6 +21,8 @@ function userReducer(state = initialState, action) {
             return {...state, isLoading:false, currentUser: action.payload.data}
         case CURRENT_USER_FAILURE:
             return {...state, isLoading:false, errorGetUser: action.payload.error}
+        case LOGOUT_USER:
+            return {...state, isLoading: false, currentUser: null};
         default:
             return state;
     }

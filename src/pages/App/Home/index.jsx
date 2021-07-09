@@ -4,11 +4,12 @@ import Movies from './Movies/Movies';
 import './home.css'
 
 export default class index extends Component {
+    targetRef = React.createRef();
     render() {
         return (
             <div className="content__wrap">
                 <Carousel/>
-                <Movies/>
+                <Movies />
                 <div id="cum-rap" className="test" style={{ background: '#fff' }}></div>
                 <div id="tin-tuc" className="test" style={{ background: '#23434' }}></div>
                 <div id="ung-dung" className="test" style={{ background: '#882f2f' }}></div>
