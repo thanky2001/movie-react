@@ -132,7 +132,7 @@ color: black ;
 /* Individual item */
 .bm-item {
     display: inline-block;
-
+    border: transparent;
     /* Our sidebar item styling */
     text-decoration: none;
     margin-bottom: 10px;

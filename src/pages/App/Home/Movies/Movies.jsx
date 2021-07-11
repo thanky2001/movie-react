@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     '& .MuiTabs-flexContainer': {
       justifyContent: 'center',
-      marginBottom: '30px',
     },
     '& .PrivateTabIndicator-colorPrimary-4': {
       display: 'none'
@@ -92,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiPaginationItem-page.Mui-selected': {
       backgroundColor: '#fb4226',
       color: '#fff'
+    },
+    '& .PrivateTabIndicator-colorPrimary-6':{
+      backgroundColor: 'transparent'
     }
   },
 }));
@@ -144,7 +146,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={6} sm={4} md={3}>
                 <Link to='/phim'>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh ? movie.hinhAnh : 'img/default-film.webp'})` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button onClick={(e)=>handleOpenTrailer(movie.trailer,e)} className='play__trailer'>
                         <img width={50} src="./img/play-video.png" alt="play" />
