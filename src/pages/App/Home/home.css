@@ -7,6 +7,26 @@
 .tab--child{
     width: 100%;
     max-width: 940px;
+    margin: auto;
+    padding: 0 10px;
+}
+#cum-rap ul li::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: calc(100% - 40px);
+    transform: translateX(-50%);
+    border-bottom: 1px solid #fff;
+    border-bottom-color: rgb(255, 255, 255);
+    border-color: rgba(238,238,238,.88);
+}
+.bg--new{
+    padding-top: 120px;
+    background-image: url('../../../assets/img/back-news.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 .avg__point{
     font-size: 23px;
@@ -150,6 +170,33 @@
 .img--phone{
     padding: 0 28%;
     width: 100%;
+}
+#parent-cinemas{
+    min-height: 705px;
+    width: 92px;
+    float: left;
+    border: 1px solid #ebebec;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+#list-cinemas{
+    float: left;
+    min-height: 705px;
+    border-top: 1px solid #ebebec;
+    border-bottom: 1px solid #ebebec;
+    width: 30%;
+    overflow-y: hidden;
+}
+#list-movies{
+    float: left;
+    min-height: 705px;
+    width: calc(100% - 30% - 92px);
+    border: 1px solid #ebebec;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 @media screen and (max-width: 954px) {
     .tab__panel{

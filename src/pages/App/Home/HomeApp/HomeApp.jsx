@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
             [theme.breakpoints.down('xs')]: {
                 borderRadius: '20px'
             }
+        },
+        '& .text--left':{
+            [theme.breakpoints.down('xs')]: {
+                fontSize: 'x-large'
+            }
         }
     }
 }));

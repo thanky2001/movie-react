@@ -11,6 +11,8 @@ body{
 .test{
     height: 400px;
     padding-top: 60px;
+    display: flex;
+    width: 100%;
 }
 /* LoginPage */
 .btn--orange{

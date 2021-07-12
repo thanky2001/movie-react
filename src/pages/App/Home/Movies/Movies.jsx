@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiPagination-root': {
       display: 'flex',
       justifyContent: 'center',
-      paddingTop:'20px'
+      padding: '20px 0'
     },
     '& .MuiPaginationItem-page.Mui-selected': {
       backgroundColor: '#fb4226',
