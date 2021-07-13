@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Avatar, List, ListItem, makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Avatar, List, ListItem, makeStyles, Tooltip } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { getInfoByParentCinemas } from '../../../../actions/cinemas';
+import ReactLoading from 'react-loading';
 
 const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiList-root':{
-          minHeight: '700px'
+          minHeight: '630px'
       },
       '& .MuiListItem-root':{
             display: 'flex',
@@ -34,27 +37,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function ParentCinemas() {
     const classes = useStyles();
-    const [selectedIndex, setSelectedIndex] = useState(1)
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const dispatch = useDispatch()
+    const {parentCinemas, isLoading} = useSelector(state => state.cinemasReducer);
+    useEffect(() => {
+        if(parentCinemas){
+            getListChildCinemas()
+        }
+    }, [selectedIndex, parentCinemas]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
+    const getListChildCinemas=()=>{
+       const code = parentCinemas[selectedIndex].maHeThongRap;
+       dispatch(getInfoByParentCinemas(code))
+    }
     return (
+        !isLoading ?
         <List component="ul" id="parent-cinemas" className={classes.root} aria-label="main">
-            <ListItem 
-                selected={selectedIndex === 1}
-                onClick={(event) => handleListItemClick(event, 1)}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItem>
-            <ListItem 
-                selected={selectedIndex === 2}
-                onClick={(event) => handleListItemClick(event, 2)}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItem>
-            <ListItem 
-                selected={selectedIndex === 3}
-                onClick={(event) => handleListItemClick(event, 3)}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItem>
-        </List>
+            {parentCinemas && parentCinemas.map((cinema,index)=>{
+                return (
+                    <Tooltip placement="right" key={index} title={cinema.tenHeThongRap} aria-label={index}>
+                        <ListItem 
+                            selected={selectedIndex === index}
+                            onClick={(event) => handleListItemClick(event, index)}>
+                            <Avatar alt={cinema.logo} src={cinema.logo} />
+                        </ListItem>
+                    </Tooltip>
+                )
+            })}
+        </List>:
+        <div className="loading--component" style={{ paddingBottom: '80%' }}><ReactLoading type={"bars"} color={"#fb4226"} /></div>
     )
 }

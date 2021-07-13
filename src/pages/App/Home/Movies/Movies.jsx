@@ -188,7 +188,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={6} sm={4} md={3}>
                 <Link to='/phim'>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh ? movie.hinhAnh : 'img/default-film.webp'})` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button className='play__trailer' onClick={(e)=>handleOpenTrailer(movie.trailer,e)}>
                         <img width={50} src="./img/play-video.png" alt="play" />

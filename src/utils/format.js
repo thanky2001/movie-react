@@ -70,3 +70,7 @@ export const getEmbedId=(str)=>{
     }
     return str
 }
+export const splitString = (str)=>{
+    let sp = str.split('-')
+    return sp;
+}
