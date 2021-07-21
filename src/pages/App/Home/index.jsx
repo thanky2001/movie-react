@@ -4,6 +4,7 @@ import Movies from './Movies/Movies';
 import './home.css'
 import HomeApp from './HomeApp/HomeApp';
 import Cinemas from './Cinemas/Cinemas';
+import News from '../News/News';
 
 export default class index extends Component {
     targetRef = React.createRef();
@@ -13,7 +14,7 @@ export default class index extends Component {
                 <Carousel/>
                 <Movies />
                 <Cinemas/>
-                <div id="tin-tuc" className="test" style={{ background: '#23434' }}>asdasd</div>
+                <News/>
                 <HomeApp/>
             </div>
         )

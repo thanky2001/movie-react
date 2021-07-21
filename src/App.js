@@ -5,6 +5,7 @@ import AppLayout from "./Layouts/AppLayout/AppLayout";
 
 //Pages
 const Home = lazy(() => import('./pages/App/Home'));
+const DetailNews = lazy(() => import('./pages/App/News/DetailNews'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 function App() {
@@ -23,7 +24,16 @@ function App() {
               <Route path="/">
                   <AppLayout>
                     <Switch>
-                      <Route path="/" exact>
+                      <Route path="/goc-dien-anh">
+                        <DetailNews/>
+                      </Route>
+                      <Route path="/review">
+                        <DetailNews/>
+                      </Route>
+                      <Route path="/khuyen-mai">
+                        <DetailNews/>
+                      </Route>
+                      <Route path="/">
                         <Home/>
                       </Route>
                     </Switch>

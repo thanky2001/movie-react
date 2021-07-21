@@ -1,8 +1,10 @@
+import { ADD_LIST_MOVIE_BY_PARENT_CINEMA, ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR } from "../constants/cinemas";
 import { GET_MOVIES_BY_DATE_FAILURE, GET_MOVIES_BY_DATE_REQUEST, GET_MOVIES_BY_DATE_SUCCESS, GET_MOVIES_LIST_FAILURE, GET_MOVIES_LIST_REQUEST, GET_MOVIES_LIST_SUCCESS } from "../constants/movies";
 
 
 
 const initialState={
+    ListMoviesByParentCinemas: null,
     listMoviesByDate:null,
     isLoading: false,
     errorlistMoviesByDate: null,
@@ -32,6 +34,10 @@ function moviesReducer(state = initialState, action) {
             };
         case GET_MOVIES_LIST_FAILURE:
             return {...state,isLoading: false, listFilms:null, errorListFilm: action.payload.error};
+        case ADD_LIST_MOVIE_BY_PARENT_CINEMA:
+            return {...state,ListMoviesByParentCinemas: action.payload.data};
+        case ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR:
+            return {...state,ListMoviesByParentCinemas: null};
         default:
             return state
     }

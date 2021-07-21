@@ -1,0 +1,1 @@
+export const GET_NEWS_DETAIL_PAGE = 'GET_NEWS_DETAIL_PAGE';

@@ -5,12 +5,13 @@ import { Grid, makeStyles } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
 import Pagination from '@material-ui/lab/Pagination';
-import { formatDate, getEmbedId } from '../../../../utils/format';
+import { formatDate, getEmbedId, ToSlug } from '../../../../utils/format';
 import { useDispatch } from 'react-redux';
 import { getListMoviesByDate } from '../../../../actions/movies';
 import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 import Trailer from '../../../Components/TrailerFilm/Trailer';
+import { scrollToTarget } from '../../../../Layouts/AppLayout/AppLayout';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,10 +45,17 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiButtonBase-root': {
       color: 'black',
       fontSize: '20px',
-      fontWeight: '500'
+      fontWeight: '500',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '15px',
+        fontWeight: 'bold'
+      }
     },
     '& .MuiTab-textColorPrimary.Mui-selected': {
       color: '#fa5238'
+    },
+    '& .PrivateTabIndicator-colorPrimary-7':{
+      backgroundColor: 'unset'
     },
     '& .play__trailer': {
       top: '50%',
@@ -110,6 +118,7 @@ export default function Movies() {
   }, [page, index]) // eslint-disable-line react-hooks/exhaustive-deps
   const handleChangePage = (event, value) => {
     setPage(value);
+    scrollToTarget('#lich-chieu')
   };
   const classes = useStyles()
   const handleChange = (event, newValue) => {
@@ -145,11 +154,11 @@ export default function Movies() {
           listMoviesByDate && listMoviesByDate.length > 0 ? listMoviesByDate.map((movie, index) => {
             return (
               <Grid key={index} item xs={6} sm={4} md={3}>
-                <Link to='/phim'>
+                <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
                   <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button onClick={(e)=>handleOpenTrailer(movie.trailer,e)} className='play__trailer'>
-                        <img width={50} src="./img/play-video.png" alt="play" />
+                        <img width={50} src="../img/play-video.png" alt="play" />
                       </button>
                     </div>
                     <span className="avg__point">
@@ -176,7 +185,7 @@ export default function Movies() {
       let listMovies = listMoviesByDate && listMoviesByDate.filter((movie) => {
         return (
           new Date(movie.ngayKhoiChieu).getDate() !== new Date().getDate()
-          || new Date(movie.ngayKhoiChieu).getMonth() !== new Date().getMonth()
+          || new Date(movie.ngayKhoiChieu).getMonth() !== (new Date().getMonth()+1)
           || new Date(movie.ngayKhoiChieu).getFullYear() !== new Date().getFullYear()
         )
       })
@@ -187,11 +196,11 @@ export default function Movies() {
           listMovies && listMovies.length > 0 ? listMovies.map((movie, index) => {
             return (
               <Grid key={index} item xs={6} sm={4} md={3}>
-                <Link to='/phim'>
+                <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
                   <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button className='play__trailer' onClick={(e)=>handleOpenTrailer(movie.trailer,e)}>
-                        <img width={50} src="./img/play-video.png" alt="play" />
+                        <img width={50} src="../img/play-video.png" alt="play" />
                       </button>
                     </div>
                   </div>

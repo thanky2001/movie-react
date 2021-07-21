@@ -33,7 +33,7 @@ export default function Carousel() {
                             <img height='100%' src={banner.img} alt={banner.alt} />
                             <div className="background__linear"></div>
                             <button onClick={(e)=>handleOpenTrailer(banner.trailer,e)} className='play__trailer show--hover'>
-                                <img src="./img/play-video.png" alt="play" />
+                                <img src="../img/play-video.png" alt="play" />
                             </button>
                         </Link>
                     )

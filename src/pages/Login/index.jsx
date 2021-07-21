@@ -99,7 +99,7 @@ class Index extends Component {
             <div id="login">
                 <div className="login__wraper">
                     <Link to="/"><div className="login--close"></div></Link>
-                    <div className="login--header"><Link to="/" ><img src="./img/group@2x.png" alt="group@2x.png" /></Link></div>
+                    <div className="login--header"><Link to="/" ><img src="../img/group@2x.png" alt="group@2x.png" /></Link></div>
                     <div className="login--message">
                         Đăng nhập để được nhiều ưu đãi, mua vé <br/>
                         và bảo mật thông tin!

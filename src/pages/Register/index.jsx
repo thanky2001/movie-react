@@ -123,7 +123,7 @@ export default function Index() {
         <div id="register">
             <div className="login__wraper">
                 <Link className='close--wraper' to="/"><div className="login--close"></div></Link>
-                <div className="login--header"><Link to="/" ><img src="./img/group@2x.png" alt="group@2x.png" /></Link></div>
+                <div className="login--header"><Link to="/" ><img src="../img/group@2x.png" alt="group@2x.png" /></Link></div>
                 <form onSubmit={handleSubmit} className={`${classes.root} login--form-group`}>
                     <TextField
                         error = {errors.taiKhoan && errors.taiKhoan.trim() !=='' ? true : false}

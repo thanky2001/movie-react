@@ -1,4 +1,4 @@
-import { GET_INFO_BY_PARENT_CINEMAS_REQUEST, GET_INFO_BY_PARENT_CINEMAS_SUCCESS, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS } from "../constants/cinemas"
+import {ADD_LIST_MOVIE_BY_PARENT_CINEMA, ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS} from "../constants/cinemas"
 import axiosClient from "../services/axiosClient";
 
 
@@ -18,19 +18,36 @@ export function getParentCinemas() {
         }
     }
 }
-export function getInfoByParentCinemas(value) {
-    return async (dispatch)=>{
-        dispatch({
-            type: GET_INFO_BY_PARENT_CINEMAS_REQUEST
-        })
-        try {
-            const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${value}`);
+export function addListMoviesByParentCinemas(value) {
+    let data = [];
+    if (value) {
+        for (let i = 0; i < value.length; i++) {
+            const element = value[i];
+            const a = element.lstLichChieuTheoPhim.filter((lst)=>{
+                return (
+                    new Date(lst.ngayChieuGioChieu).getDate() === new Date('2019-01-01').getDate() &&
+                    new Date(lst.ngayChieuGioChieu).getMonth() === (new Date('2019-01-01').getMonth()) &&
+                    new Date(lst.ngayChieuGioChieu).getFullYear() === new Date('2019-01-01').getFullYear()
+                )
+            })
+            if(a.length){
+                const e = {...element, lstLichChieuTheoPhim: a}
+                data.push(e);
+            }
+        }
+    }
+    if (data.length) {
+        return (dispatch)=>{
             dispatch({
-                type: GET_INFO_BY_PARENT_CINEMAS_SUCCESS,
+                type: ADD_LIST_MOVIE_BY_PARENT_CINEMA,
                 payload: {data}
             })
-        } catch (error) {
-            console.log(error);
+        }
+    }else{
+        return (dispatch)=>{
+            dispatch({
+                type: ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR,
+            })
         }
     }
 }

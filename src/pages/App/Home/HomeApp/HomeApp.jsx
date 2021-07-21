@@ -68,7 +68,7 @@ export default function HomeApp() {
                         </p>
                     </Grid>
                     <Grid item xs={12} md className='app--right'>
-                        <img className="img--phone" src="./img/mobile.png" alt="mobile" />
+                        <img className="img--phone" src="../img/mobile.png" alt="mobile" />
                         <div id='slider-screen'>
                             <Slider {...settings}>
                                 {appSlider.map((img, index) => {

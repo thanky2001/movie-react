@@ -45,32 +45,32 @@ export default function Footer() {
                     <Grid className="footer--block" item sm>
                         <p className="title ">ĐỐI TÁC</p>
                         <Grid className="row--grid" container>
-                            <a target="_blank" rel="noreferrer" href="http://cgv.vn"><Avatar alt="cgv" src="./img/cgv.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://bhdstar.vn"><Avatar alt="cgv" src="./img/bhd.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://galaxycine.vn"><Avatar alt="cgv" src="./img/galaxycine.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://cinestar.com.vn"><Avatar alt="cgv" src="./img/cinestar.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://lottecinemavn.com"><Avatar className='mr-0' alt="cgv" src="./img/404b8c4b80d77732e7426cdb7e24be20.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://cgv.vn"><Avatar alt="cgv" src="../img/cgv.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://bhdstar.vn"><Avatar alt="cgv" src="../img/bhd.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://galaxycine.vn"><Avatar alt="cgv" src="../img/galaxycine.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://cinestar.com.vn"><Avatar alt="cgv" src="../img/cinestar.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://lottecinemavn.com"><Avatar className='mr-0' alt="cgv" src="../img/404b8c4b80d77732e7426cdb7e24be20.png" /></a>
                         </Grid>
                         <Grid className="row--grid" container>
-                            <a target="_blank" rel="noreferrer" href="http://megagscinemas.vn"><Avatar alt="cgv" src="./img/megags.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://betacinemas.vn"><Avatar alt="cgv" src="./img/bt.jpg" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://ddcinema.vn"><Avatar alt="cgv" src="./img/dongdacinema.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://touchcinema.com"><Avatar alt="cgv" src="./img/TOUCH.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://cinemaxvn.com"><Avatar className='mr-0' alt="cgv" src="./img/cnx.jpg" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://megagscinemas.vn"><Avatar alt="cgv" src="../img/megags.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://betacinemas.vn"><Avatar alt="cgv" src="../img/bt.jpg" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://ddcinema.vn"><Avatar alt="cgv" src="../img/dongdacinema.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://touchcinema.com"><Avatar alt="cgv" src="../img/TOUCH.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://cinemaxvn.com"><Avatar className='mr-0' alt="cgv" src="../img/cnx.jpg" /></a>
                         </Grid>
                         <Grid className="row--grid" container>
-                            <a target="_blank" rel="noreferrer" href="http://starlight.vn"><Avatar alt="cgv" src="./img/STARLIGHT.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://www.dcine.vn"><Avatar alt="cgv" src="./img/dcine.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://zalopay.vn"><Avatar alt="cgv" src="./img/zalopay_icon.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://www.payoo.vn"><Avatar alt="cgv" src="./img/payoo.jpg" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://www.vietcombank.com.vn"><Avatar className='mr-0' alt="cgv" src="./img/VCB.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://starlight.vn"><Avatar alt="cgv" src="../img/STARLIGHT.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.dcine.vn"><Avatar alt="cgv" src="../img/dcine.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://zalopay.vn"><Avatar alt="cgv" src="../img/zalopay_icon.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.payoo.vn"><Avatar alt="cgv" src="../img/payoo.jpg" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.vietcombank.com.vn"><Avatar className='mr-0' alt="cgv" src="../img/VCB.png" /></a>
                         </Grid>
                         <Grid container>
-                            <a target="_blank" rel="noreferrer" href="https://www.agribank.com.vn"><Avatar alt="cgv" src="./img/AGRIBANK.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://www.vietinbank.vn"><Avatar alt="cgv" src="./img/VIETTINBANK.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://www.indovinabank.com.vn/"><Avatar alt="cgv" src="./img/IVB.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="http://123go.vn"><Avatar alt="cgv" src="./img/123go.png" /></a>
-                            <a target="_blank" rel="noreferrer" href="https://laban.vn"><Avatar className='mr-0' alt="cgv" src="./img/laban.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.agribank.com.vn"><Avatar alt="cgv" src="../img/AGRIBANK.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.vietinbank.vn"><Avatar alt="cgv" src="../img/VIETTINBANK.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://www.indovinabank.com.vn/"><Avatar alt="cgv" src="../img/IVB.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="http://123go.vn"><Avatar alt="cgv" src="../img/123go.png" /></a>
+                            <a target="_blank" rel="noreferrer" href="https://laban.vn"><Avatar className='mr-0' alt="cgv" src="../img/laban.png" /></a>
                         </Grid>
                     </Grid>
                     </Box>
@@ -79,15 +79,15 @@ export default function Footer() {
                             <Grid item xs>
                                 <p className="title footer--item">MOBILE APP</p>
                                 <Grid container className='footer--item'>
-                                    <a target="_blank" rel="noreferrer" href="https://apps.apple.com/vn/app/tix-%C4%91%E1%BA%B7t-v%C3%A9-nhanh-nh%E1%BA%A5t/id615186197"><img className='icon--app' alt="apple" src="./img/apple-logo.png" /></a>
-                                    <a target="_blank" rel="noreferrer" href="https://play.google.com/store/apps/details?id=vn.com.vng.phim123"><img className='icon--app' alt="android" src="./img/android-logo.png" /></a>
+                                    <a target="_blank" rel="noreferrer" href="https://apps.apple.com/vn/app/tix-%C4%91%E1%BA%B7t-v%C3%A9-nhanh-nh%E1%BA%A5t/id615186197"><img className='icon--app' alt="apple" src="../img/apple-logo.png" /></a>
+                                    <a target="_blank" rel="noreferrer" href="https://play.google.com/store/apps/details?id=vn.com.vng.phim123"><img className='icon--app' alt="android" src="../img/android-logo.png" /></a>
                                 </Grid>
                             </Grid>
                             <Grid item xs>
                                 <p className="title footer--item">SOCIAL</p>
                                 <Grid container className='footer--item'>
-                                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com"><img className='icon--app' alt="apple" src="./img/facebook-logo.png" /></a>
-                                    <a target="_blank" rel="noreferrer" href="https://www.zalo.vn"><img className='icon--app' alt="android" src="./img/zalo-logo.png" /></a>
+                                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com"><img className='icon--app' alt="apple" src="../img/facebook-logo.png" /></a>
+                                    <a target="_blank" rel="noreferrer" href="https://www.zalo.vn"><img className='icon--app' alt="android" src="../img/zalo-logo.png" /></a>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -96,7 +96,7 @@ export default function Footer() {
                 <hr className='hr--footer' />
                 <Grid container >
                     <Grid item xs={12} md={1}  className='info--footer'>
-                        <img height={40} src="./img/zion-logo.jpg" alt="zion" />
+                        <img height={40} src="../img/zion-logo.jpg" alt="zion" />
                     </Grid>
                     <Grid item xs={12} md={9} className='info--footer'>
                         <span>TIX – SẢN PHẨM CỦA CÔNG TY CỔ PHẦN ZION</span>
@@ -109,7 +109,7 @@ export default function Footer() {
                         </span>
                     </Grid>
                     <Grid item xs={12} md={2}  className='info--footer'>
-                        <img height={50} src="./img/d1e6bd560daa9e20131ea8a0f62e87f8.png" alt="bocongthuong" />
+                        <img height={50} src="../img/d1e6bd560daa9e20131ea8a0f62e87f8.png" alt="bocongthuong" />
                     </Grid>
                 </Grid>
             </div>

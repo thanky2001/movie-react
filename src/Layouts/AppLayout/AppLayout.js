@@ -5,6 +5,14 @@ import ModalUserInfo from '../../pages/User/ModalUserInfo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+
+export const scrollToTarget = (id) => {
+    if (id) {
+        setTimeout(() =>{
+            document.querySelector(id).scrollIntoView() 
+           }, 500);
+    }
+}
 class AppLayout extends Component {
     constructor(props) {
         super(props);
@@ -26,21 +34,13 @@ class AppLayout extends Component {
     // custom hash router
     componentDidMount = () => {
         if (this.props.location.state){
-            this.scrollToTarget(0)
-        }
-    }
-
-    scrollToTarget = (id) => {
-        if (id) {
-            setTimeout(() =>{
-                document.querySelector(id).scrollIntoView() 
-               }, 500);
+            scrollToTarget(0)
         }
     }
     render() {
         return (
             <>
-                <Header showModalUserInfo={this.showModalUserInfo} scrollToTarget={this.scrollToTarget}/>
+                <Header showModalUserInfo={this.showModalUserInfo} />
                 {this.props.children}
                 <Footer/>
                 <ModalUserInfo handleClose={this.closeModaleUserInfo} showModalUserInfo={this.showModalUserInfo} open={this.state.isOpen}/>

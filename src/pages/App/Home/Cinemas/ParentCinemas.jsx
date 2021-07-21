@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, List, ListItem, makeStyles, Tooltip } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInfoByParentCinemas } from '../../../../actions/cinemas';
+import { getShowtimeByParentCinemas  } from '../../../../actions/getShowtimeByParentCinema';
 import ReactLoading from 'react-loading';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ export default function ParentCinemas() {
     };
     const getListChildCinemas=()=>{
        const code = parentCinemas[selectedIndex].maHeThongRap;
-       dispatch(getInfoByParentCinemas(code))
+       dispatch(getShowtimeByParentCinemas(code));
     }
     return (
         !isLoading ?

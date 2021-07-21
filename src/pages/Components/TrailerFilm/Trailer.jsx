@@ -37,11 +37,12 @@ export default function Trailer(props) {
             aria-describedby="alert-dialog-slide-description"
         >
             <button onClick={props.onClose} className='close'>
-                <img width={40} height={40} src="./img/close.png" alt="close.png" />
+                <img width={40} height={40} src="../img/close.png" alt="close.png" />
             </button>
             <iframe
                 width="100%"
                 height='100%'
+                allowFullScreen={true}
                 src={`https://www.youtube.com/embed/${props.embedId ? props.embedId : 'error'}?autoplay=1`}
                 frameBorder='0'
                 title='video'

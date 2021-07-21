@@ -1,9 +1,9 @@
-import { GET_INFO_BY_PARENT_CINEMAS_REQUEST, GET_INFO_BY_PARENT_CINEMAS_SUCCESS, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS } from "../constants/cinemas";
+import {GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS, GET_SHOWTIME_BY_PARENT_CINEMAS_REQUEST, GET_SHOWTIME_BY_PARENT_CINEMAS_SUCCESS } from "../constants/cinemas";
 
 const initialState={
     parentCinemas: null,
     isLoading: false,
-    cinemasBySystem: null,
+    showtimeBySystem: null,
 }
 
 function cinemasReducer (state = initialState, action) {
@@ -12,10 +12,10 @@ function cinemasReducer (state = initialState, action) {
             return {...state, isLoading: true, parentCinemas: null}
         case GET_PARENT_CINEMAS_SUCCESS:
             return {...state, isLoading: false, parentCinemas: action.payload.data}
-        case GET_INFO_BY_PARENT_CINEMAS_REQUEST:
-            return {...state,isLoading: true, cinemasBySystem: null}
-        case GET_INFO_BY_PARENT_CINEMAS_SUCCESS:
-            return {...state, isLoading: false, cinemasBySystem: action.payload.data}
+        case GET_SHOWTIME_BY_PARENT_CINEMAS_REQUEST:
+            return {...state,isLoading: true, showtimeBySystem: null}
+        case GET_SHOWTIME_BY_PARENT_CINEMAS_SUCCESS:
+            return {...state, isLoading: false, showtimeBySystem: action.payload.data[0]}
         default:
             return state;
     }

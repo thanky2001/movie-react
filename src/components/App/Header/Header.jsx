@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { logOut } from '../../../actions/auth';
 import { getCurrentUser } from '../../../actions/user';
+import { scrollToTarget } from '../../../Layouts/AppLayout/AppLayout';
 
 class Header extends Component {
     constructor(props) {
@@ -32,8 +33,8 @@ class Header extends Component {
         }
     }
     handleScroll = (id) => {
-        if(this.props.scrollToTarget && id){
-            this.props.scrollToTarget(id)
+        if(scrollToTarget && id){
+            scrollToTarget(id)
         }else if(!id){
             window.scrollTo(0, 0)
         }
@@ -67,15 +68,14 @@ class Header extends Component {
                         <div id='account' className="img-circle">
                             {currentUser ? 
                                 <div onClick={showModalUserInfo} className="nav-link">
-                                    <img src="img/avatar.png" alt="user" />
+                                    <img src="../img/avatar.png" alt="user" />
                                     {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen} 
                                 </div> :
                                 <Link className="nav-link" to="/login">
-                                    <img src="img/avatar.png" alt="user" />
+                                    <img src="../img/avatar.png" alt="user" />
                                     Đăng nhập
                                 </Link>
                             }
-                            
                         </div>
                         <NavItem>
                             <NavLink onClick={(e)=>this.showSideBar('#lich-chieu',e)} to="/">Lịch Chiếu</NavLink>
@@ -131,7 +131,7 @@ class Header extends Component {
                     </Nav>
                 </Menu>
                 <Navbar id="header" light expand="md">
-                    <Link to="/"> <img onClick={(e)=>this.handleScroll(0,e)} height="50" src="img/web-logo.png" alt="logo.png" /></Link>
+                    <Link to="/"> <img onClick={(e)=>this.handleScroll(0,e)} height="50" src="../img/web-logo.png" alt="logo.png" /></Link>
                     <NavbarToggler onClick={()=>{this.setState({ isOpen: !this.state.isOpen })}} />
                     <Collapse className="header__menu" navbar>
                         <Nav className="mr-auto " navbar>
@@ -153,7 +153,7 @@ class Header extends Component {
                                 {currentUser ? 
                                     <div className="nav-link" style={{color: '#9b9b9b'}}>
                                         <div>
-                                            <img src="img/avatar.png" alt="user" />
+                                            <img src="../img/avatar.png" alt="user" />
                                             {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
@@ -162,14 +162,14 @@ class Header extends Component {
                                         </div>
                                     </div> :
                                     <Link className="nav-link" to="/login">
-                                        <img src="img/avatar.png" alt="user" />
+                                        <img src="../img/avatar.png" alt="user" />
                                         Đăng nhập
                                     </Link>
                                 }
                             </div>
-                            <Dropdown className="border--left" isOpen={this.state.isShowDrop} toggle={() => { this.setState({ isShowDrop: !this.state.isShowDrop})}}>
+                            <Dropdown isOpen={this.state.isShowDrop} toggle={() => { this.setState({ isShowDrop: !this.state.isShowDrop})}}>
                                 <DropdownToggle className="location--header" caret>
-                                    <img width={16} height={16} src="img/location-header.png" alt="location-header.png"/>
+                                    <img width={16} height={16} src="../img/location-header.png" alt="location-header.png"/>
                                     <span>Hồ Chí Minh</span>
                                 </DropdownToggle>
                                 <DropdownMenu

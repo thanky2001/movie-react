@@ -36,6 +36,8 @@ export function formatDate2(date,plusMonth = 0) {
 export const ToSlug = (str) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();
+    //loại bỏ dấu gạch
+    str = str.replace('-', '')
 
     // xóa dấu
     str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
@@ -73,4 +75,14 @@ export const getEmbedId=(str)=>{
 export const splitString = (str)=>{
     let sp = str.split('-')
     return sp;
+}
+export const splitDateString = (time)=>{
+    let date = time.split('T')
+    return date;
+}
+export const getParamId = (url) => {
+    let type = url.split('/')[1] && url.split('/')[1];
+    let id = url.split('/')[2] && url.split('/')[2];
+    id = id && id.split('-')[0];
+    return {id: id, type: type};
 }
