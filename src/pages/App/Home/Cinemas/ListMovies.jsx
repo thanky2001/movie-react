@@ -30,7 +30,7 @@ export default function ListMovies() {
                                 <div className="img--film" style={{ backgroundImage: `url(${lst.hinhAnh}), url("img/default-film.webp")` }}></div>
                                 <div className="info--film">
                                     <span className="name--film">{lst.tenPhim}</span>
-                                    <span className="detail--film"> <Link to={`/phim/${ToSlug(lst.tenPhim)}`}>[Chi tiết]</Link></span>
+                                    <span className="detail--film"> <Link to={`/phim/${lst.maPhim}-${ToSlug(lst.tenPhim)}`}>[Chi tiết]</Link></span>
                                 </div>
                             </div>
                             <div className="showtime">
@@ -38,7 +38,7 @@ export default function ListMovies() {
                                 <div className='time'>
                                     {lst.lstLichChieuTheoPhim.length && lst.lstLichChieuTheoPhim.map((st,index)=>{
                                         return(
-                                            <Link key={index} to={`/phim`} className="btn btn--showtime">{splitDateString(st.ngayChieuGioChieu)[1].slice(0,5)}</Link>
+                                            <Link key={index} to={`/phim/${lst.maPhim}-${ToSlug(lst.tenPhim)}`} className="btn btn--showtime">{splitDateString(st.ngayChieuGioChieu)[1].slice(0,5)}</Link>
                                         )
                                     })}
                                 </div>

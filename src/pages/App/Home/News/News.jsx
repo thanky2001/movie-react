@@ -1,8 +1,8 @@
 import { Box, makeStyles, Tab, Tabs } from '@material-ui/core'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { news, promotionalNews, reviews } from '../../../components/App/data/DataNews';
-import { ToSlug } from '../../../utils/format';
+import { news, promotionalNews, reviews } from '../../../../components/App/data/DataNews';
+import { ToSlug } from '../../../../utils/format';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiTabs-flexContainer': {
             justifyContent: 'center',
         },
-        '& .PrivateTabIndicator-colorPrimary-4': {
-            display: 'none'
-        },
         '& .MuiButtonBase-root': {
             color: 'black',
             fontSize: '20px',
@@ -42,12 +39,6 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiTab-textColorPrimary.Mui-selected': {
             color: '#fa5238'
-        },
-        '& .PrivateTabIndicator-colorPrimary-7': {
-            backgroundColor: 'unset'
-        },
-        '& .PrivateTabIndicator-colorPrimary-6': {
-            backgroundColor: 'transparent'
         },
         '& .news--link': {
             color: '#000',

@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTabs-flexContainer': {
       justifyContent: 'center',
     },
-    '& .PrivateTabIndicator-colorPrimary-4': {
-      display: 'none'
-    },
     '& .MuiButtonBase-root': {
       color: 'black',
       fontSize: '20px',
@@ -53,9 +50,6 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTab-textColorPrimary.Mui-selected': {
       color: '#fa5238'
-    },
-    '& .PrivateTabIndicator-colorPrimary-7':{
-      backgroundColor: 'unset'
     },
     '& .play__trailer': {
       top: '50%',
@@ -100,9 +94,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#fb4226',
       color: '#fff'
     },
-    '& .PrivateTabIndicator-colorPrimary-6':{
-      backgroundColor: 'transparent'
-    }
   },
 }));
 export default function Movies() {
@@ -153,7 +144,7 @@ export default function Movies() {
           :
           listMoviesByDate && listMoviesByDate.length > 0 ? listMoviesByDate.map((movie, index) => {
             return (
-              <Grid key={index} item xs={6} sm={4} md={3}>
+              <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
                   <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
@@ -195,7 +186,7 @@ export default function Movies() {
           :
           listMovies && listMovies.length > 0 ? listMovies.map((movie, index) => {
             return (
-              <Grid key={index} item xs={6} sm={4} md={3}>
+              <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
                   <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
                     <div className="hover--info show--hover">

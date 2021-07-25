@@ -4,7 +4,7 @@ import Movies from './Movies/Movies';
 import './home.css'
 import HomeApp from './HomeApp/HomeApp';
 import Cinemas from './Cinemas/Cinemas';
-import News from '../News/News';
+import News from './News/News';
 
 export default class index extends Component {
     targetRef = React.createRef();

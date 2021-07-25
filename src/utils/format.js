@@ -64,11 +64,12 @@ export const ToSlug = (str) => {
     return str;
 }
 export const getEmbedId=(str)=>{
-    let index = str.lastIndexOf('https://youtu.be/');
-    if (index !== -1) {
+    if (str.lastIndexOf('https://youtu.be/') !== -1) {
         str = str.replace('https://youtu.be/', '');
-    }else{
+    }else if(str.lastIndexOf('https://www.youtube.com/embed/') !== -1 ){
         str = str.replace('https://www.youtube.com/embed/','')
+    }else {
+        str = str.replace('https://www.youtube.com/watch?v=','')
     }
     return str
 }
@@ -79,6 +80,11 @@ export const splitString = (str)=>{
 export const splitDateString = (time)=>{
     let date = time.split('T')
     return date;
+}
+export const formatDateToVN = (time)=>{
+    let date = time.split('T')
+    date = date[0].split('-')
+    return [date[2],date[1],date[0]].join('.');
 }
 export const getParamId = (url) => {
     let type = url.split('/')[1] && url.split('/')[1];

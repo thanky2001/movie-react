@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { getNewsDetailsPage } from '../../../actions/getNewsDetailPage';
-import { getParamId, ToSlug } from '../../../utils/format';
-import '../Home/home.css'
-import { news, promotionalNews, reviews } from '../../../components/App/data/DataNews';
-import { scrollToTop } from '../../../utils/scrollTop';
+import { getNewsDetailsPage } from '../../../../actions/getNewsDetailPage';
+import { getParamId, ToSlug } from '../../../../utils/format';
+import '../home.css';
+import { news, promotionalNews, reviews } from '../../../../components/App/data/DataNews';
+import { scrollToTop } from '../../../../utils/scrollTop';
 
 const useStyles = makeStyles((theme) => ({
     root: {
