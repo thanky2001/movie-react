@@ -29,7 +29,7 @@ export function getListMovies(search = '') {
         })
         try {
             const {data} = await axiosClient.get(`/QuanLyPhim/LayDanhSachPhim?maNhom=GP01${search}`);
-            const date = formatDate2(new Date(),-5);
+            const date = formatDate2(new Date(),-1);
             const dateUpComming = formatDate2(new Date(), 1);
             const listFilmsNow = data.filter((film)=>{
                 return (

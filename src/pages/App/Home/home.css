@@ -13,7 +13,7 @@
 .tab--child-table{
     display: table;
 }
-#cum-rap ul li::after, ul#parent-cinemas li::after, ul#list-day-of-week li::after {
+#cum-rap ul li::after, ul#parent-cinemas li::after, ul#list-day-of-week li::after, ul#list-movies li::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -102,6 +102,10 @@
     background: -o-linear-gradient(to left,#fb4226,#ce3017 100%);
     background: -moz-linear-gradient(to left,#fb4226,#ce3017 100%);
     background: linear-gradient(to left,#fb4226,#ce3017 100%);
+}
+a.buy__now:hover{
+    color: #fff;
+    text-decoration: unset;
 }
 .hide--hover{
     visibility: visible;
@@ -403,7 +407,7 @@ span.cinema--location{
 .col--news--detail:nth-child(5n+3) .news--summary, .col--news--detail:nth-child(5n+4) .news--summary, .col--news--detail:nth-child(5n+5) .news--summary{
     display: none;
 }
-#list-movies::-webkit-scrollbar, #list-cinemas::-webkit-scrollbar, #parent-cinemas::-webkit-scrollbar {
+#list-day-of-week::-webkit-scrollbar, #list-movies::-webkit-scrollbar, #list-cinemas::-webkit-scrollbar, #parent-cinemas::-webkit-scrollbar {
     width: 8px;
 }
 #list-day-of-week::-webkit-scrollbar-track, #list-movies::-webkit-scrollbar-track, .time::-webkit-scrollbar-track, #list-cinemas::-webkit-scrollbar-track, #parent-cinemas::-webkit-scrollbar-track {
@@ -412,7 +416,7 @@ span.cinema--location{
 #list-day-of-week::-webkit-scrollbar-thumb, #list-movies::-webkit-scrollbar-thumb,.time::-webkit-scrollbar-thumb, #list-cinemas::-webkit-scrollbar-thumb, #parent-cinemas::-webkit-scrollbar-thumb {
     background: rgba(192, 191, 191, 0.842); 
 }
-.time::-webkit-scrollbar, #list-day-of-week::-webkit-scrollbar{
+.time::-webkit-scrollbar{
     height: 8px;
 }
 .message{
@@ -481,9 +485,75 @@ span.cinema--location{
     transform: translate(-50%,-50%);
     font-size: 40px;
 }
+.btn--day{
+    font-weight: 600;
+}
+.btn--day:hover{
+    color: #fa5238;
+}
+.news-film{
+    color: #fff;
+}
+.title--content{
+    display: inline-block;
+    font-weight: 600;
+    width: 50%;
+}
+.info--content{
+    display: inline-block;
+    width: 30%;
+}
+.full--content{
+    text-align: justify;
+    white-space: pre-wrap;
+    width: 100%;
+}
+/* list comment */
+#my-rating{
+    display: flex;
+    justify-content: center;
+}
+.my-comment{
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    height: 60px;
+    max-width: 580px;
+    width: 100%;
+    background: #fff;
+    border-radius: 4px;
+}
+#avatar{
+    position: absolute;
+    opacity: 1;
+    margin-left: 15px;
+    width: 40px;
+    height: 40px;
+}
+#thinks{
+    position: absolute;
+    padding-left: 65px;
+    color: #9b9b9b;
+}
+.rating{
+    position: absolute;
+    right: 3%;
+}
+.rating span{
+    padding-top: 0 !important;
+}
 @media screen and (max-width: 954px) {
     .tab__panel{
         padding: 30px 15px 0;
+    }
+}
+@media screen and (max-width: 960px) {
+    .title--content{
+        width: 35%;
+    }
+    .info--content{
+        width: 50%;
     }
 }
 @media screen and (max-width: 767px) {
@@ -507,6 +577,15 @@ span.cinema--location{
         border-top: 1px solid #ebebec;
     }
     .content--main{
-        transform: translate(0,0);
+        transform: translate(0,30px);
+    }
+    .main--detail{
+        padding-bottom: 90px;
+    }
+    .title--content{
+        width: 55%;
+    }
+    .info--content{
+        width: 45%;
     }
 }

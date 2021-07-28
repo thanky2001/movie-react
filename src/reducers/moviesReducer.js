@@ -1,13 +1,13 @@
 import {
     ADD_LIST_MOVIE_BY_PARENT_CINEMA,
-    ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR
+    ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR,
+    GET_SHOWTIME_FILM_REQUEST,
+    GET_SHOWTIME_FILM_SUCCESS
 } from "../constants/cinemas";
 import {
     GET_MOVIES_BY_DATE_FAILURE,
     GET_MOVIES_BY_DATE_REQUEST,
     GET_MOVIES_BY_DATE_SUCCESS,
-    GET_MOVIES_DETAIL_PAGE_REQUEST,
-    GET_MOVIES_DETAIL_PAGE_SUCCESS,
     GET_MOVIES_LIST_FAILURE,
     GET_MOVIES_LIST_REQUEST,
     GET_MOVIES_LIST_SUCCESS
@@ -66,14 +66,10 @@ function moviesReducer(state = initialState, action) {
             return {
                 ...state, ListMoviesByParentCinemas: null
             };
-        case GET_MOVIES_DETAIL_PAGE_REQUEST:
-            return {
-                ...state, isLoading:true
-            };
-        case GET_MOVIES_DETAIL_PAGE_SUCCESS:
-            return {
-                ...state, detailFilm: action.payload.data,isLoading: false
-            };
+        case GET_SHOWTIME_FILM_REQUEST:
+            return {...state,isLoading: true, detailFilm: null}
+        case GET_SHOWTIME_FILM_SUCCESS:
+            return {...state, isLoading: false, detailFilm: action.payload.data}
         default:
             return state
     }

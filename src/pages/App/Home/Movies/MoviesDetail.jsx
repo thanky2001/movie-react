@@ -1,21 +1,23 @@
-import { Tab, makeStyles, Tabs, Grid, CircularProgress, List, ListItem, Avatar, Tooltip } from '@material-ui/core';
+import { Tab, makeStyles, Tabs, Grid, CircularProgress, List, ListItem, Avatar, Tooltip, Box } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 import '../home.css';
 import '../../../../styles/Layout/Content.css'
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Trailer from '../../../Components/TrailerFilm/Trailer';
-import { getMoviesDetail } from '../../../../actions/getMoviesDetailPage';
 import { dayOfWeeks } from '../../../../utils/dayOfWeeks';
-import { formatDateToVN, getEmbedId, getParamId } from '../../../../utils/format';
+import { formatDateToVN, getEmbedId, getParamId, splitDateString, splitString, ToSlug } from '../../../../utils/format';
 import Rating from '@material-ui/lab/Rating';
 import { getParentCinemas } from '../../../../actions/cinemas';
+import { addShowtimeFilmBySystem, getShowtimeFilm } from '../../../../actions/getShowtimeFilm';
+import { scrollToTop } from '../../../../utils/scrollTop';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
         <div
+            className="mt-60"
             role="tabpanel"
             hidden={value !== index}
             {...other}
@@ -30,7 +32,23 @@ function TabPanel(props) {
 }
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: '60px',
+        '&#movies-detail': {
+            marginTop: '60px'
+        },
+        '& .mt-60': {
+            marginTop: '60px'
+        },
+        [theme.breakpoints.down('xs')]: {
+            '& .film--info': {
+                left: '33.333%'
+            },
+            '& .mt-60': {
+                marginTop: '0'
+            },
+            '& .bg-main': {
+                paddingTop: '50%'
+            }
+        },
         width: '100%',
         '& .MuiTabs-flexContainer': {
             justifyContent: 'center',
@@ -125,6 +143,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .Mui-selected': {
             backgroundColor: 'unset',
+            color: '#fa5238'
         },
         '& .Mui-selected:hover': {
             backgroundColor: 'unset',
@@ -137,7 +156,10 @@ const useStyles = makeStyles((theme) => ({
             background: '#fff',
             borderRadius: '4px 0 0 4px',
             [theme.breakpoints.down('xs')]: {
-                width: '40%',
+                width: '30%',
+                '& li': {
+                    justifyContent: 'center'
+                }
             }
         },
         '& #list-day-of-week': {
@@ -147,12 +169,30 @@ const useStyles = makeStyles((theme) => ({
                 width: '25%',
             },
             [theme.breakpoints.down('xs')]: {
-                width: '60%',
+                width: '70%',
             }
         },
         '& #list-movies': {
             padding: '0',
-            background: '#fff'
+            background: '#fff',
+            [theme.breakpoints.down('md')]: {
+                width: 'calc(100% - 25% - 92px)',
+            },
+            [theme.breakpoints.down('xs')]: {
+                width: '100%',
+                borderRadius: '4px',
+            },
+            '& .MuiBox-root':{
+                width: '100%',
+                padding: '20px',
+                '& .cinema--name':{
+                    fontSize: '16px !important',
+                    whiteSpace: 'normal'
+                },
+                '& .color--name':{
+                    fontSize: '16px !important'
+                }
+            }
         },
         '& #list-movies .MuiListItem-root': {
             padding: '0'
@@ -163,9 +203,10 @@ const useStyles = makeStyles((theme) => ({
 export default function MoviesDetail() {
     const classes = useStyles();
     const { detailFilm, isLoading } = useSelector(state => state.moviesReducer);
-    const { parentCinemas } = useSelector(state => state.cinemasReducer);
-    console.log(detailFilm, isLoading);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const { parentCinemas, listStFilm } = useSelector(state => state.cinemasReducer);
+    console.log(listStFilm);
+    const [selectedCinema, setSelectedCinema] = useState(0);
+    const [selectedDay, setSelectedDay] = useState(0);
     const [value, setValue] = useState('one');
     const [index, setIndex] = useState('one');
     const [isShowTrailer, setIsShowTrailer] = useState(false);
@@ -175,14 +216,20 @@ export default function MoviesDetail() {
     const [listDay, setListDay] = useState(null);
     useEffect(() => {
         let idFilm = getParamId(location.pathname).id;
-        dispatch(getMoviesDetail(idFilm));
+        dispatch(getShowtimeFilm(idFilm));
         dispatch(getParentCinemas());
+        scrollToTop();
     }, [location]) // eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
         setListDay(dayOfWeeks());
     }, [new Date().getDate()]) // eslint-disable-line react-hooks/exhaustive-deps
-    console.log(listDay);
-    const handleChange = (event, newValue) => {
+    useEffect(() => {
+        setSelectedDay(0)
+    }, [selectedCinema]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        getShowtimeOfFilm();
+    }, [selectedCinema, selectedDay, listDay, parentCinemas, detailFilm]) // eslint-disable-line react-hooks/exhaustive-deps
+    const handleChangeTab = (event, newValue) => {
         setValue(newValue);
         setIndex(newValue)
     };
@@ -191,7 +238,14 @@ export default function MoviesDetail() {
         setIsShowTrailer(true)
         setEmbedId(getEmbedId(url))
     }
-
+    const getShowtimeOfFilm = () => {
+        let date = listDay && listDay[selectedDay].date;
+        let idSt = parentCinemas && parentCinemas[selectedCinema].maHeThongRap;
+        let listCinemas = detailFilm && detailFilm.heThongRapChieu;
+        if (date && idSt && listCinemas && listCinemas.length) {
+            dispatch(addShowtimeFilmBySystem(listCinemas, idSt, date));
+        }
+    }
     const renderDetailMovies = () => {
         if (index === 'one') {
             return (
@@ -201,7 +255,8 @@ export default function MoviesDetail() {
                             return (
                                 <Tooltip placement="right" key={index} title={cinema.tenHeThongRap} aria-label={index}>
                                     <ListItem
-                                        selected={selectedIndex === index}>
+                                        onClick={() => setSelectedCinema(index)}
+                                        selected={selectedCinema === index}>
                                         <Avatar alt={cinema.logo} src={cinema.logo} />
                                     </ListItem>
                                 </Tooltip>
@@ -211,19 +266,82 @@ export default function MoviesDetail() {
                     <List component="ul" id='list-day-of-week'>
                         {listDay && listDay.map((day, index) => {
                             return (
-                                <ListItem className='btn btn--day' key={index}>
+                                <ListItem
+                                    className='btn btn--day'
+                                    onClick={() => setSelectedDay(index)}
+                                    key={index}
+                                    selected={selectedDay === index}>
                                     {day.dayName} <br />
-                                    {day.date}
+                                    {day.day}-{day.month}-{day.fullYear}
                                 </ListItem>
                             )
                         })}
                     </List>
+                    <List component="ul" id='list-movies' aria-label="main">
+                        {listStFilm ?
+                            listStFilm.cumRapChieu && listStFilm.cumRapChieu.map((st, index) => {
+                                return (
+                                    <ListItem key={index}>
+                                        <Box >
+                                            <span className='cinema--name'><span className="color--name">{splitString(st.tenCumRap)[0]}</span>-{splitString(st.tenCumRap)[1]}</span>
+                                            <div className='time'>
+                                                <span className="name--film">Lịch chiếu:</span>
+                                                {st.lichChieuPhim.map((lst, index) => {
+                                                    return (
+                                                        <Link key={index} to={`/checkout/${lst.maLichChieu}-${ToSlug(lst.tenRap)}-${ToSlug(detailFilm.tenPhim)}`} className="btn btn--showtime">{splitDateString(lst.ngayChieuGioChieu)[1].slice(0, 5)}</Link>
+                                                    )
+                                                })}
+                                            </div>
+                                        </Box>
+                                    </ListItem>
+                                )
+                            })
+                            :
+                            <p className="message">Không có suất chiếu</p>
+                        }
+                    </List>
                 </div>
             )
         } else if (index === 'two') {
-
+            return(
+                <Grid container className='news-film'>
+                    <Grid item xs={12} md >
+                        <p>
+                            <span className='title--content'>Ngày công chiếu</span>
+                            <span className='info--content'>{formatDateToVN(detailFilm.ngayKhoiChieu)}</span>
+                        </p>
+                        <p>
+                            <span className='title--content'>Thời gian khởi chiếu</span>
+                            <span className='info--content'>{splitDateString(detailFilm.ngayKhoiChieu)[1].slice(0, 5)}</span>
+                        </p>
+                        <p>
+                            <span className='title--content'>Định dạng</span>
+                            <span className='info--content'>2D/Digital</span>
+                        </p>
+                        <p>
+                            <span className='title--content'>Đánh giá</span>
+                            <span className='info--content'>{detailFilm.danhGia}</span>
+                        </p>
+                    </Grid>
+                    <Grid item xs={12} md>
+                        <p className='title--content'>Nội dung</p>
+                        <p className='full--content'>{detailFilm.moTa}</p>
+                    </Grid>
+                </Grid>
+            )
         } else {
-
+            return(
+                <div id="show-reviews">
+                    <div id='my-rating'>
+                        <div className='my-comment' onClick={()=>alert('Chức năng đang phát triển')}>
+                            <Avatar id='avatar' alt="cgv" src="../img/avatar.png" />
+                            <span id='thinks'>Bạn nghĩ gì về phim này?</span>
+                            <Box className='rating' component='div' display={{ xs: 'none', sm: 'block' }}><Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly /></Box>
+                        </div>
+                    </div>
+                    <div id='list-comment'></div>
+                </div>
+            )
         }
     }
     return (
@@ -236,7 +354,7 @@ export default function MoviesDetail() {
                         </div>
                         <div >
                             <Grid className="content--info tab--child" container spacing={3}>
-                                <Grid className='film--poster' item xs={3}>
+                                <Grid className='film--poster' item xs={4} sm={3}>
                                     <div className="box--card" style={{ backgroundImage: `url(${detailFilm.hinhAnh}), url("../img/default-film.webp")` }}>
                                         <div className="show--hover">
                                             <button onClick={(e) => handleOpenTrailer(detailFilm.trailer, e)} className='play__trailer'>
@@ -245,7 +363,7 @@ export default function MoviesDetail() {
                                         </div>
                                     </div>
                                 </Grid>
-                                <Grid className='film--info' item xs={6}>
+                                <Grid className='film--info' item sx={8} sm={6}>
                                     <div>
                                         <span>{formatDateToVN(detailFilm.ngayKhoiChieu)}</span>
                                     </div>
@@ -253,17 +371,17 @@ export default function MoviesDetail() {
                                         <span>{detailFilm.tenPhim}</span>
                                     </div>
                                     <div>
-                                        <span>{detailFilm.lichChieu ? `${detailFilm.lichChieu[0].thoiLuong} phút - 2D/Digital` : '2D/Digital'}</span>
+                                        <span>{detailFilm.heThongRapChieu.length && detailFilm.heThongRapChieu[0].cumRapChieu.length && detailFilm.heThongRapChieu[0].cumRapChieu[0].lichChieuPhim.length ? `${detailFilm.heThongRapChieu[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong} phút - 2D/Digital` : '2D/Digital'}</span>
                                     </div>
                                 </Grid>
-                                <Grid className='film--avg' item xs={3}>
-                                    <div>
+                                <Grid className='film--avg' item sm={3}>
+                                    <Box component='div' display={{ xs: 'none', sm: 'block' }}>
                                         <div className="border--avg">
                                             <span>{detailFilm.danhGia}</span>
                                         </div>
                                         <CircularProgress size={125} variant="determinate" value={detailFilm.danhGia * 10} />
-                                    </div>
-                                    <Rating name="half-rating-read" defaultValue={parseFloat(detailFilm.danhGia) / 2} precision={0.5} readOnly />
+                                        <Rating name="half-rating-read" defaultValue={parseFloat(detailFilm.danhGia) / 2} precision={0.5} readOnly />
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </div>
@@ -273,7 +391,7 @@ export default function MoviesDetail() {
                             value={value}
                             indicatorColor="primary"
                             textColor="primary"
-                            onChange={handleChange}
+                            onChange={handleChangeTab}
                         >
                             <Tab value="one" label="Lịch chiếu" />
                             <Tab value="two" label="Thông tin" />

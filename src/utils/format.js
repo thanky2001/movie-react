@@ -1,32 +1,20 @@
 
-export function formatDate(date,plusMonth = 0) {
+export function formatDate(date,plusYear = 0) {
     let d = new Date(date),
-        month = '' + (d.getMonth() + 1 + plusMonth),
+        month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = '' + (d.getFullYear());
-    if (parseInt(month) > 0 && parseInt(month) > 12) {
-        year = '' + (d.getFullYear() + 1);
-    }else if (parseInt(month) < 0 && parseInt(month) > -12 ){
-        year = '' + (d.getFullYear() - 1);
-        month = '' + (12 + (plusMonth + d.getMonth() + 1));
-    }
+        year = '' + (d.getFullYear()+ plusYear);
     if (day.length < 2) 
         day = '0' + day;
     if (month.length < 2) 
         month = '0' + month;
     return [day, month, year].join('-');
 };
-export function formatDate2(date,plusMonth = 0) {
+export function formatDate2(date,plusYear = 0) {
     let d = new Date(date),
-        month = '' + (d.getMonth() + 1 + plusMonth),
+        month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = '' + (d.getFullYear());
-    if (parseInt(month) > 0 && parseInt(month) > 12) {
-        year = '' + (d.getFullYear() + 1);
-    }else if (parseInt(month) < 0 && parseInt(month) > -12 ){
-        year = '' + (d.getFullYear() - 1);
-        month = '' + (12 + (plusMonth + d.getMonth() + 1));
-    }
+        year = '' + (d.getFullYear()+plusYear);
     if (day.length < 2) 
         day = '0' + day;
     if (month.length < 2) 

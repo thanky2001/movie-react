@@ -47,7 +47,6 @@ export default function ChildCinemas() {
     }, [showtimeBySystem]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
-
     };
     const getListMoviesByChildCinema = () => {
         const value = showtimeBySystem.lstCumRap[selectedIndex] && showtimeBySystem.lstCumRap[selectedIndex].danhSachPhim;
@@ -61,7 +60,7 @@ export default function ChildCinemas() {
                     <Tooltip placement="right" key={index} title={cinema.tenCumRap} aria-label={index}>
                         <ListItem
                             selected={selectedIndex === index}
-                            onClick={(event) => handleListItemClick(event, index, cinema.danhSachPhim)}>
+                            onClick={(event) => handleListItemClick(event, index)}>
                             <span className='cinema--name'><span className="color--name">{splitString(cinema.tenCumRap)[0]}</span>-{splitString(cinema.tenCumRap)[1]}</span>
                             <span className='cinema--location'>{cinema.diaChi}</span>
                         </ListItem>

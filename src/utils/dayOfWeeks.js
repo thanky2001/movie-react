@@ -30,7 +30,7 @@ export const dayOfWeeks = () => {
                 break;
             }
         let day = '' +date.getDate();
-        let month = '' +date.getMonth();
+        let month = '' + (date.getMonth()+1);
         let fullYear = '' +date.getUTCFullYear();
         if (day.length < 2){
             day = '0' + day;
@@ -38,7 +38,7 @@ export const dayOfWeeks = () => {
         if (month.length < 2){
             month = '0' + month;
         }
-        let obj = {dayName: dayName, day: day,month: month, fullYear: fullYear, date: [day, month, fullYear].join('-')}
+        let obj = {dayName: dayName, day: day,month: month, fullYear: fullYear, date: [fullYear, month, day ].join('-')}
         arrDate.push(obj)
     }
     return arrDate;

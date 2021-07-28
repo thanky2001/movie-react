@@ -126,8 +126,6 @@ color: black ;
 }
 /* sidebar */
 #App {
-    font-family: sans-serif;
-
     /* Give app full page to work with */
     height: 100vh;
 }

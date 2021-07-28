@@ -125,7 +125,7 @@ export default function Movies() {
   const getMoviesByDate = () => {
     let paramGetMovie = '';
     if (index === 'one') {
-      let fromDate = formatDate(new Date(), -5);
+      let fromDate = formatDate(new Date(), -1);
       let toDate = formatDate(new Date());
       paramGetMovie = `maNhom=GP01&soTrang=${page}&soPhanTuTrenTrang=8&tuNgay=${fromDate}&denNgay=${toDate}`;
     }
@@ -146,7 +146,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("../img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button onClick={(e)=>handleOpenTrailer(movie.trailer,e)} className='play__trailer'>
                         <img width={50} src="../img/play-video.png" alt="play" />
@@ -164,7 +164,7 @@ export default function Movies() {
                   </div>
                   <div className="info__film hide--hover">{movie.moTa}</div>
                   <div className="show--hover">
-                    <button className="buy__now">MUA VÉ</button>
+                    <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`} className="buy__now">MUA VÉ</Link>
                   </div>
                 </div>
               </Grid>
@@ -188,7 +188,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("img/default-film.webp")` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("../img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button className='play__trailer' onClick={(e)=>handleOpenTrailer(movie.trailer,e)}>
                         <img width={50} src="../img/play-video.png" alt="play" />
