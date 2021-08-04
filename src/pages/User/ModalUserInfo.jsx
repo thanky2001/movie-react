@@ -10,7 +10,6 @@ const useStyles = makeStyles(() => ({
     root: {
         '& .MuiDialog-paper': {
             margin: '0 !important',
-            minWidth: '400px',
         },
         '& .MuiDialogContent-root:first-child':{
             paddingTop: '0'

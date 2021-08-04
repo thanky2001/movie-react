@@ -1,4 +1,4 @@
-import { ADD_SHOWTIME_FILM_BY_SYSTEM_FAILURE, ADD_SHOWTIME_FILM_BY_SYSTEM_SUCCESS, GET_SHOWTIME_FILM_REQUEST, GET_SHOWTIME_FILM_SUCCESS } from "../constants/cinemas";
+import { ADD_SHOWTIME_FILM_BY_SYSTEM_FAILURE, ADD_SHOWTIME_FILM_BY_SYSTEM_SUCCESS, GET_SHOWTIME_FILM_FAILURE, GET_SHOWTIME_FILM_REQUEST, GET_SHOWTIME_FILM_SUCCESS } from "../constants/cinemas";
 import axiosClient from "../services/axiosClient";
 
 
@@ -14,7 +14,9 @@ export function getShowtimeFilm(idFilm) {
                 payload: {data},
             })
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: GET_SHOWTIME_FILM_FAILURE
+            })
         }
     }
 }

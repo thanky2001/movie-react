@@ -1,10 +1,13 @@
 import {ADD_SHOWTIME_FILM_BY_SYSTEM_FAILURE, ADD_SHOWTIME_FILM_BY_SYSTEM_SUCCESS, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS, GET_SHOWTIME_BY_PARENT_CINEMAS_REQUEST, GET_SHOWTIME_BY_PARENT_CINEMAS_SUCCESS} from "../constants/cinemas";
+import { ADD_LiST_DAY_HOMTOOLS_FAILURE, ADD_LiST_DAY_HOMTOOLS_SUCCESS } from "../constants/movies";
 
 const initialState={
     parentCinemas: null,
     isLoading: false,
     showtimeBySystem: null,
     listStFilm: null,
+    listDay:null, 
+    showtimeByCinema:null,
 }
 
 function cinemasReducer (state = initialState, action) {
@@ -21,6 +24,10 @@ function cinemasReducer (state = initialState, action) {
             return {...state, isLoading: false, listStFilm: action.payload.listStFilm}
         case ADD_SHOWTIME_FILM_BY_SYSTEM_FAILURE:
             return {...state, isLoading: false, listStFilm: null}
+        case ADD_LiST_DAY_HOMTOOLS_SUCCESS:
+            return {...state, isLoading: false, listDay: action.payload.listDay, showtimeByCinema:action.payload.showtimeByCinema}
+        case ADD_LiST_DAY_HOMTOOLS_FAILURE:
+            return {...state, isLoading: false, showtimeByCinema: null,listDay: null}
         default:
             return state;
     }

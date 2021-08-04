@@ -43,11 +43,6 @@ class Header extends Component {
         this.handleScroll(id)
         this.setState({ isOpen: !this.state.isOpen })
     }
-    handleClickDropdown=()=>{
-        this.setState({
-            isShowDropMobile: !this.state.isShowDropMobile
-        })
-    }
     logOut=(e)=>{
         if(e){
             e.currentTarget.parentElement.style.display = "none"
@@ -112,16 +107,7 @@ class Header extends Component {
                                         },
                                     },
                                 }}>
-                                <DropdownItem>Another Action1</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
-                                <DropdownItem>Another Action</DropdownItem>
+                                <DropdownItem>Hồ Chí Minh</DropdownItem>    
                             </DropdownMenu>
                         </Dropdown>
                         {userInfo ? 
@@ -190,16 +176,7 @@ class Header extends Component {
                                             },
                                         },
                                     }}>
-                                    <DropdownItem onClick={this.handleClickDropdown}>Another Action</DropdownItem>
-                                    <DropdownItem> Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
+                                    <DropdownItem >Hồ Chí Minh</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </Nav>

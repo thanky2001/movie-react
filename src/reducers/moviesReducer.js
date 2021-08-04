@@ -1,6 +1,7 @@
 import {
     ADD_LIST_MOVIE_BY_PARENT_CINEMA,
     ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR,
+    GET_SHOWTIME_FILM_FAILURE,
     GET_SHOWTIME_FILM_REQUEST,
     GET_SHOWTIME_FILM_SUCCESS
 } from "../constants/cinemas";
@@ -70,6 +71,8 @@ function moviesReducer(state = initialState, action) {
             return {...state,isLoading: true, detailFilm: null}
         case GET_SHOWTIME_FILM_SUCCESS:
             return {...state, isLoading: false, detailFilm: action.payload.data}
+        case GET_SHOWTIME_FILM_FAILURE:
+            return {...state, detailFilm: null}
         default:
             return state
     }

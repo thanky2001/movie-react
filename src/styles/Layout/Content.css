@@ -8,15 +8,12 @@ html{
 body{
     background-color: #fff;
 }
-.test{
-    height: 400px;
-    padding-top: 60px;
-    display: flex;
-    width: 100%;
+.disable{
+    pointer-events: none;
+    cursor: default;
 }
 /* LoginPage */
 .btn--orange{
-    margin-top: 40px !important;
     background-color: #fb4226 !important;
 }
 .btn--orange:hover {

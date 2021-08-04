@@ -9,6 +9,7 @@ const DetailNews = lazy(() => import('./pages/App/Home/News/DetailNews'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const DetailMovies = lazy(() => import('./pages/App/Home/Movies/MoviesDetail'));
+const BookingTicket = lazy(()=>import('./pages/App/Home/BookingTicket/BookingTicket'));
 function App() {
   return (
     <Suspense fallback = {<div className="loading--component"><ReactLoading type = {"bars"} color = { "#fb4226" } /></div>}>
@@ -36,6 +37,9 @@ function App() {
                       </Route>
                       <Route path="/phim">
                         <DetailMovies/>
+                      </Route>
+                      <Route path="/checkout">
+                        <BookingTicket/>
                       </Route>
                       <Route path="/">
                         <Home/>

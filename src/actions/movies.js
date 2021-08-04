@@ -39,8 +39,7 @@ export function getListMovies(search = '') {
             })
             const listFilmsUpComming =data.filter((film)=>{
                 return (
-                    (+(new Date(film.ngayKhoiChieu)) > +(new Date()))
-                    && (+(new Date(film.ngayKhoiChieu)) <= +(new Date(dateUpComming)))
+                    (+(new Date(film.ngayKhoiChieu)) <= +(new Date(dateUpComming)) && (+(new Date(film.ngayKhoiChieu)) > +(new Date())))
                 )
             })
             let pageCountNow = Math.ceil(listFilmsNow.length / 8);

@@ -4,6 +4,7 @@ import userReducer from "./userReducer";
 import moviesReducer from "./moviesReducer";
 import cinemasReducer from "./cinemasReducer";
 import newsReducer from "./newsReducer";
+import bookingReducer from './bookingReducer'
 
 const rootReducer = combineReducers({
     //Khai báo store con
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     userReducer,
     moviesReducer,
     cinemasReducer,
-    newsReducer
+    newsReducer,
+    bookingReducer
 
 
 });

@@ -204,7 +204,6 @@ export default function MoviesDetail() {
     const classes = useStyles();
     const { detailFilm, isLoading } = useSelector(state => state.moviesReducer);
     const { parentCinemas, listStFilm } = useSelector(state => state.cinemasReducer);
-    console.log(listStFilm);
     const [selectedCinema, setSelectedCinema] = useState(0);
     const [selectedDay, setSelectedDay] = useState(0);
     const [value, setValue] = useState('one');
