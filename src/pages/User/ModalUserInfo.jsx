@@ -1,10 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, TextField } from '@material-ui/core';
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeUserInfo} from '../../actions/user';
+import { useLocation } from 'react-router-dom';
+import { getParamId } from '../../utils/format';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -46,6 +48,9 @@ const useStyles = makeStyles(() => ({
         '& .change__password:hover':{
             color: '#fb4226'
         },
+        '& .admin.change__password:hover':{
+            color: '#3f51b5'
+        },
         '& .btn--orange':{
             marginTop: '0 !important'
         },
@@ -57,6 +62,8 @@ const useStyles = makeStyles(() => ({
 export default function ModalUserInfo(props) {
     const dispatch = useDispatch();
     const {currentUser, isLoading} = useSelector(state => state.userReducer);
+    const {userInfo} = useSelector(state => state.authReducer);
+    const [type, setType] = useState(null)
     const classes = useStyles();
     const [isChangeInfo, setIsChangeInfo] = useState(false);
     const [isChangePassword, setIsChangePassword] = useState(false);
@@ -69,6 +76,16 @@ export default function ModalUserInfo(props) {
         email: '',
         soDT:'',
     });
+    const location = useLocation()
+    useEffect(() => {
+        let type = getParamId(location.pathname).type
+        if (type === 'admin') {
+            handleChangeInfo()
+            setType('admin');
+        }else{
+            setType(null);
+        }
+    }, [location]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleChange=(e)=>{
         let {value, name} = e.target;
         let errorMessage= "";
@@ -109,14 +126,14 @@ export default function ModalUserInfo(props) {
     const handleChangeInfo=()=>{
         setIsChangeInfo(true);
         !isCheck ?
-        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",}) :
-        setValues({...values,maLoaiNguoiDung: "KhachHang",})
+        setValues({...currentUser,maLoaiNguoiDung: userInfo && userInfo.maLoaiNguoiDung,}) :
+        setValues({...values,maLoaiNguoiDung: userInfo && userInfo.maLoaiNguoiDung,})
         setIsCheck(true);
 
     }
     const handleCloseChange=(e)=>{
         e.preventDefault();
-        setIsChangeInfo(false);
+        type !== 'admin' && setIsChangeInfo(false);
         props.handleClose();
         handleCloseChangPassword();
         setIsCheck(false);
@@ -131,13 +148,13 @@ export default function ModalUserInfo(props) {
     const handleChangPassword=()=>{
         setIsChangePassword(true);
         !isCheck ?
-        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",nhapLai:"",matKhauMoi:""}) :
-        setValues({...values,maLoaiNguoiDung: "KhachHang",nhapLai:"",matKhauMoi:""})
+        setValues({...currentUser,maLoaiNguoiDung: userInfo && userInfo.maLoaiNguoiDung,nhapLai:"",matKhauMoi:""}) :
+        setValues({...values,maLoaiNguoiDung: userInfo && userInfo.maLoaiNguoiDung,nhapLai:"",matKhauMoi:""})
         setIsCheck(true);
     }
     const handleCloseChangPassword=()=>{
         setIsChangePassword(false);
-        setValues({...currentUser,maLoaiNguoiDung: "KhachHang",hoTen: values.hoTen, soDT: values.soDT})
+        setValues({...currentUser,maLoaiNguoiDung: userInfo && userInfo.maLoaiNguoiDung,hoTen: values.hoTen, soDT: values.soDT})
         setErrors({...errors,nhapLai:"",matKhauMoi:""})
     }
     const handleSubmit=(e)=>{
@@ -165,7 +182,7 @@ export default function ModalUserInfo(props) {
         }
         if(valid){
             dispatch(changeUserInfo(value,currentUser.matKhau));
-            setIsChangeInfo(false);
+            type !== 'admin' && setIsChangeInfo(false);
             props.handleClose();
             handleCloseChangPassword();
             setIsCheck(false);
@@ -190,7 +207,7 @@ export default function ModalUserInfo(props) {
                 onClose={!isChangeInfo && !isChangePassword ? handleCloseChange : props.showModalUserInfo}
                 aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    Thông tin cá nhân
+                    {type === 'admin' ? 'Sửa thông tin cá nhân' : 'Thông tin cá nhân'}
                     <Fab className={isChangeInfo ? 'd-none' : 'd-block'} onClick={handleChangeInfo} size="small" aria-label="edit">
                         <EditIcon />
                     </Fab>
@@ -235,7 +252,7 @@ export default function ModalUserInfo(props) {
                             defaultValue={currentUser && currentUser.soDT}
                             fullWidth
                         />
-                        <p onClick={handleChangPassword} className={`${ isChangePassword ? 'd-none' : 'd-flex' } change__password`}> Đổi mật khẩu</p>
+                        <p onClick={handleChangPassword} className={`${ isChangePassword ? 'd-none' : 'd-flex' } ${type === 'admin' ? 'admin' : ''} change__password`}> Đổi mật khẩu</p>
                         <div className={isChangePassword ? 'd-block' : 'd-none'}>
                             <TextField
                                 error = {errors.matKhauMoi && errors.matKhauMoi.trim() !=='' ? true : false}
@@ -263,13 +280,13 @@ export default function ModalUserInfo(props) {
                                 fullWidth
                             />
                         </div>
-                        <p onClick={handleCloseChangPassword} className={`${ isChangePassword ? 'd-flex' : 'd-none' } change__password`}> Hủy đổi mật khẩu</p>
+                        <p onClick={handleCloseChangPassword} className={`${ isChangePassword ? 'd-flex' : 'd-none' } ${type === 'admin' ? 'admin' : ''} change__password`}> Hủy đổi mật khẩu</p>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseChange} variant="contained" className="btn--orange">
+                        <Button onClick={handleCloseChange} color= 'primary' variant="contained" className={type==='admin' ? '' : "btn--orange"}>
                             Đóng
                         </Button>
-                        <Button type='submit' variant="contained" className={` ${!isChangeInfo && !isChangePassword ? 'd-none' : 'd-block'} btn--orange`} >
+                        <Button type='submit' variant="contained" color= 'primary' className={` ${!isChangeInfo && !isChangePassword ? 'd-none' : 'd-block'} ${type === 'admin' ? '' : 'btn--orange'}`} >
                             Thay đổi
                         </Button>
                     </DialogActions>

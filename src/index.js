@@ -13,7 +13,9 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootReducer from './reducers/index';
-
+import { BrowserRouter } from 'react-router-dom';
+import { Suspense } from 'react';
+import ReactLoading from 'react-loading';
 //tạo store tổng của redux
 const middleware = applyMiddleware(thunk);
 const enhancer = compose(
@@ -26,7 +28,11 @@ const store = createStore(rootReducer, enhancer);
 ReactDOM.render(
   <React.Fragment>
     <Provider store={store}>
-      <App />
+      <Suspense fallback = {<div className="loading--component"><ReactLoading type = {"bars"} color = { "#fb4226" } /></div>}>
+          <BrowserRouter >
+            <App />
+        </BrowserRouter>
+      </Suspense>
     </Provider>
   </React.Fragment>,
   document.getElementById('root')

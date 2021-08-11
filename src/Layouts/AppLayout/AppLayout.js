@@ -7,11 +7,13 @@ import { withRouter } from 'react-router-dom';
 
 
 export const scrollToTarget = (id) => {
-    if (id) {
-        setTimeout(() =>{
-            document.querySelector(id).scrollIntoView() 
-           }, 500);
-    }
+    setTimeout(() =>{
+        if (window.location.pathname === '/') {
+            if (id) {
+                document.querySelector(id).scrollIntoView()
+            }
+        }
+    }, 500);
 }
 class AppLayout extends Component {
     constructor(props) {

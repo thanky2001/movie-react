@@ -129,7 +129,7 @@
     background: #fb4226 ;
     color: #fff;
 }
-.btn:hover{
+.btn--booking:hover{
     color: #fff;
     background: #fd6638;
 }
@@ -139,7 +139,7 @@
 }
 #checkout{
     position: relative;
-    padding-bottom: 20%;
+    padding-bottom: 60px;
 }
 /* reponsive */
 @media screen and (min-width:960px) and (max-width: 1060px) {
@@ -154,7 +154,7 @@
 }
 @media screen and (max-width: 464px) {
     .list__chair{
-        padding: 0 2%;
+        padding: 20px 2%;
     }
     .list__chair span.chair{
         width: 8.5%;

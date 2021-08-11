@@ -72,6 +72,13 @@ class Header extends Component {
                                 </Link>
                             }
                         </div>
+                        {
+                            currentUser ? 
+                            <NavItem>
+                                <NavLink onClick={(e)=>{e.preventDefault()}} to="/">Vé của tôi</NavLink>
+                            </NavItem> :
+                            ''
+                        }
                         <NavItem>
                             <NavLink onClick={(e)=>this.showSideBar('#lich-chieu',e)} to="/">Lịch Chiếu</NavLink>
                         </NavItem>
@@ -144,6 +151,7 @@ class Header extends Component {
                                         </div>
                                         <div className="user-setting" style={this.state.isShowSetting ? {display: 'block'}: {display: 'none'}}>
                                             <p onClick={showModalUserInfo}>Thông tin</p>
+                                            <p >Vé của tôi</p>
                                             <p onClick={this.logOut}>Đăng xuất</p>
                                         </div>
                                     </div> :

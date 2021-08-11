@@ -21,11 +21,17 @@ export function formatDate2(date,plusYear = 0) {
         month = '0' + month;
     return [year, month, day].join('-');
 };
+export const Capitalize=(str)=>{
+    str = str.replace(/-/gi,' ');
+    str = str.replace(/\b\w/g, l => l.toUpperCase())
+    return str
+    
+}
 export const ToSlug = (str) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();
     //loại bỏ dấu gạch
-    str = str.replace('-', '')
+    str = str.replace(/-/gi,' ')
 
     // xóa dấu
     str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');

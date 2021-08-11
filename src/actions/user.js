@@ -41,7 +41,7 @@ export function changeUserInfo(values,oldPass) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Đổi thông tin thành công',
+                text: 'Đổi thông tin thành công',
                 showConfirmButton: false,
                 timer: 1000
             })
@@ -52,7 +52,7 @@ export function changeUserInfo(values,oldPass) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
-                title: error.response.data,
+                text: error.response.data,
                 showConfirmButton: false,
                 timer: 1000
             })

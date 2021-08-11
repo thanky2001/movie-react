@@ -164,6 +164,14 @@ a.close--wraper{
     border: none;
     width: 70px;
 }
+.dashboard{
+    display: flex;
+    justify-content: center;
+    max-width: 940px;
+}
+.dashboard img{
+    width: 100%;
+}
 /* reponsive */
 @media screen and (max-width: 454px) {
     .login__wraper{

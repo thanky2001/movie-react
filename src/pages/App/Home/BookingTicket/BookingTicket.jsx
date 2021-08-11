@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, makeStyles, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableFooter } from '@material-ui/core';
+import { Grid, makeStyles, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableFooter, CircularProgress } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ReactLoading from 'react-loading';
 import '../home.css';
 import './booking.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Prompt, useHistory, useLocation } from 'react-router-dom';
 import { getListTicketRoom } from '../../../../actions/getListTicketRoom';
 import { getParamId } from '../../../../utils/format';
 import { addChair } from '../../../../actions/addChair';
+import Swal from 'sweetalert2';
+import { postBookingTicket } from '../../../../actions/postBookingTicket';
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -40,6 +42,9 @@ const useStyle = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             '& .content--booking': {
                 maxWidth: '700px'
+            },
+            '& #checkout':{
+                paddingBottom: '60px'
             }
         },
         [theme.breakpoints.up('md')]: {
@@ -99,44 +104,89 @@ const useStyle = makeStyles((theme) => ({
         '& .MuiSvgIcon-root': {
             fill: '#ff1919'
         },
-        
+        '& .MuiCircularProgress-root':{
+            margin: '-1px 13px'
+        }
+
     }
 }))
 export default function BookingTicket() {
     const classes = useStyle();
     const dispatch = useDispatch();
     const location = useLocation();
-    const { isLoading, listChairs } = useSelector(state => state.bookingReducer);
+    const history = useHistory();
+    const { isLoading, listChairs, isReload, isLoadingButton } = useSelector(state => state.bookingReducer);
     const { userInfo } = useSelector(state => state.authReducer);
     const [updateListChairs, setUpdateListChairs] = useState(null);
+    if (updateListChairs && updateListChairs.danhSachVe.length > 0) {
+        window.onbeforeunload = function () {
+            return true;
+        };
+    }else{
+        window.onbeforeunload = null;
+    }
     useEffect(() => {
         let idSt = getParamId(location.pathname).id;
         if (idSt) {
             dispatch(getListTicketRoom(idSt))
         }
-    }, [location]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [location,isReload]) // eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
         setUpdateListChairs({
             maLichChieu: listChairs && listChairs.thongTinPhim.maLichChieu,
             danhSachVe: [],
             taiKhoanNguoiDung: userInfo && userInfo.taiKhoan
         })
-    }, [listChairs && listChairs.thongTinPhim, userInfo]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [listChairs && listChairs.thongTinPhim, userInfo,isReload]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleChooseChair = (stt) => {
-        dispatch(addChair(listChairs, stt));
-        let ic = listChairs.danhSachGhe.findIndex(lc => lc.stt === stt)
-        if (listChairs.danhSachGhe[ic].dangChon) {
-            updateListChairs.danhSachVe.push({
-                maGhe: listChairs.danhSachGhe[ic].maGhe,
-                giaVe: listChairs.danhSachGhe[ic].giaVe,
-                stt: listChairs.danhSachGhe[ic].stt,
-                loaiGhe: listChairs.danhSachGhe[ic].loaiGhe
-            })
-        } else {
-            let i = updateListChairs.danhSachVe.findIndex(ch => ch.stt === stt)
-            if (i !== -1) {
-                updateListChairs.danhSachVe.splice(i, 1);
+        if (userInfo) {
+            dispatch(addChair(listChairs, stt));
+            let ic = listChairs.danhSachGhe.findIndex(lc => lc.stt === stt)
+            if (listChairs.danhSachGhe[ic].dangChon) {
+                updateListChairs.danhSachVe.push({
+                    maGhe: listChairs.danhSachGhe[ic].maGhe,
+                    giaVe: listChairs.danhSachGhe[ic].giaVe,
+                    stt: listChairs.danhSachGhe[ic].stt,
+                    loaiGhe: listChairs.danhSachGhe[ic].loaiGhe
+                })
+            } else {
+                let i = updateListChairs.danhSachVe.findIndex(ch => ch.stt === stt)
+                if (i !== -1) {
+                    updateListChairs.danhSachVe.splice(i, 1);
+                }
             }
+        }else{
+            goToLogin()
+        }
+    }
+    const goToLogin = () => {
+        Swal.fire({
+            title: '<span style="font-size: 25px">Vui lòng đăng nhập để có thể đặt vé</span>',
+            confirmButtonText: 'Đăng nhập',
+            confirmButtonColor: '#fa5238',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                history.push('/login')
+            }
+        })
+    }
+    const handleBookTicket = () => {
+        if (userInfo) {
+            if (updateListChairs && updateListChairs.danhSachVe.length) {
+                Swal.fire({
+                    title: '<span style="font-size: 25px">Vui lòng kiểm tra kỹ trước khi đặt vé!!</span>',
+                    confirmButtonText: 'Đặt vé',
+                    confirmButtonColor: '#fa5238',
+                    showCancelButton: true,
+                    cancelButtonText: 'Hủy bỏ',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        dispatch(postBookingTicket(updateListChairs));
+                    }
+                })
+            }
+        }else{
+            goToLogin()
         }
     }
     return (
@@ -249,16 +299,16 @@ export default function BookingTicket() {
                                                         }
                                                     </TableBody>
                                                     <TableFooter>
-                                                        <TableRow  className='total'>
+                                                        <TableRow className='total'>
                                                             <TableCell><span>Thành tiền:</span></TableCell>
                                                             <TableCell ><span>{
-                                                                updateListChairs && updateListChairs.danhSachVe.length ? 
-                                                                    updateListChairs.danhSachVe.reduce((total,currentValue)=>{
+                                                                updateListChairs && updateListChairs.danhSachVe.length ?
+                                                                    updateListChairs.danhSachVe.reduce((total, currentValue) => {
                                                                         return total + currentValue.giaVe
-                                                                    },0).toLocaleString('it-IT'):
-                                                                0
+                                                                    }, 0).toLocaleString('it-IT') :
+                                                                    0
                                                             }</span></TableCell>
-                                                            <TableCell><button className='btn btn--booking'>Đặt vé</button></TableCell>
+                                                            <TableCell><button onClick={handleBookTicket} className='btn btn--booking'>{isLoadingButton ? <CircularProgress size={20} color='inherit' /> : 'Đặt vé'}</button></TableCell>
                                                         </TableRow>
                                                     </TableFooter>
                                                 </Table>
@@ -272,6 +322,11 @@ export default function BookingTicket() {
                     :
                     <div className="loading--component"><ReactLoading type={"bars"} color={"#fb4226"} /></div>
             }
+            <Prompt
+                when={updateListChairs && updateListChairs.danhSachVe.length > 0}
+                message={
+                    `Có ghế đang được chọn. Bạn muốn rời khỏi?`
+                } />
         </div>
     )
 }

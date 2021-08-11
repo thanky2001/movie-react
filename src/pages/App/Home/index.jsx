@@ -7,7 +7,6 @@ import Cinemas from './Cinemas/Cinemas';
 import News from './News/News';
 
 export default class index extends Component {
-    targetRef = React.createRef();
     render() {
         return (
             <div className="content__wrap">

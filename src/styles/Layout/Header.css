@@ -85,7 +85,7 @@ color: black ;
 .user-setting{
     position: absolute;
     right: 0;
-    width: 120px;
+    min-width: 120px;
     text-align: center;
     color: #fff;
     background: #8a8888e6;
@@ -217,4 +217,23 @@ color: black ;
 /* Styling of overlay */
 .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
+}
+/* admin */
+.custom--link{
+    color: rgba(0, 0, 0, 0.87);
+}
+.custom--link:hover{
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.87);
+}
+.admin-active{
+    background: #3f51b5;
+    display: block;
+    color: #fff;
+}
+.admin-active.custom--link:hover{
+    color: #fff;
+}
+.admin-active .MuiSvgIcon-root{
+    fill: #fff;
 }
