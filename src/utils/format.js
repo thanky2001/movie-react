@@ -1,37 +1,60 @@
-
-export function formatDate(date,plusYear = 0) {
+export function formatDate(date, plusYear = 0) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = '' + (d.getFullYear()+ plusYear);
-    if (day.length < 2) 
+        year = '' + (d.getFullYear() + plusYear);
+    if (day.length < 2)
         day = '0' + day;
-    if (month.length < 2) 
+    if (month.length < 2)
         month = '0' + month;
     return [day, month, year].join('-');
 };
-export function formatDate2(date,plusYear = 0) {
+export function formatDate2(date, plusYear = 0) {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = '' + (d.getFullYear()+plusYear);
-    if (day.length < 2) 
+        year = '' + (d.getFullYear() + plusYear);
+    if (day.length < 2)
         day = '0' + day;
-    if (month.length < 2) 
+    if (month.length < 2)
         month = '0' + month;
     return [year, month, day].join('-');
 };
-export const Capitalize=(str)=>{
-    str = str.replace(/-/gi,' ');
+export function formatDateTime(date) {
+    let dd = '' + date.getDate();
+    let MM = '' + (date.getMonth() + 1);
+    let yyyy = '' + date.getFullYear();
+    let HH = '' + date.getHours();
+    let mm = '' + date.getMinutes();
+    let ss = '' + date.getSeconds();
+    if (MM.length < 2) {
+        MM = '0' + MM
+    }
+    if (dd.length < 2) {
+        dd = '0' + dd
+    }
+    if (HH.length < 2) {
+        HH = '0' + HH
+    }
+    if (mm.length < 2) {
+        mm = '0' + mm
+    }
+    if (ss.length < 2) {
+        ss = '0' + ss
+    }
+    return [[yyyy, MM, dd].join('-'), [HH, mm, ss].join(':')].join('T');
+}
+export const Capitalize = (str) => {
+    str = str.replace(/-/gi, ' ');
     str = str.replace(/\b\w/g, l => l.toUpperCase())
     return str
-    
+
 }
 export const ToSlug = (str) => {
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();
     //loại bỏ dấu gạch
-    str = str.replace(/-/gi,' ')
+    str = str.replace(/-/gi, ' ')
 
     // xóa dấu
     str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
@@ -57,32 +80,35 @@ export const ToSlug = (str) => {
     // return
     return str;
 }
-export const getEmbedId=(str)=>{
+export const getEmbedId = (str) => {
     if (str.lastIndexOf('https://youtu.be/') !== -1) {
         str = str.replace('https://youtu.be/', '');
-    }else if(str.lastIndexOf('https://www.youtube.com/embed/') !== -1 ){
-        str = str.replace('https://www.youtube.com/embed/','')
-    }else {
-        str = str.replace('https://www.youtube.com/watch?v=','')
+    } else if (str.lastIndexOf('https://www.youtube.com/embed/') !== -1) {
+        str = str.replace('https://www.youtube.com/embed/', '')
+    } else {
+        str = str.replace('https://www.youtube.com/watch?v=', '')
     }
     return str
 }
-export const splitString = (str)=>{
+export const splitString = (str) => {
     let sp = str.split('-')
     return sp;
 }
-export const splitDateString = (time)=>{
+export const splitDateString = (time) => {
     let date = time.split('T')
     return date;
 }
-export const formatDateToVN = (time)=>{
+export const formatDateToVN = (time) => {
     let date = time.split('T')
     date = date[0].split('-')
-    return [date[2],date[1],date[0]].join('.');
+    return [date[2], date[1], date[0]].join('-');
 }
 export const getParamId = (url) => {
     let type = url.split('/')[1] && url.split('/')[1];
     let id = url.split('/')[2] && url.split('/')[2];
     id = id && id.split('-')[0];
-    return {id: id, type: type};
+    return {
+        id: id,
+        type: type
+    };
 }

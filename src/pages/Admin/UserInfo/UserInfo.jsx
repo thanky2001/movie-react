@@ -66,23 +66,23 @@ export default function UserInfo() {
                     <div className='info__admin--content '>
                         <p>
                             <span className='title--content'>Tài khoản</span>
-                            <span className='info--content'>{currentUser.taiKhoan}</span>
+                            <span className='info--content'>: {currentUser.taiKhoan}</span>
                         </p>
                         <p>
                             <span className='title--content'>Họ và tên</span>
-                            <span className='info--content'>{currentUser.hoTen}</span>
+                            <span className='info--content'>: {currentUser.hoTen}</span>
                         </p>
                         <p>
                             <span className='title--content'>Số điện thoại</span>
-                            <span className='info--content'>{currentUser.soDT}</span>
+                            <span className='info--content'>: {currentUser.soDT}</span>
                         </p>
                         <p>
                             <span className='title--content'>Email</span>
-                            <span className='info--content'>{currentUser.email}</span>
+                            <span className='info--content'>: {currentUser.email}</span>
                         </p>
                     </div>
                 </Paper >
-                <ModalUserInfo handleClose={closeModaleUserInfo} showModalUserInfo={showModalUserInfo} open={isShowEditUserModal}/>
+                <ModalUserInfo handleClose={closeModaleUserInfo} open={isShowEditUserModal}/>
             </div>
             :
             <div className="loading--component"><ReactLoading type={"bars"} color={"#fb4226"} /></div>

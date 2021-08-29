@@ -1,5 +1,5 @@
 import { Switch, Route, useLocation } from "react-router-dom";
-import { lazy, useEffect } from "react";
+import { lazy, useEffect} from "react";
 import AppLayout from "./Layouts/AppLayout/AppLayout";
 import { Capitalize, getParamId } from "./utils/format";
 import AdminLayout from "./Layouts/AdminLayout/AdminLayout";
@@ -14,13 +14,14 @@ const BookingTicket = lazy(()=>import('./pages/App/Home/BookingTicket/BookingTic
 const Dashboard = lazy(()=>import('./pages/Admin/Dashboard/Index'));
 const UserInfo = lazy(()=>import('./pages/Admin/UserInfo/UserInfo'));
 const UserManager = lazy(()=>import('./pages/Admin/UserManager/UserManager'));
+const FilmsManager = lazy(()=>import('./pages/Admin/FilmsManager/FilmsManager'));
 function App() {
   const location = useLocation();
   useEffect(() => {
     let type = getParamId(location.pathname).type
     if (type === 'admin') {
       let tt = location.pathname.split('/')[2] ? location.pathname.split('/')[2] : location.pathname.split('/')[1];
-      document.title = 'Movie - '+ Capitalize(tt);
+      document.title = 'Admin - '+ Capitalize(tt);
     }else if(type === ''){
       document.title = 'Movie - Trang Chu';
     }else{
@@ -44,6 +45,9 @@ function App() {
               </Route>
               <Route path='/admin/quan-ly-nguoi-dung'>
                 <UserManager/>
+              </Route>
+              <Route path='/admin/quan-ly-phim'>
+                <FilmsManager/>
               </Route>
               <Route path='/admin'>
                 <Dashboard/>

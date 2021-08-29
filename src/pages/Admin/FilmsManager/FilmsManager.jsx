@@ -1,31 +1,25 @@
+import {
+    Button, Hidden, makeStyles, InputBase, Paper, TableContainer, Table, TableHead, TableRow,
+    TableBody, IconButton, TableCell, TablePagination, MenuItem, ListItemText, ListItemIcon, Menu,
+    withStyles, Tooltip
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { getHeight } from '../../../utils/size';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Button, Hidden, IconButton, Menu, MenuItem, TablePagination, withStyles, ListItemIcon, ListItemText, InputBase } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import '../admin.css'
-import { getListUser } from '../../../actions/getListUser';
-import EditIcon from '@material-ui/icons/Edit';
-import ReactLoading from 'react-loading';
 import AddIcon from '@material-ui/icons/Add';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddUserModal from '../../User/AddUserModal';
-import EditUserModal from '../../User/EditUserModal';
-import { getListTypeUser } from '../../../actions/getListTypeUser';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
+import { debounce } from 'lodash-es';
+import ReactLoading from 'react-loading';
+import '../admin.css';
 import Swal from 'sweetalert2';
-import { deleteUser } from '../../../actions/user';
-import { debounce } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteFilm, getPagingListMovies } from '../../../actions/movies';
+import { formatDateToVN } from '../../../utils/format';
+import AddFilmModal from '../../Components/Modal/AddFilmModal';
+import EditFilmModal from '../../Components/Modal/EditFilmModal';
 import { StyledTableRow } from '../../Components/CustomElement/StyledTableRow';
-
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: '4px 4px',
@@ -36,11 +30,20 @@ const useStyles = makeStyles((theme) => ({
             fill: '#a2a2a2'
         }
     },
+    button: {
+        textTransform: 'unset',
+        [theme.breakpoints.down('xs')]: {
+            padding: 0,
+            '& .MuiButton-endIcon': {
+                margin: 0
+            }
+        }
+    },
     table: {
         minWidth: 650,
         '& tr th, & tr td': {
             whiteSpace: 'nowrap',
-        }
+        },
     },
     contentTable: {
         height: 'calc(100% - 52px)',
@@ -61,20 +64,21 @@ const useStyles = makeStyles((theme) => ({
             }
         }
     },
-    button: {
-        textTransform: 'unset',
-        [theme.breakpoints.down('xs')]: {
-            padding: 0,
-            '& .MuiButton-endIcon': {
-                margin: 0
-            }
-        }
-    },
     input: {
         marginLeft: theme.spacing(1),
         flex: 1,
-    }
+    },
 }));
+
+const StyledTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: '#f5f5f9',
+        color: 'rgba(0, 0, 0, 0.87)',
+        maxWidth: 240,
+        fontSize: theme.typography.pxToRem(14),
+        border: '1px solid #dadde9',
+    },
+}))(Tooltip);
 const StyledMenu = withStyles({
     paper: {
         border: '1px solid #d3d4d5',
@@ -98,7 +102,7 @@ const StyledMenu = withStyles({
     />
 ));
 const height = getHeight() - 56;
-export default function UserManager() {
+export default function FilmsManager() {
     const classes = useStyles();
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(1);
@@ -108,13 +112,12 @@ export default function UserManager() {
     const [info, setInfo] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const dispatch = useDispatch()
-    const { listUser, isLoading, isReload } = useSelector(state => state.userReducer);
+    const { listMovies, isLoading, isReload } = useSelector(state => state.moviesReducer);
+
     useEffect(() => {
-        dispatch(getListUser(rowsPerPage, page, valueSearch))
+        dispatch(getPagingListMovies(rowsPerPage, page, valueSearch))
     }, [rowsPerPage, page, isReload, valueSearch]) // eslint-disable-line react-hooks/exhaustive-deps
-    useEffect(() => {
-        dispatch(getListTypeUser());
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage + 1);
     };
@@ -122,12 +125,10 @@ export default function UserManager() {
         setRowsPerPage(event.target.value);
         setPage(1);
     };
-
     const handleClickAction = (event, info) => {
         setInfo(info);
         setAnchorEl(event.currentTarget);
     };
-
     const handleCloseAction = () => {
         setAnchorEl(null);
     };
@@ -144,29 +145,28 @@ export default function UserManager() {
     const handleCloseEditModal = () => {
         setIsOpenEditModal(false)
     }
-    const handleDeleteUser = () => {
+    const handleDeleteFilm = () => {
         handleCloseAction();
         Swal.fire({
-            title: '<span style="font-size: 20px">Bạn có chắc chắn xóa người dùng này</span>',
+            title: '<span style="font-size: 20px">Bạn có chắc chắn xóa phim này</span>',
             confirmButtonText: 'Xóa',
             confirmButtonColor: '#fa5238',
             showCancelButton: true,
             cancelButtonText: 'Hủy bỏ',
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(deleteUser(info.taiKhoan))
+                dispatch(deleteFilm(info.maPhim))
             }
         })
     }
-    const delaySearch = debounce((search) => {setValueSearch(search);setPage(1);}, 500)
+    const delaySearch = debounce((search) => { setValueSearch(search); setPage(1); }, 500)
     const handleChangeValuesSearch = (e) => {
         delaySearch(e.target.value);
     }
     return (
-
         <div>
             <div className='admin--title'>
-                <span> Người dùng </span>
+                <span> Phim </span>
                 <Hidden xsDown>
                     <Paper component="form" className={classes.root}>
                         <SearchIcon />
@@ -195,25 +195,37 @@ export default function UserManager() {
                     <Table className={classes.table} stickyHeader aria-label="caption table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Tài khoản</TableCell>
-                                <TableCell align="right">Tên người dùng</TableCell>
-                                <TableCell align="right">Email</TableCell>
-                                <TableCell align="right">Số điện thoại</TableCell>
-                                <TableCell align="right">Chức vụ</TableCell>
+                                <TableCell>Phim</TableCell>
+                                <TableCell align="right">Mã phim</TableCell>
+                                <TableCell align="right">Trailer</TableCell>
+                                <TableCell align="right">Nội dung</TableCell>
+                                <TableCell align="right">Ngày công chiếu</TableCell>
                                 <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody >
+                        <TableBody>
                             {!isLoading ?
-                                listUser && listUser.items.length ? listUser.items.map((row, index) => (
+                                listMovies && listMovies.items.length ? listMovies.items.map((row, index) => (
                                     <StyledTableRow key={index}>
-                                        <TableCell component="th" scope="row">
-                                            {row.taiKhoan}
+                                        <TableCell scope="row">
+                                            <div className='name--film'>
+                                                <div className='img--film'><img src={row.hinhAnh} alt='   ' /></div>
+                                                <StyledTooltip placement="bottom-start" title={row.tenPhim}>
+                                                    <span className='hidden--text'>{row.tenPhim}</span>
+                                                </StyledTooltip>
+
+                                            </div>
                                         </TableCell>
-                                        <TableCell align="right">{row.hoTen}</TableCell>
-                                        <TableCell align="right">{row.email}</TableCell>
-                                        <TableCell align="right">{row.soDt}</TableCell>
-                                        <TableCell align="right">{row.maLoaiNguoiDung}</TableCell>
+                                        <TableCell align="right">{row.maPhim}</TableCell>
+                                        <TableCell className='hidden--text' align="right"><a target="_blank" rel="noreferrer" href={row.trailer} >{row.trailer}</a></TableCell>
+                                        <TableCell className='hidden--text mw-250' align="right">
+                                            <StyledTooltip placement="bottom-start" title={row.moTa}>
+                                                <span>
+                                                    {row.moTa}
+                                                </span>
+                                            </StyledTooltip>
+                                        </TableCell>
+                                        <TableCell align="right">{formatDateToVN(row.ngayKhoiChieu)}</TableCell>
                                         <TableCell align="right">
                                             <IconButton
                                                 aria-label="more"
@@ -235,7 +247,7 @@ export default function UserManager() {
                                                     </ListItemIcon>
                                                     <ListItemText primary="Sửa" />
                                                 </MenuItem>
-                                                <MenuItem onClick={handleDeleteUser}>
+                                                <MenuItem onClick={handleDeleteFilm}>
                                                     <ListItemIcon>
                                                         <DeleteIcon fontSize="small" />
                                                     </ListItemIcon>
@@ -249,20 +261,20 @@ export default function UserManager() {
                                         <TableCell style={{ textAlign: 'center', borderBottom: 0 }} colSpan={6}>Không có dữ liệu...</TableCell>
                                     </TableRow>
                                 :
-                                    <TableRow>
-                                        <TableCell style={{ padding: '0 50%', borderBottom: 0 }} colSpan={6}><ReactLoading type={"bars"} color={"#fb4226"} /></TableCell>
-                                    </TableRow>
+                                <TableRow>
+                                    <TableCell style={{ padding: '0 50%', borderBottom: 0 }} colSpan={6}><ReactLoading type={"bars"} color={"#fb4226"} /></TableCell>
+                                </TableRow>
                             }
                         </TableBody>
                     </Table>
                 </TableContainer>
                 {
-                    listUser ?
+                    listMovies ?
                         <TablePagination
                             className={classes.paginationTable}
                             rowsPerPageOptions={[10, 20, 50]}
                             component="div"
-                            count={listUser.totalCount}
+                            count={listMovies.totalCount}
                             rowsPerPage={rowsPerPage}
                             page={page - 1}
                             onPageChange={handleChangePage}
@@ -271,8 +283,8 @@ export default function UserManager() {
                         ''
                 }
             </Paper>
-            <AddUserModal open={isOpenAddModal} handleClose={handleCloseAddModal} />
-            <EditUserModal open={isOpenEditModal} handleClose={handleCloseEditModal} infoEdit={info} />
+            <AddFilmModal open={isOpenAddModal} handleClose={handleCloseAddModal} />
+            <EditFilmModal open={isOpenEditModal} handleClose={handleCloseEditModal} info={info} />
         </div>
     )
 }

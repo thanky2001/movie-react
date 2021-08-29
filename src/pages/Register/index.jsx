@@ -36,7 +36,7 @@ export default function Index() {
         taiKhoan: '',
         matKhau: '',
         nhapLai: '',
-        maNhom: "GP01",
+        maNhom: "GP14",
         maLoaiNguoiDung: "KhachHang",
         hoTen: '',
         email: '',

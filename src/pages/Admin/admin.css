@@ -7,16 +7,17 @@ h4{
 .admin--title{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 17px;
     font-size: 22px;
     font-weight: 600;
-    padding: 20px 0;
+    padding: 0 0 20px 0;
 }
 .admin--title button span{
     color: #fff;
 }
 .info__admin{
-    height: calc(100% - 80px);
+    height: calc(100% - 60px);
     display: flex;
     align-items: center;
 }
@@ -36,6 +37,60 @@ h4{
 }
 .info__admin--content p{
     display: flex;
+}
+ tbody .MuiTableCell-root{
+    padding: 0 16px
+}
+.hidden--text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+.name--film{
+    display: flex;
+    align-items: center;
+}
+.name--film span{
+    padding-left: 10px;
+    max-width: 130px;
+}
+
+.name--film .img--film{
+    width: 40px;
+    height: 40px;
+    background-image: url('../../assets/img/default-film.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.name--film .img--film img{
+    width: 100%;
+    height: 100%;
+}
+.mw-250{
+    max-width: 250px;
+}
+.upload--img{
+    display: flex;
+}
+.upload--img input{
+    padding-top: 23px;
+    cursor: pointer;
+}
+.upload--img .show--img{
+    height: 48px;
+    width: 40px;
+    padding-top: 8px;
+}
+.upload--img .show--img img{
+    vertical-align: unset;
+    width: 100%;
+    height: 100%;
+}
+.error label{
+    color: rgb(244, 67, 54);
+}
+.error textarea{
+    border: 1px solid rgb(244, 67, 54);
 }
 @media screen and (max-width: 700px){
     .info__admin--content .title--content{
@@ -58,5 +113,18 @@ h4{
     }
     .info__admin--content .info--content{
         width: 50%;
+    }
+    .MuiTablePagination-caption:first-of-type{
+        display: none;
+    }
+    .admin--title{
+        align-items: unset;
+    }
+    .upload--img {
+        display: block;
+    }
+    .upload--img .show--img{
+        height: 68px;
+        width: 60px;
     }
 }

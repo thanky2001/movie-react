@@ -4,12 +4,6 @@
     width: 100%;
     padding-top: 30px;
 }
-.tab--child{
-    width: 100%;
-    max-width: 940px;
-    margin: auto;
-    padding: 0 10px;
-}
 .tab--child-table{
     display: table;
 }
@@ -188,9 +182,6 @@ a.buy__now:hover{
     scrollbar-width: thin;
     overflow-y: auto;
     overflow-x: hidden;
-}
-.MuiTableContainer-root{
-    scrollbar-width: thin;
 }
 #list-cinemas, #list-day-of-week{
     float: left;
@@ -409,18 +400,6 @@ span.cinema--location{
 }
 .col--news--detail:nth-child(5n+3) .news--summary, .col--news--detail:nth-child(5n+4) .news--summary, .col--news--detail:nth-child(5n+5) .news--summary{
     display: none;
-}
-.MuiTableContainer-root::-webkit-scrollbar ,#list-day-of-week::-webkit-scrollbar, #list-movies::-webkit-scrollbar, #list-cinemas::-webkit-scrollbar, #parent-cinemas::-webkit-scrollbar {
-    width: 8px;
-}
-.MuiTableContainer-root::-webkit-scrollbar-track, #list-day-of-week::-webkit-scrollbar-track, #list-movies::-webkit-scrollbar-track, .time::-webkit-scrollbar-track, #list-cinemas::-webkit-scrollbar-track, #parent-cinemas::-webkit-scrollbar-track {
-    background: rgba(243, 241, 241, 0.849);
-}
-.MuiTableContainer-root::-webkit-scrollbar-thumb, #list-day-of-week::-webkit-scrollbar-thumb, #list-movies::-webkit-scrollbar-thumb,.time::-webkit-scrollbar-thumb, #list-cinemas::-webkit-scrollbar-thumb, #parent-cinemas::-webkit-scrollbar-thumb {
-    background: rgba(192, 191, 191, 0.842); 
-}
-.time::-webkit-scrollbar{
-    height: 8px;
 }
 .message{
     width: 100%;

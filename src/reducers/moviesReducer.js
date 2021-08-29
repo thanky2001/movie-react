@@ -6,12 +6,17 @@ import {
     GET_SHOWTIME_FILM_SUCCESS
 } from "../constants/cinemas";
 import {
+    ADD_FILM_SUCCESS,
+    DELETE_FILM_SUCCESS,
+    EDIT_FILM_SUCCESS,
     GET_MOVIES_BY_DATE_FAILURE,
     GET_MOVIES_BY_DATE_REQUEST,
     GET_MOVIES_BY_DATE_SUCCESS,
     GET_MOVIES_LIST_FAILURE,
     GET_MOVIES_LIST_REQUEST,
-    GET_MOVIES_LIST_SUCCESS
+    GET_MOVIES_LIST_SUCCESS,
+    GET_PAGING_LIST_MOVIES_REQUEST,
+    GET_PAGING_LIST_MOVIES_SUCCESS
 } from "../constants/movies";
 
 
@@ -26,6 +31,8 @@ const initialState = {
     pageCountUpComming: 1,
     errorListFilm: null,
     detailFilm: null,
+    listMovies: null, 
+    isReload: false,
 };
 
 function moviesReducer(state = initialState, action) {
@@ -68,11 +75,21 @@ function moviesReducer(state = initialState, action) {
                 ...state, ListMoviesByParentCinemas: null
             };
         case GET_SHOWTIME_FILM_REQUEST:
-            return {...state,isLoading: true, detailFilm: null}
+            return {...state, detailFilm: null}
         case GET_SHOWTIME_FILM_SUCCESS:
             return {...state, isLoading: false, detailFilm: action.payload.data}
         case GET_SHOWTIME_FILM_FAILURE:
             return {...state, detailFilm: null}
+        case GET_PAGING_LIST_MOVIES_REQUEST:
+            return {...state, isLoading: true};
+        case GET_PAGING_LIST_MOVIES_SUCCESS:
+            return {...state, isLoading: false, listMovies: action.payload.data};
+        case ADD_FILM_SUCCESS:
+            return {...state, isReload: !state.isReload};
+        case EDIT_FILM_SUCCESS:
+            return {...state, isReload: !state.isReload};
+        case DELETE_FILM_SUCCESS:
+            return {...state, isReload: !state.isReload};
         default:
             return state
     }

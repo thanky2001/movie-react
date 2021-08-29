@@ -6,6 +6,7 @@ import { useState } from 'react';
 import SiderBar from '../../components/Admin/SiderBar/SiderBar';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import {ToastContainer} from 'react-toastify'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminLayout(props) {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = useState(false);
+    // const [openToast, setOpenToast] = useState(false);
     const {userInfo} = useSelector(state => state.authReducer);
     const history = useHistory();
     const handleDrawerToggle = () => {
@@ -33,15 +35,18 @@ export default function AdminLayout(props) {
         history.push('/login')
     }
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <Header handleDrawerToggle = {handleDrawerToggle} />
-            <SiderBar mobileOpen = {mobileOpen} handleDrawerToggle = {handleDrawerToggle}/>
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {props.children}
-            </main>
-        </div>
+        <>
+            <div className={classes.root}>
+                <CssBaseline />
+                <Header handleDrawerToggle = {handleDrawerToggle} />
+                <SiderBar mobileOpen = {mobileOpen} handleDrawerToggle = {handleDrawerToggle}/>
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    {props.children}
+                </main>
+            </div>
+        <ToastContainer theme='colored' autoClose={3000} position="bottom-left"/>
+        </>
     );
 }
 

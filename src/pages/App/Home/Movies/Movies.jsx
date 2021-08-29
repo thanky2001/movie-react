@@ -127,12 +127,12 @@ export default function Movies() {
     if (index === 'one') {
       let fromDate = formatDate(new Date(), -1);
       let toDate = formatDate(new Date());
-      paramGetMovie = `maNhom=GP01&soTrang=${page}&soPhanTuTrenTrang=8&tuNgay=${fromDate}&denNgay=${toDate}`;
+      paramGetMovie = `maNhom=GP14&soTrang=${page}&soPhanTuTrenTrang=8&tuNgay=${fromDate}&denNgay=${toDate}`;
     }
     else if (index === 'two') {
       let fromDate = formatDate(new Date());
       let toDate = formatDate(new Date(), 1);
-      paramGetMovie = `maNhom=GP01&soTrang=${page}&soPhanTuTrenTrang=8&tuNgay=${fromDate}&denNgay=${toDate}`;
+      paramGetMovie = `maNhom=GP14&soTrang=${page}&soPhanTuTrenTrang=8&tuNgay=${fromDate}&denNgay=${toDate}`;
     }
     dispatch(getListMoviesByDate(paramGetMovie))
   }

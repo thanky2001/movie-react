@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
 import TheatersIcon from '@material-ui/icons/Theaters';
-import VideocamIcon from '@material-ui/icons/Videocam';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
@@ -139,16 +139,16 @@ export default function SiderBar(props) {
                     <ListItemText primary='Quản lý phim' />
                 </LinkCustom>
                 <LinkCustom
-                    to="/admin/quan-ly-rap"
+                    to="/admin/quan-ly-lich-chieu"
                 >
-                    <ListItemIcon><VideocamIcon /></ListItemIcon>
-                    <ListItemText primary='Quản lý rạp chiếu ' />
+                    <ListItemIcon><CalendarTodayIcon /></ListItemIcon>
+                    <ListItemText primary='Quản lý lịch chiếu ' />
                 </LinkCustom>
                 <LinkCustom
                     to="/admin/quan-ly-dat-ve"
                 >
                     <ListItemIcon><LocalOfferIcon /></ListItemIcon>
-                    <ListItemText primary='Quản lý đặt vé' />
+                    <ListItemText primary='Danh sách đặt vé' />
                 </LinkCustom>
             </List>
         </div>

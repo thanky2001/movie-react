@@ -7,7 +7,7 @@ export function getShowtimeByParentCinemas(value) {
             type: GET_SHOWTIME_BY_PARENT_CINEMAS_REQUEST
         })
         try {
-            const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${value}&maNhom=GP01`)
+            const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${value}&maNhom=GP14`)
             dispatch({
                 type: GET_SHOWTIME_BY_PARENT_CINEMAS_SUCCESS,
                 payload: {data}
