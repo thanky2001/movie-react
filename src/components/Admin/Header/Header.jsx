@@ -90,7 +90,7 @@ export default function Header(props) {
                             currentUser &&
                             <div className="nav-link" style={{ color: '#fff' }}>
                                 <div>
-                                    <img src="../img/avatar.png" alt="user" />
+                                    <img src="../../img/avatar.png" alt="user" />
                                 </div>
                                 <div className="user-setting" style={isShowSetting ? { display: 'block' } : { display: 'none' }}>
                                     <p>{currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}</p>
@@ -106,7 +106,7 @@ export default function Header(props) {
                             currentUser &&
                             <div className="nav-link" style={{ color: '#fff' }}>
                                 <div>
-                                    <img src="../img/avatar.png" alt="user" />
+                                    <img src="../../img/avatar.png" alt="user" />
                                     {currentUser.hoTen === '' ? currentUser.taiKhoan : currentUser.hoTen}
                                 </div>
                                 <div className="user-setting" style={isShowSetting ? { display: 'block' } : { display: 'none' }}>

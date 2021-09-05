@@ -27,6 +27,7 @@ const initialState = {
     isLoading: false,
     errorlistMoviesByDate: null,
     listFilmsNow: null,
+    listFilmsCreateCalendar: null,
     pageCountNow: 1,
     pageCountUpComming: 1,
     errorListFilm: null,
@@ -55,10 +56,11 @@ function moviesReducer(state = initialState, action) {
             };
         case GET_MOVIES_LIST_SUCCESS:
             return {
-                ...state,
-                isLoading: false,
+                    ...state,
+                    isLoading: false,
                     errorListFilm: null,
                     listFilmsNow: action.payload.listFilmsNow,
+                    listFilmsCreateCalendar: action.payload.listFilmsCreateCalendar,
                     pageCountNow: action.payload.pageCountNow,
                     pageCountUpComming: action.payload.pageCountUpComming,
             };

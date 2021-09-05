@@ -170,7 +170,7 @@ export default function Movies() {
               </Grid>
             )
           }) :
-            <div className="loading--component" style={{ paddingBottom: '80%' }}><ReactLoading type={"bars"} color={"#fb4226"} /></div>
+            <div className="loading--component" style={{ paddingBottom: '80%' }}>Không có phim đang được chiếu</div>
       )
     } else if (index === 'two') {
       let listMovies = listMoviesByDate && listMoviesByDate.filter((movie) => {
@@ -205,7 +205,7 @@ export default function Movies() {
               </Grid>
             )
           }) :
-            <div className="loading--component" style={{ paddingBottom: '80%' }}><ReactLoading type={"bars"} color={"#fb4226"} /></div>
+            <div className="loading--component" style={{ paddingBottom: '80%' }}>Sắp tới không có phim được chiếu</div>
       )
     }
   }

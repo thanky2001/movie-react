@@ -18,16 +18,16 @@ export function getParentCinemas() {
         }
     }
 }
-export function addListMoviesByParentCinemas(value) {
+export function addListMoviesByParentCinemas(value, date='2019-01-09') {
     let data = [];
     if (value) {
         for (let i = 0; i < value.length; i++) {
             const element = value[i];
             const a = element.lstLichChieuTheoPhim.filter((lst)=>{
                 return (
-                    new Date(lst.ngayChieuGioChieu).getDate() === new Date('2019-01-01').getDate() &&
-                    new Date(lst.ngayChieuGioChieu).getMonth() === (new Date('2019-01-01').getMonth()) &&
-                    new Date(lst.ngayChieuGioChieu).getFullYear() === new Date('2019-01-01').getFullYear()
+                    new Date(lst.ngayChieuGioChieu).getDate() === new Date(date).getDate() &&
+                    new Date(lst.ngayChieuGioChieu).getMonth() === (new Date(date).getMonth()) &&
+                    new Date(lst.ngayChieuGioChieu).getFullYear() === new Date(date).getFullYear()
                 )
             })
             if(a.length){

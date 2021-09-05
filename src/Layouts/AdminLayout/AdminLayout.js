@@ -5,8 +5,9 @@ import Header from '../../components/Admin/Header/Header';
 import { useState } from 'react';
 import SiderBar from '../../components/Admin/SiderBar/SiderBar';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {ToastContainer} from 'react-toastify'
+import SystemCinemas from '../../components/Admin/SiderBar/SystemCinemas';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,6 +29,7 @@ export default function AdminLayout(props) {
     // const [openToast, setOpenToast] = useState(false);
     const {userInfo} = useSelector(state => state.authReducer);
     const history = useHistory();
+    const location = useLocation();
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -39,7 +41,11 @@ export default function AdminLayout(props) {
             <div className={classes.root}>
                 <CssBaseline />
                 <Header handleDrawerToggle = {handleDrawerToggle} />
-                <SiderBar mobileOpen = {mobileOpen} handleDrawerToggle = {handleDrawerToggle}/>
+                {
+                    location.pathname.split('/')[2] && location.pathname.split('/')[2] === 'quan-ly-lich-chieu' ?
+                        <SystemCinemas mobileOpen = {mobileOpen} handleDrawerToggle = {handleDrawerToggle}/> :
+                        <SiderBar mobileOpen = {mobileOpen} handleDrawerToggle = {handleDrawerToggle}/> 
+                }
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {props.children}

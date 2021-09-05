@@ -43,11 +43,12 @@ export function getListMovies(search = '') {
                     (+(new Date(film.ngayKhoiChieu)) <= +(new Date(dateUpComming)) && (+(new Date(film.ngayKhoiChieu)) > +(new Date())))
                 )
             })
+            let listFilmsCreateCalendar = listFilmsNow.concat(listFilmsUpComming);
             let pageCountNow = Math.ceil(listFilmsNow.length / 8);
             let pageCountUpComming = Math.ceil(listFilmsUpComming.length / 8);
             dispatch({
                 type: GET_MOVIES_LIST_SUCCESS,
-                payload: {listFilmsNow,pageCountNow, pageCountUpComming}
+                payload: {listFilmsNow, listFilmsCreateCalendar, pageCountNow, pageCountUpComming}
             })
         }
         catch (error){

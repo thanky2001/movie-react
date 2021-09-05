@@ -63,21 +63,26 @@ export default function EditFilmModal(props) {
     const classes = useStyles();
     const [isBlur, setIsBlur] = useState(null);
     const [image, setImage] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date())
     const dispatch = useDispatch();
     const { info } = props;
     useEffect(() => {
         if (info) {
             formik.setValues({ ...info});
+            setSelectedDate(info.ngayKhoiChieu)
         }
     }, [info]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if (selectedDate) {
+            let d = formatDate(selectedDate);
+            formik.setValues({ ...formik.values, ngayKhoiChieu: d });
+        }
+    }, [selectedDate]) // eslint-disable-line react-hooks/exhaustive-deps
     const validationSchema = yup.object({
         tenPhim: yup
             .string('')
             .required('Không được để trống'),
         trailer: yup
-            .string('')
-            .required('Không được để trống'),
-        ngayKhoiChieu: yup
             .string('')
             .required('Không được để trống'),
         moTa: yup
@@ -92,7 +97,7 @@ export default function EditFilmModal(props) {
             hinhAnh: {},
             moTa: '',
             maNhom: 'GP14',
-            ngayKhoiChieu: formatDate(new Date()),
+            ngayKhoiChieu: '',
             danhGia: 8,
         },
         validationSchema: validationSchema,
@@ -116,10 +121,6 @@ export default function EditFilmModal(props) {
             setImage(img);
         }
     }
-    const onDateChange = (date) => {
-        let d = formatDate(date);
-        formik.setValues({ ...formik.values, ngayKhoiChieu: d });
-    }
     return (
         <div >
             <Dialog
@@ -137,7 +138,6 @@ export default function EditFilmModal(props) {
                             name="tenPhim"
                             label="Tên phim"
                             value={formik.values.tenPhim}
-
                             onBlur={() => { setIsBlur('tenPhim'); formik.setValues({ ...formik.values, biDanh: ToSlug(formik.values.tenPhim) }) }}
                             onChange={formik.handleChange}
                             error={(formik.touched.tenPhim && Boolean(formik.errors.tenPhim)) || (isBlur === 'tenPhim' && Boolean(formik.errors.tenPhim)) || (Boolean(formik.values.tenPhim) && Boolean(formik.errors.tenPhim))}
@@ -149,11 +149,9 @@ export default function EditFilmModal(props) {
                                 ampm={true}
                                 name="ngayKhoiChieu"
                                 label="Ngày khởi chiếu"
-                                format="MM/dd/yyyy"
-                                onChange={onDateChange}
-                                value={new Date(formik.values.ngayKhoiChieu)}
-                                error={(formik.touched.ngayKhoiChieu && Boolean(formik.errors.ngayKhoiChieu)) || (isBlur === 'ngayKhoiChieu' && Boolean(formik.errors.ngayKhoiChieu)) || (Boolean(formik.values.ngayKhoiChieu) && Boolean(formik.errors.ngayKhoiChieu))}
-                                helperText={(formik.touched.ngayKhoiChieu && formik.errors.ngayKhoiChieu) || (isBlur === 'ngayKhoiChieu' && formik.errors.ngayKhoiChieu) || (Boolean(formik.values.ngayKhoiChieu) && formik.errors.ngayKhoiChieu)}
+                                format="dd/MM/yyyy"
+                                onChange={setSelectedDate}
+                                value={selectedDate}
                             />
                         </MuiPickersUtilsProvider>
                         <TextField

@@ -92,6 +92,11 @@ h4{
 .error textarea{
     border: 1px solid rgb(244, 67, 54);
 }
+.cinema--name span{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 @media screen and (max-width: 700px){
     .info__admin--content .title--content{
         width: 40%;
@@ -126,5 +131,13 @@ h4{
     .upload--img .show--img{
         height: 68px;
         width: 60px;
+    }
+    .MuiDialog-paper{
+        max-height: 100%;
+    }
+}
+@media screen and (max-width: 400px){
+    .MuiDialog-paper{
+        margin: 0;
     }
 }

@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, makeStyles, TextField } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { formatDate, ToSlug } from '../../../utils/format';
@@ -63,15 +63,19 @@ export default function AddFilmModal(props) {
     const classes = useStyles();
     const [isBlur, setIsBlur] = useState(null);
     const [image, setImage] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date())
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (selectedDate) {
+            let d = formatDate(selectedDate);
+            formik.setValues({ ...formik.values, ngayKhoiChieu: d });
+        }
+    }, [selectedDate]) // eslint-disable-line react-hooks/exhaustive-deps
     const validationSchema = yup.object({
         tenPhim: yup
             .string('')
             .required('Không được để trống'),
         trailer: yup
-            .string('')
-            .required('Không được để trống'),
-        ngayKhoiChieu: yup
             .string('')
             .required('Không được để trống'),
         moTa: yup
@@ -86,7 +90,7 @@ export default function AddFilmModal(props) {
             hinhAnh: {},
             moTa: '',
             maNhom: 'GP14',
-            ngayKhoiChieu: formatDate(new Date()),
+            ngayKhoiChieu: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -102,6 +106,7 @@ export default function AddFilmModal(props) {
         formik.handleReset();
         setIsBlur(null);
         setImage(null);
+        setSelectedDate(new Date())
     }
     const onFileChange = (e) => {
         let img = e.target.files[0];
@@ -109,10 +114,6 @@ export default function AddFilmModal(props) {
             formik.setValues({ ...formik.values, hinhAnh: img });
             setImage(img);
         }
-    }
-    const onDateChange = (date) => {
-        let d = formatDate(date);
-        formik.setValues({ ...formik.values, ngayKhoiChieu: d })
     }
     return (
         <div >
@@ -131,7 +132,6 @@ export default function AddFilmModal(props) {
                             name="tenPhim"
                             label="Tên phim"
                             value={formik.values.tenPhim}
-
                             onBlur={() => { setIsBlur('tenPhim'); formik.setValues({ ...formik.values, biDanh: ToSlug(formik.values.tenPhim) }) }}
                             onChange={formik.handleChange}
                             error={(formik.touched.tenPhim && Boolean(formik.errors.tenPhim)) || (isBlur === 'tenPhim' && Boolean(formik.errors.tenPhim)) || (Boolean(formik.values.tenPhim) && Boolean(formik.errors.tenPhim))}
@@ -141,13 +141,13 @@ export default function AddFilmModal(props) {
                             <DatePicker
                                 className='custom-input mr-3'
                                 ampm={true}
-                                format="MM/dd/yyyy"
+                                format="dd/MM/yyyy"
                                 name="ngayKhoiChieu"
                                 label="Ngày khởi chiếu"
-                                onChange={onDateChange}
-                                value={new Date(formik.values.ngayKhoiChieu)}
-                                error={(formik.touched.ngayKhoiChieu && Boolean(formik.errors.ngayKhoiChieu)) || (isBlur === 'ngayKhoiChieu' && Boolean(formik.errors.ngayKhoiChieu)) || (Boolean(formik.values.ngayKhoiChieu) && Boolean(formik.errors.ngayKhoiChieu))}
-                                helperText={(formik.touched.ngayKhoiChieu && formik.errors.ngayKhoiChieu) || (isBlur === 'ngayKhoiChieu' && formik.errors.ngayKhoiChieu) || (Boolean(formik.values.ngayKhoiChieu) && formik.errors.ngayKhoiChieu)}
+                                onChange={setSelectedDate}
+                                value={selectedDate}
+                                error={false}
+                                helperText=''
                             />
                         </MuiPickersUtilsProvider>
                         <TextField

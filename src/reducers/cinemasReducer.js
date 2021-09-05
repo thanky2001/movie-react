@@ -13,7 +13,7 @@ const initialState={
 function cinemasReducer (state = initialState, action) {
     switch (action.type) {
         case GET_PARENT_CINEMAS_REQUEST:
-            return {...state, isLoading: true, parentCinemas: null}
+            return {...state, isLoading: true}
         case GET_PARENT_CINEMAS_SUCCESS:
             return {...state, isLoading: false, parentCinemas: action.payload.data}
         case GET_SHOWTIME_BY_PARENT_CINEMAS_REQUEST:

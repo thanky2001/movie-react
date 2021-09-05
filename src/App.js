@@ -15,6 +15,7 @@ const Dashboard = lazy(()=>import('./pages/Admin/Dashboard/Index'));
 const UserInfo = lazy(()=>import('./pages/Admin/UserInfo/UserInfo'));
 const UserManager = lazy(()=>import('./pages/Admin/UserManager/UserManager'));
 const FilmsManager = lazy(()=>import('./pages/Admin/FilmsManager/FilmsManager'));
+const ShowingSession = lazy(()=>import('./pages/Admin/ShowingSession/Index'))
 function App() {
   const location = useLocation();
   useEffect(() => {
@@ -40,6 +41,9 @@ function App() {
         <Route path="/admin">
           <AdminLayout>
             <Switch>
+            <Route path='/admin/quan-ly-lich-chieu'>
+                <ShowingSession/>
+              </Route>
               <Route path='/admin/thong-tin-tai-khoan'>
                 <UserInfo/>
               </Route>
