@@ -1,3 +1,4 @@
+import { CREATE_FILM_SCHEDULE_SUCCESS } from "../constants/booking";
 import {
     ADD_LIST_MOVIE_BY_PARENT_CINEMA,
     ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR,
@@ -91,6 +92,8 @@ function moviesReducer(state = initialState, action) {
         case EDIT_FILM_SUCCESS:
             return {...state, isReload: !state.isReload};
         case DELETE_FILM_SUCCESS:
+            return {...state, isReload: !state.isReload};
+        case CREATE_FILM_SCHEDULE_SUCCESS:
             return {...state, isReload: !state.isReload};
         default:
             return state

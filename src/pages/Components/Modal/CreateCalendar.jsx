@@ -1,10 +1,13 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { getListCinemasBySystem } from '../../../actions/cinemas';
+import { formatDateTime } from '../../../utils/format';
+import { createFilmSchedule } from '../../../actions/createFilmSchedule';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiButton-label': {
@@ -21,59 +24,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function CreateCalendar(props) {
     const classes = useStyles();
-    const [isBlur, setIsBlur] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(new Date())
-    const [isChooseType, setIsChooseFilm] = useState(false)
+    const [listRooms, setListRooms] = useState(null)
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isChooseFilm, setIsChooseFilm] = useState(false);
+    const [isChooseRoom, setIsChooseRoom] = useState(false);
+    const [idSystemCinema, setIdSystemCinema] = useState('0');
+    const [idCinema, setIdCinema] = useState('0');
     const { listFilmsCreateCalendar } = useSelector(state => state.moviesReducer);
+    const { parentCinemas, listCinemasBySystem } = useSelector(state => state.cinemasReducer);
     const dispatch = useDispatch();
+    useEffect(() => {
+        let date = formatDateTime(selectedDate);
+        formik.setValues({ ...formik.values, ngayChieuGioChieu: date })
+    }, [selectedDate]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        dispatch(getListCinemasBySystem(idSystemCinema))
+    }, [idSystemCinema]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        let rooms = listCinemasBySystem && listCinemasBySystem.filter(ci=>ci.maCumRap === idCinema);
+        rooms && rooms.length ? setListRooms(rooms[0].danhSachRap) : setListRooms(null);
+    }, [idCinema]) // eslint-disable-line react-hooks/exhaustive-deps
     const validationSchema = yup.object({
-        taiKhoan: yup
-            .string('Nhập tài khoản')
-            .min(5, 'Tài khoản phải từ 5 đến 20 ký tự')
-            .max(20, 'Tài khoản phải từ 5 đến 20 ký tự')
-            .required('không được để trống'),
-        matKhau: yup
-            .string('Nhập mật khẩu')
-            .required('Không được để trống'),
-        email: yup
-            .string('Nhập email')
-            .email('Không đúng định dạng')
-            .required('Không được để trống'),
         giaVe: yup
-            .number('Chỉ được nhập số'),
+            .number()
+            .required('Không được để trống')
     });
     const formik = useFormik({
         initialValues: {
-            taiKhoan: '',
-            matKhau: '',
-            hoTen: '',
-            maNhom: 'GP14',
-            email: '',
-            giaVe: '',
+            ngayChieuGioChieu: '',
+            maRap: '0',
+            giaVe: 0,
             maPhim: '0',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            let regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-            if (values.maLoaiNguoiDung === '0' || (formik.values.giaVe !== '' && !regex.test(formik.values.giaVe))) {
+            if (values.maPhim === '0' && values.maPhim === '0') {
                 setIsChooseFilm(true);
-            } else {
+                setIsChooseRoom(true);
+            }else if (values.maRap === '0'){
+                setIsChooseRoom(true)
+            }else if(values.maPhim === '0') {
+                setIsChooseFilm(true);
+            }else {
+                setIsChooseRoom(false);
                 setIsChooseFilm(false);
+                dispatch(createFilmSchedule(values, handleCloseAddModal))
             }
         },
     });
-    function validateNumberPhone() {
-        let regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-        if (formik.values.giaVe !== '' && !regex.test(formik.values.giaVe)) {
-            let error = 'Không đúng định dạng';
-            return error;
-        }
-    }
     const handleCloseAddModal = () => {
         props.handleClose();
         formik.handleReset();
-        setIsBlur(null);
         setIsChooseFilm(false);
+        setIsChooseRoom(false);
+        setIdCinema('0');
+        setIdSystemCinema('0');
+        setListRooms(null);
     }
     const handleChangeFilm = (e) => {
         if (e.target.value === '0') {
@@ -83,8 +89,24 @@ export default function CreateCalendar(props) {
         }
         formik.handleChange(e)
     }
-    console.log(formik.values.maPhim);
-    return (
+    const handleChangeRoom = (e) => {
+        if (e.target.value === '0') {
+            setIsChooseRoom(true);
+        } else {
+            setIsChooseRoom(false);
+        }
+        formik.handleChange(e)
+    }
+    const handleChangePrice=(e)=>{
+        const {value} = e.target;
+        const price = parseFloat(value);
+        if (!Number.isNaN(price)) {
+            formik.setValues({...formik.values, giaVe: price});
+        }else{
+            formik.setValues({...formik.values, giaVe: 0})
+        }
+    }
+        return (
         <div >
             <Dialog
                 className={classes.root}
@@ -92,7 +114,7 @@ export default function CreateCalendar(props) {
                 open={props.open}
                 aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    Thêm người dùng
+                    Tạo lịch chiếu
                 </DialogTitle>
                 <form onSubmit={formik.handleSubmit}>
                     <DialogContent>
@@ -107,8 +129,8 @@ export default function CreateCalendar(props) {
                             SelectProps={{
                                 native: true,
                             }}
-                            error={isChooseType}
-                            helperText={isChooseType ? 'Vui lòng chọn phim' : ''}
+                            error={isChooseFilm}
+                            helperText={isChooseFilm ? 'Vui lòng chọn phim' : ''}
                         >
                             <option value='0' >Chọn phim...</option>
                             {
@@ -127,20 +149,18 @@ export default function CreateCalendar(props) {
                             select
                             label="Hệ thống rạp"
                             name="maHeThongRap"
-                            value={formik.values.maHeThongRap}
-                            onChange={handleChangeFilm}
+                            value={idSystemCinema}
+                            onChange={(e) => setIdSystemCinema(e.target.value)}
                             SelectProps={{
                                 native: true,
                             }}
-                            error={isChooseType}
-                            helperText={isChooseType ? 'Vui lòng chọn hệ thống rạp' : ''}
                         >
                             <option value='0' >Chọn...</option>
                             {
-                                listFilmsCreateCalendar && listFilmsCreateCalendar.map((film, index) => {
+                                parentCinemas && parentCinemas.map((ci, index) => {
                                     return (
-                                        <option key={index} value={film.maPhim}>
-                                            {film.tenPhim}
+                                        <option key={index} value={ci.maHeThongRap}>
+                                            {ci.tenHeThongRap}
                                         </option>
                                     )
                                 })
@@ -152,23 +172,23 @@ export default function CreateCalendar(props) {
                             select
                             label="Cụm rạp"
                             name="maCumRap"
-                            value={formik.values.maCumRap}
-                            onChange={handleChangeFilm}
+                            value={idCinema}
+                            onChange={(e)=>setIdCinema(e.target.value)}
                             SelectProps={{
                                 native: true,
                             }}
-                            error={isChooseType}
-                            helperText={isChooseType ? 'Vui lòng chọn cụm rạp' : ''}
                         >
                             <option value='0' >Chọn...</option>
+
                             {
-                                listFilmsCreateCalendar && listFilmsCreateCalendar.map((film, index) => {
+                                listCinemasBySystem ? listCinemasBySystem.map((ci, index) => {
                                     return (
-                                        <option key={index} value={film.maPhim}>
-                                            {film.tenPhim}
+                                        <option key={index} value={ci.maCumRap}>
+                                            {ci.tenCumRap}
                                         </option>
                                     )
-                                })
+                                }) :
+                                    <option value='0'>Vui lòng chọn hệ thống rạp</option>
                             }
                         </TextField>
                         <TextField
@@ -178,22 +198,23 @@ export default function CreateCalendar(props) {
                             label="Rạp"
                             name="maRap"
                             value={formik.values.maRap}
-                            onChange={handleChangeFilm}
+                            onChange={handleChangeRoom}
                             SelectProps={{
                                 native: true,
                             }}
-                            error={isChooseType}
-                            helperText={isChooseType ? 'Vui lòng chọn rạp' : ''}
+                            error={isChooseRoom}
+                            helperText={isChooseRoom ? 'Vui lòng chọn rạp' : ''}
                         >
                             <option value='0' >Chọn...</option>
                             {
-                                listFilmsCreateCalendar && listFilmsCreateCalendar.map((film, index) => {
+                                listRooms ? listRooms.map((room, index) => {
                                     return (
-                                        <option key={index} value={film.maPhim}>
-                                            {film.tenPhim}
+                                        <option key={index} value={room.maRap}>
+                                            {room.tenRap}
                                         </option>
                                     )
-                                })
+                                }):
+                                <option value='0' >Vui lòng chọn hệ thống rạp, cụm rạp</option>
                             }
                         </TextField>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -201,8 +222,8 @@ export default function CreateCalendar(props) {
                                 className='custom-input ml-3'
                                 ampm={true}
                                 format="dd/MM/yyyy'T'HH:mm:ss"
-                                name="ngayKhoiChieu"
-                                label="Ngày khởi chiếu"
+                                name="ngayChieuGioChieu"
+                                label="Thời gian chiếu"
                                 onChange={setSelectedDate}
                                 value={selectedDate}
                                 error={false}
@@ -214,10 +235,9 @@ export default function CreateCalendar(props) {
                             name="giaVe"
                             label="Giá vé"
                             value={formik.values.giaVe}
-                            onBlur={() => setIsBlur('giaVe')}
-                            onChange={formik.handleChange}
-                            error={(formik.touched.giaVe && Boolean(validateNumberPhone())) || (Boolean(formik.values.giaVe) && Boolean(validateNumberPhone()))}
-                            helperText={(formik.touched.giaVe && validateNumberPhone()) || (Boolean(formik.values.giaVe) && validateNumberPhone())}
+                            onChange={handleChangePrice}
+                            error={(formik.touched.giaVe && (Boolean(formik.errors.giaVe))) || (Boolean(formik.values.giaVe) && (Boolean(formik.errors.giaVe)))}
+                            helperText={(formik.touched.giaVe && formik.errors.giaVe) || (Boolean(formik.values.giaVe) && formik.errors.giaVe)}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -228,7 +248,7 @@ export default function CreateCalendar(props) {
                             Đóng
                         </Button>
                         <Button type='submit' variant="contained" color='primary'  >
-                            Thêm
+                            Tạo lịch
                         </Button>
                     </DialogActions>
                 </form>

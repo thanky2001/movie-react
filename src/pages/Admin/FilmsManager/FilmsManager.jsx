@@ -196,7 +196,6 @@ export default function FilmsManager() {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Phim</TableCell>
-                                <TableCell align="right">Mã phim</TableCell>
                                 <TableCell align="right">Trailer</TableCell>
                                 <TableCell align="right">Nội dung</TableCell>
                                 <TableCell align="right">Ngày công chiếu</TableCell>
@@ -216,7 +215,6 @@ export default function FilmsManager() {
 
                                             </div>
                                         </TableCell>
-                                        <TableCell align="right">{row.maPhim}</TableCell>
                                         <TableCell className='hidden--text' align="right"><a target="_blank" rel="noreferrer" href={row.trailer} >{row.trailer}</a></TableCell>
                                         <TableCell className='hidden--text mw-250' align="right">
                                             <StyledTooltip placement="bottom-start" title={row.moTa}>

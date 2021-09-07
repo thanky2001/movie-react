@@ -42,7 +42,7 @@ export function formatDateTime(date) {
     if (ss.length < 2) {
         ss = '0' + ss
     }
-    return [[yyyy, MM, dd].join('-'), [HH, mm, ss].join(':')].join('T');
+    return [[dd, MM, yyyy].join('/'), [HH, mm, ss].join(':')].join(' ');
 }
 export const Capitalize = (str) => {
     str = str.replace(/-/gi, ' ');

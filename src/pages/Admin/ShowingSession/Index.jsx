@@ -1,4 +1,4 @@
-import { Button, Grid, Hidden, InputBase, makeStyles, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Table, List, ListItem } from '@material-ui/core'
+import { Button, Grid, Hidden, InputBase, makeStyles, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Table, List, ListItem, Tooltip } from '@material-ui/core'
 import React, { useEffect, useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,9 +13,23 @@ import { dayOfWeeks } from '../../../utils/dayOfWeeks';
 import CreateCalendar from '../../Components/Modal/CreateCalendar';
 import { useAutocomplete } from '@material-ui/lab';
 import { getListMovies } from '../../../actions/movies';
+import { withStyles } from '@material-ui/styles';
+import { StyledTableRow } from '../../Components/CustomElement/StyledTableRow';
+import { splitDateString } from '../../../utils/format';
+import ReactLoading from 'react-loading';
 
 
 const height = getHeight();
+
+const StyledTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: '#f5f5f9',
+        color: 'rgba(0, 0, 0, 0.87)',
+        maxWidth: 240,
+        fontSize: theme.typography.pxToRem(14),
+        border: '1px solid #dadde9',
+    },
+}))(Tooltip);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +64,12 @@ const useStyles = makeStyles((theme) => ({
             height: `${height - 194}px`,
         }
     },
+    tableHeight: {
+        height: `${height - 122}px`,
+        [theme.breakpoints.down('xs')]: {
+            height: `${height - 260}px`,
+        }
+    },
     button: {
         textTransform: 'unset',
         [theme.breakpoints.down('xs')]: {
@@ -60,17 +80,24 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     table: {
-        minWidth: 650,
+        minWidth: 300,
         '& tr th, & tr td': {
             whiteSpace: 'nowrap',
         },
     },
     contentTable: {
-        position: 'relative'
+        position: 'relative',
+        '& .custom--table-cell': {
+            padding: '6px 16px'
+        }
     },
     input: {
         marginLeft: theme.spacing(1),
         flex: 1,
+    },
+    searchDel: {
+        cursor: 'pointer',
+        width: '20px'
     },
     listbox: {
         width: 300,
@@ -96,11 +123,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Index() {
     const classes = useStyles();
-    const [valueSearch, setValueSearch] = useState('');
+    const [valueSearch, setValueSearch] = useState(null);
     const [listDay, setListDay] = useState(null);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [selectedDay, setSelectedDay] = useState(0);
-    const { parentCinemas } = useSelector(state => state.cinemasReducer);
+    const { parentCinemas, isLoading } = useSelector(state => state.cinemasReducer);
+    const { ListMoviesByParentCinemas, isReload } = useSelector(state => state.moviesReducer);
     const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
@@ -112,9 +140,10 @@ export default function Index() {
         groupedOptions,
     } = useAutocomplete({
         id: 'use-autocomplete-demo',
-        options: listDay && listDay,
-        getOptionLabel: (option) => option.dayName,
-        onChange: (e, value) => setValueSearch(value && value.dayName)
+        options: ListMoviesByParentCinemas ? ListMoviesByParentCinemas : [{ tenPhim: '', maPhim: '' }],
+        getOptionLabel: (option) => option.tenPhim,
+        onChange: (e, value) => setValueSearch(value && value.maPhim),
+        getOptionSelected: (option, value) => option.maPhim === value.maPhim
     });
     useEffect(() => {
         setListDay(dayOfWeeks());
@@ -126,167 +155,151 @@ export default function Index() {
             history.push(`/admin/quan-ly-lich-chieu/${parentCinemas[0].maHeThongRap}`)
         }
         idCi && dispatch(getShowtimeByParentCinemas(idCi));
-    }, [location, parentCinemas]) // eslint-disable-line react-hooks/exhaustive-deps
-
+        setSelectedDay(0)
+    }, [location, parentCinemas, isReload]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleOpenModal = () => {
         setIsOpenModal(true)
     }
     const handleCloseModal = () => {
         setIsOpenModal(false)
     }
-    const handleChangeValuesSearch = (e) => {
-        setValueSearch(e.target.value);
-        console.log(valueSearch);
-    }
     return (
-        <Grid container>
-            <Grid item xs={12}>
-                <div className='admin--title'>
-                    <span> Lịch chiếu </span>
-                    <Hidden xsDown>
-                        <div style={{ position: 'relative' }}>
-                            <Paper component="div" className={classes.root}>
-                                <SearchIcon />
-                                <InputBase
-                                    onChange={handleChangeValuesSearch}
-                                    className={classes.input}
-                                    placeholder="Tìm kiếm..."
-                                    inputProps={{ 'aria-label': 'Tìm kiếm...', ...getInputProps() }}
-                                />
-                            </Paper>
-                            {groupedOptions.length > 0 ? (
-                                <ul className={classes.listbox} {...getListboxProps()}>
-                                    {groupedOptions.map((option, index) => (
-                                        <li {...getOptionProps({ option, index })}>{option.dayName}</li>
-                                    ))}
-                                </ul>
-                            ) : null}
-                        </div>
-                        {/* <Paper component="form" onSubmit={handleSearch} className={classes.root}>
-                            <InputBase
-                                onChange={handleChangeValuesSearch}
-                                className={classes.input}
-                                placeholder="Tìm kiếm..."
-                                inputProps={{ 'aria-label': 'Tìm kiếm...' }}
-                            />
-                            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                                <SearchIcon />
-                            </IconButton>
-                        </Paper> */}
-                    </Hidden>
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        onClick={handleOpenModal}
-                        endIcon={<AddIcon />}
-                    >
-                        <Hidden xsDown implementation="css">
-                            Thêm
+        ! isLoading ?
+            <Grid container >
+                <Grid item xs={12}>
+                    <div className='admin--title'>
+                        <span> Lịch chiếu </span>
+                        <Hidden xsDown>
+                            <div style={{ position: 'relative' }}>
+                                <Paper component="div" className={classes.root}>
+                                    <SearchIcon />
+                                    <InputBase
+                                        className={classes.input}
+                                        placeholder="Tìm kiếm..."
+                                        inputProps={{ 'aria-label': 'Tìm kiếm...', ...getInputProps() }}
+                                    />
+                                </Paper>
+                                {groupedOptions.length > 0 ? (
+                                    <ul className={classes.listbox} {...getListboxProps()}>
+                                        {groupedOptions.map((option, index) => (
+                                            <li className='text--name' {...getOptionProps({ option, index })}>{option.tenPhim}</li>
+                                        ))}
+                                    </ul>
+                                ) : null}
+                            </div>
                         </Hidden>
-                    </Button>
-                </div>
-            </Grid>
-            <Cinemas date={listDay && listDay[selectedDay].date} setSelectedDay={setSelectedDay}/>
-            <Grid item xs={12} sm={9}>
-                <Paper className={classes.height} >
-                    <TableContainer className={classes.contentTable}>
-                        <Table className={classes.table} stickyHeader aria-label="caption table">
-                            <TableBody>
-                                {/* <TableRow> */}
-                                <List component='tr'>
-                                    {listDay && listDay.map((day, index) => {
-                                        return (
-                                            <TableCell className='btn' component='td' key={index}>
-                                                <ListItem className={classes.select} disableGutters={true} onClick={() => setSelectedDay(index)} selected={selectedDay === index}>{day.dayName} <br /> {day.date}</ListItem>
-                                            </TableCell>
-                                        )
-                                    })}
-                                </List>
-                                {/* </TableRow> */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TableContainer className={classes.contentTable}>
-                        <Table className={classes.table} stickyHeader aria-label="caption table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Phim</TableCell>
-                                    <TableCell align="right">Mã phim</TableCell>
-                                    <TableCell align="right">Trailer</TableCell>
-                                    <TableCell align="right">Nội dung</TableCell>
-                                    <TableCell align="right">Ngày công chiếu</TableCell>
-                                    <TableCell align="right"></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {/* {!isLoading ?
-                                    listMovies && listMovies.items.length ? listMovies.items.map((row, index) => (
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            color="primary"
+                            onClick={handleOpenModal}
+                            endIcon={<AddIcon />}
+                        >
+                            <Hidden xsDown implementation="css">
+                                Tạo lịch
+                            </Hidden>
+                        </Button>
+                    </div>
+                </Grid>
+                <Cinemas date={listDay && listDay[selectedDay].date} setSelectedDay={setSelectedDay} valueSearch={valueSearch} />
+                <Grid item xs={12} sm={9}>
+                    <Paper className={classes.height} >
+                        <TableContainer className={classes.contentTable}>
+                            <Table className={classes.table} stickyHeader aria-label="caption table">
+                                <TableBody>
+                                    {/* <TableRow> */}
+                                    <List component='tr'>
+                                        {listDay && listDay.map((day, index) => {
+                                            return (
+                                                <TableCell className='btn' component='td' key={index}>
+                                                    <ListItem className={classes.select} disableGutters={true} onClick={() => setSelectedDay(index)} selected={selectedDay === index}>{day.dayName} <br /> {day.date}</ListItem>
+                                                </TableCell>
+                                            )
+                                        })}
+                                    </List>
+                                    {/* </TableRow> */}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TableContainer className={`${classes.contentTable} ${classes.tableHeight}`}>
+                            <Table className={classes.table} stickyHeader aria-label="caption table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Phim</TableCell>
+                                        <TableCell >Rạp</TableCell>
+                                        <TableCell >Thời gian chiếu</TableCell>
+                                        <TableCell >Giá vé(VNĐ) </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {ListMoviesByParentCinemas && ListMoviesByParentCinemas.length ? ListMoviesByParentCinemas.map((film, index) => (
                                         <StyledTableRow key={index}>
                                             <TableCell scope="row">
                                                 <div className='name--film'>
-                                                    <div className='img--film'><img src={row.hinhAnh} alt='   ' /></div>
-                                                    <StyledTooltip placement="bottom-start" title={row.tenPhim}>
-                                                        <span className='hidden--text'>{row.tenPhim}</span>
+                                                    <div className='img--film'><img src={film.hinhAnh} alt='   ' /></div>
+                                                    <StyledTooltip placement="bottom-start" title={film.tenPhim}>
+                                                        <span className='hidden--text'>{film.tenPhim}</span>
                                                     </StyledTooltip>
-
                                                 </div>
                                             </TableCell>
-                                            <TableCell align="right">{row.maPhim}</TableCell>
-                                            <TableCell className='hidden--text' align="right"><a target="_blank" rel="noreferrer" href={row.trailer} >{row.trailer}</a></TableCell>
-                                            <TableCell className='hidden--text mw-250' align="right">
-                                                <StyledTooltip placement="bottom-start" title={row.moTa}>
-                                                    <span>
-                                                        {row.moTa}
-                                                    </span>
-                                                </StyledTooltip>
+                                            <TableCell className='px-0 py-2'>
+                                                <Table>
+                                                    <TableBody>
+                                                        {
+                                                            film.lstLichChieuTheoPhim && film.lstLichChieuTheoPhim.map((st, i) => {
+                                                                return (
+                                                                    <TableRow key={i}>
+                                                                        <TableCell className='custom--table-cell'>{st.tenRap}</TableCell>
+                                                                    </TableRow>
+                                                                )
+                                                            })
+                                                        }
+                                                    </TableBody>
+                                                </Table>
                                             </TableCell>
-                                            <TableCell align="right">{formatDateToVN(row.ngayKhoiChieu)}</TableCell>
-                                            <TableCell align="right">
-                                                <IconButton
-                                                    aria-label="more"
-                                                    aria-controls="long-menu"
-                                                    aria-haspopup="true"
-                                                    onClick={(e) => handleClickAction(e, row)}
-                                                >
-                                                    <MoreVertIcon />
-                                                </IconButton>
-                                                <StyledMenu
-                                                    anchorEl={anchorEl}
-                                                    keepMounted
-                                                    open={Boolean(anchorEl)}
-                                                    onClose={handleCloseAction}
-                                                >
-                                                    <MenuItem onClick={handleOpenEditModal}>
-                                                        <ListItemIcon>
-                                                            <EditIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Sửa" />
-                                                    </MenuItem>
-                                                    <MenuItem onClick={handleDeleteFilm}>
-                                                        <ListItemIcon>
-                                                            <DeleteIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Xóa" />
-                                                    </MenuItem>
-                                                </StyledMenu>
+                                            <TableCell className='p-0'>
+                                                <Table>
+                                                    <TableBody>
+                                                        {
+                                                            film.lstLichChieuTheoPhim && film.lstLichChieuTheoPhim.map((st, i) => {
+                                                                return (
+                                                                    <TableRow key={i}>
+                                                                        <TableCell className='custom--table-cell'>{splitDateString(st.ngayChieuGioChieu)[1]}</TableCell>
+                                                                    </TableRow>
+                                                                )
+                                                            })
+                                                        }
+                                                    </TableBody>
+                                                </Table>
+                                            </TableCell>
+                                            <TableCell className='p-0'>
+                                                <Table>
+                                                    <TableBody>
+                                                        {
+                                                            film.lstLichChieuTheoPhim && film.lstLichChieuTheoPhim.map((st, i) => {
+                                                                return (
+                                                                    <TableRow key={i}>
+                                                                        <TableCell className='custom--table-cell'>{st.giaVe.toLocaleString('it-IT')}</TableCell>
+                                                                    </TableRow>
+                                                                )
+                                                            })
+                                                        }
+                                                    </TableBody>
+                                                </Table>
                                             </TableCell>
                                         </StyledTableRow>
                                     )) :
                                         <TableRow>
                                             <TableCell style={{ textAlign: 'center', borderBottom: 0 }} colSpan={6}>Không có dữ liệu...</TableCell>
                                         </TableRow>
-                                    :
-                                    <TableRow>
-                                        <TableCell style={{ padding: '0 50%', borderBottom: 0 }} colSpan={6}><ReactLoading type={"bars"} color={"#fb4226"} /></TableCell>
-                                    </TableRow>
-                                } */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Paper>
-                <CreateCalendar open={isOpenModal} handleClose={handleCloseModal} />
-            </Grid>
-        </Grid>
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                    <CreateCalendar open={isOpenModal} handleClose={handleCloseModal} />
+                </Grid>
+            </Grid > :
+            <div className="loading--component"><ReactLoading type={"bars"} color={"#fb4226"} /></div>
     )
 }

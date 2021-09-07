@@ -121,7 +121,7 @@ export default function AddUserModal(props) {
                             onBlur={() => setIsBlur('matKhau')}
                             onChange={formik.handleChange}
                             error={(formik.touched.matKhau && Boolean(formik.errors.matKhau)) || (isBlur === 'matKhau' && Boolean(formik.errors.matKhau)) || (Boolean(formik.values.matKhau) && Boolean(formik.errors.matKhau))}
-                            helperText={(formik.touched.matKhau && formik.errors.matKhau) || (Boolean(formik.errors.matKhau) && formik.errors.matKhau)}
+                            helperText={(formik.touched.matKhau && formik.errors.matKhau) || (isBlur === 'matKhau' && formik.errors.matKhau) || (Boolean(formik.errors.matKhau) && formik.errors.matKhau)}
                         />
                         <TextField
                             fullWidth

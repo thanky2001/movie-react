@@ -33,15 +33,16 @@ export default function Cinemas(props) {
     const { showtimeBySystem } = useSelector(state => state.cinemasReducer);
     const dispatch = useDispatch();
     const date = props.date && props.date;
+    const valueSearch = props.valueSearch && props.valueSearch;
     useEffect(() => {
         setSelectedCinema(0)
     }, [showtimeBySystem]) // eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (showtimeBySystem) {
             const value = showtimeBySystem.lstCumRap[selectedCinema] && showtimeBySystem.lstCumRap[selectedCinema].danhSachPhim;
-            dispatch(addListMoviesByParentCinemas(value, date));
+            dispatch(addListMoviesByParentCinemas(value, date, valueSearch));
         }
-    }, [showtimeBySystem, selectedCinema, date]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [showtimeBySystem, selectedCinema, date, valueSearch]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleListItemClick = (index) => {
         setSelectedCinema(index);
         props.setSelectedDay(0)
@@ -49,7 +50,7 @@ export default function Cinemas(props) {
     return (
         <Grid className={classes.root} item xs={12} sm={3} >
             <Paper className={classes.paper}>
-                <List id='list-cinemas' className = {classes.overflow} disablePadding={true}>
+                <List  className = {classes.overflow} disablePadding={true}>
                     {
                         showtimeBySystem && showtimeBySystem.lstCumRap.length &&
                         showtimeBySystem.lstCumRap.map((ci, index) => {

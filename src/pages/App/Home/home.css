@@ -563,6 +563,10 @@ span.cinema--location{
     }
     .main--detail{
         padding-bottom: 90px;
+        display: flow-root;
+    }
+    .tab--child-table{
+        display: flow-root;
     }
     .title--content{
         width: 55%;

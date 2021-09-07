@@ -1,4 +1,4 @@
-import {ADD_LIST_MOVIE_BY_PARENT_CINEMA, ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS} from "../constants/cinemas"
+import {ADD_LIST_MOVIE_BY_PARENT_CINEMA, ADD_LIST_MOVIE_BY_PARENT_CINEMA_ERROR, GET_LIST_CINEMAS_BY_SYSTEM_REQUEST, GET_LIST_CINEMAS_BY_SYSTEM_SUCCESS, GET_PARENT_CINEMAS_REQUEST, GET_PARENT_CINEMAS_SUCCESS} from "../constants/cinemas"
 import axiosClient from "../services/axiosClient";
 
 
@@ -14,15 +14,34 @@ export function getParentCinemas() {
                 payload: {data}
             })
         } catch (error) {
-            console.log(error);
+            console.log(error.payload.data);
         }
     }
 }
-export function addListMoviesByParentCinemas(value, date='2019-01-09') {
+export function getListCinemasBySystem(idSt) {
+    return async (dispatch)=>{
+        dispatch({
+            type: GET_LIST_CINEMAS_BY_SYSTEM_REQUEST
+        })
+        if (idSt !== '0') {
+            try {
+                const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${idSt}`);
+                dispatch({
+                    type: GET_LIST_CINEMAS_BY_SYSTEM_SUCCESS,
+                    payload: {data}
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+}
+export function addListMoviesByParentCinemas(value, date = new Date(), idFilm) {
     let data = [];
     if (value) {
+        value = idFilm ? value.filter(vl=> vl.maPhim === idFilm) : value;
         for (let i = 0; i < value.length; i++) {
-            const element = value[i];
+            let element = value[i];
             const a = element.lstLichChieuTheoPhim.filter((lst)=>{
                 return (
                     new Date(lst.ngayChieuGioChieu).getDate() === new Date(date).getDate() &&
@@ -34,7 +53,7 @@ export function addListMoviesByParentCinemas(value, date='2019-01-09') {
                 const e = {...element, lstLichChieuTheoPhim: a}
                 data.push(e);
             }
-        }
+        };
     }
     if (data.length) {
         return (dispatch)=>{
