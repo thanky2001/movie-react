@@ -15,7 +15,7 @@ import { useAutocomplete } from '@material-ui/lab';
 import { getListMovies } from '../../../actions/movies';
 import { withStyles } from '@material-ui/styles';
 import { StyledTableRow } from '../../Components/CustomElement/StyledTableRow';
-import { splitDateString } from '../../../utils/format';
+import { changeHttpIntoHttps, splitDateString } from '../../../utils/format';
 import ReactLoading from 'react-loading';
 
 
@@ -236,7 +236,7 @@ export default function Index() {
                                         <StyledTableRow key={index}>
                                             <TableCell scope="row">
                                                 <div className='name--film'>
-                                                    <div className='img--film'><img src={film.hinhAnh} alt='   ' /></div>
+                                                    <div className='img--film'><img src={changeHttpIntoHttps(film.hinhAnh)} alt='   ' /></div>
                                                     <StyledTooltip placement="bottom-start" title={film.tenPhim}>
                                                         <span className='hidden--text'>{film.tenPhim}</span>
                                                     </StyledTooltip>

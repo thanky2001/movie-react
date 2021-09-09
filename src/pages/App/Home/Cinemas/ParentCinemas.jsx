@@ -3,6 +3,7 @@ import { Avatar, List, ListItem, makeStyles, Tooltip } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShowtimeByParentCinemas  } from '../../../../actions/getShowtimeByParentCinema';
 import ReactLoading from 'react-loading';
+import { changeHttpIntoHttps } from '../../../../utils/format';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +62,7 @@ export default function ParentCinemas() {
                         <ListItem 
                             selected={selectedIndex === index}
                             onClick={(event) => handleListItemClick(event, index)}>
-                            <Avatar alt={cinema.logo} src={cinema.logo} />
+                            <Avatar alt={cinema.logo} src={changeHttpIntoHttps(cinema.logo)} />
                         </ListItem>
                     </Tooltip>
                 )

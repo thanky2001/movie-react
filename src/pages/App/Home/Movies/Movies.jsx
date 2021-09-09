@@ -5,7 +5,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
 import Pagination from '@material-ui/lab/Pagination';
-import { formatDate, getEmbedId, ToSlug } from '../../../../utils/format';
+import { changeHttpIntoHttps, formatDate, getEmbedId, ToSlug } from '../../../../utils/format';
 import { useDispatch } from 'react-redux';
 import { getListMoviesByDate } from '../../../../actions/movies';
 import { useSelector } from 'react-redux';
@@ -146,7 +146,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("../img/default-film.webp")` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && changeHttpIntoHttps(movie.hinhAnh)}), url("../img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button onClick={(e)=>handleOpenTrailer(movie.trailer,e)} className='play__trailer'>
                         <img width={50} src="../img/play-video.png" alt="play" />
@@ -188,7 +188,7 @@ export default function Movies() {
             return (
               <Grid key={index} item xs={12} sm={4} md={3}>
                 <Link to={`/phim/${movie.maPhim}-${ToSlug(movie.tenPhim)}`}>
-                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && movie.hinhAnh}), url("../img/default-film.webp")` }}>
+                  <div className="box--card" style={{ backgroundImage: `url(${movie.hinhAnh && changeHttpIntoHttps(movie.hinhAnh)}), url("../img/default-film.webp")` }}>
                     <div className="hover--info show--hover">
                       <button className='play__trailer' onClick={(e)=>handleOpenTrailer(movie.trailer,e)}>
                         <img width={50} src="../img/play-video.png" alt="play" />

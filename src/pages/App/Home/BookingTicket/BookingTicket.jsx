@@ -7,7 +7,7 @@ import './booking.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Prompt, useHistory, useLocation } from 'react-router-dom';
 import { getListTicketRoom } from '../../../../actions/getListTicketRoom';
-import { getParamId } from '../../../../utils/format';
+import { changeHttpIntoHttps, getParamId } from '../../../../utils/format';
 import { addChair } from '../../../../actions/addChair';
 import Swal from 'sweetalert2';
 import { postBookingTicket } from '../../../../actions/postBookingTicket';
@@ -196,11 +196,11 @@ export default function BookingTicket() {
                     <div className='main--booking' >
                         <div className='info--main'>
                             <div className='bg-main'>
-                                <img alt={listChairs.thongTinPhim.hinhAnh} src={listChairs.thongTinPhim.hinhAnh} />
+                                <img alt={listChairs.thongTinPhim.hinhAnh} src={changeHttpIntoHttps(listChairs.thongTinPhim.hinhAnh)} />
                             </div>
                             <Grid className="content--info tab--child" container>
                                 <Grid className='film--poster' item xs={3}>
-                                    <div className="box--card" style={{ backgroundImage: `url(${listChairs.thongTinPhim.hinhAnh}), url("../img/default-film.webp")` }}>
+                                    <div className="box--card" style={{ backgroundImage: `url(${changeHttpIntoHttps(listChairs.thongTinPhim.hinhAnh)}), url("../img/default-film.webp")` }}>
                                     </div>
                                 </Grid>
                                 <Grid className='film--info' item sx={9}>

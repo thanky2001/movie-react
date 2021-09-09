@@ -3,7 +3,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { formatDate, ToSlug } from '../../../utils/format';
+import { changeHttpIntoHttps, formatDate, ToSlug } from '../../../utils/format';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -68,7 +68,7 @@ export default function EditFilmModal(props) {
     const { info } = props;
     useEffect(() => {
         if (info) {
-            formik.setValues({ ...info});
+            formik.setValues({ ...info, hinhAnh: changeHttpIntoHttps(info.hinhAnh)});
             setSelectedDate(info.ngayKhoiChieu)
         }
     }, [info]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -168,7 +168,7 @@ export default function EditFilmModal(props) {
                         <span className='title--img'>Hình ảnh</span>
                         <div className='upload--img'>
                             <div style={image || formik.values.hinhAnh ? { display: 'block' } : { display: 'none' }} className='show--img'>
-                                <img src={image ? URL.createObjectURL(image): formik.values.hinhAnh} alt='  ' />
+                                <img src={image ? URL.createObjectURL(image): formik.values.hinhAnh && formik.values.hinhAnh} alt='  ' />
                             </div>
                             <input accept="image/*" onChange = {onFileChange} className={classes.input} id="image" type="file" />
                             <label htmlFor="image" className='icon--upload'>

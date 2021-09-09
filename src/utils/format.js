@@ -112,3 +112,7 @@ export const getParamId = (url) => {
         type: type
     };
 }
+export const changeHttpIntoHttps = (url) => {
+    url = url.replace('http', 'https');
+    return url
+}

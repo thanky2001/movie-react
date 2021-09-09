@@ -16,7 +16,7 @@ import '../admin.css';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFilm, getPagingListMovies } from '../../../actions/movies';
-import { formatDateToVN } from '../../../utils/format';
+import { changeHttpIntoHttps, formatDateToVN } from '../../../utils/format';
 import AddFilmModal from '../../Components/Modal/AddFilmModal';
 import EditFilmModal from '../../Components/Modal/EditFilmModal';
 import { StyledTableRow } from '../../Components/CustomElement/StyledTableRow';
@@ -208,7 +208,7 @@ export default function FilmsManager() {
                                     <StyledTableRow key={index}>
                                         <TableCell scope="row">
                                             <div className='name--film'>
-                                                <div className='img--film'><img src={row.hinhAnh} alt='   ' /></div>
+                                                <div className='img--film'><img src={changeHttpIntoHttps(row.hinhAnh)} alt='   ' /></div>
                                                 <StyledTooltip placement="bottom-start" title={row.tenPhim}>
                                                     <span className='hidden--text'>{row.tenPhim}</span>
                                                 </StyledTooltip>

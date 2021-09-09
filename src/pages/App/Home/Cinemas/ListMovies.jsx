@@ -2,7 +2,7 @@ import { List, ListItem, makeStyles } from '@material-ui/core'
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { splitDateString, ToSlug } from '../../../../utils/format';
+import { changeHttpIntoHttps, splitDateString, ToSlug } from '../../../../utils/format';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +27,7 @@ export default function ListMovies() {
                     return (
                         <ListItem key={index}>
                             <div className="info__movies">
-                                <div className="img--film" style={{ backgroundImage: `url(${lst.hinhAnh}), url("../img/default-film.webp")` }}></div>
+                                <div className="img--film" style={{ backgroundImage: `url(${changeHttpIntoHttps(lst.hinhAnh)}), url("../img/default-film.webp")` }}></div>
                                 <div className="info--film">
                                     <span className="name--film">{lst.tenPhim}</span>
                                     <span className="detail--film"> <Link to={`/phim/${lst.maPhim}-${ToSlug(lst.tenPhim)}`}>[Chi tiết]</Link></span>

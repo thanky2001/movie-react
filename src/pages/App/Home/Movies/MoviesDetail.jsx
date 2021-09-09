@@ -7,7 +7,7 @@ import '../../../../styles/Layout/Content.css'
 import { Link, useLocation } from 'react-router-dom';
 import Trailer from '../../../Components/TrailerFilm/Trailer';
 import { dayOfWeeks } from '../../../../utils/dayOfWeeks';
-import { formatDateToVN, getEmbedId, getParamId, splitDateString, splitString, ToSlug } from '../../../../utils/format';
+import { changeHttpIntoHttps, formatDateToVN, getEmbedId, getParamId, splitDateString, splitString, ToSlug } from '../../../../utils/format';
 import Rating from '@material-ui/lab/Rating';
 import { getParentCinemas } from '../../../../actions/cinemas';
 import { addShowtimeFilmBySystem, getShowtimeFilm } from '../../../../actions/getShowtimeFilm';
@@ -256,7 +256,7 @@ export default function MoviesDetail() {
                                     <ListItem
                                         onClick={() => setSelectedCinema(index)}
                                         selected={selectedCinema === index}>
-                                        <Avatar alt={cinema.logo} src={cinema.logo} />
+                                        <Avatar alt={cinema.logo} src={changeHttpIntoHttps(cinema.logo)} />
                                     </ListItem>
                                 </Tooltip>
                             )
@@ -349,12 +349,12 @@ export default function MoviesDetail() {
                 <div className='main--detail'>
                     <div className='info--main'>
                         <div className='bg-main'>
-                            <img alt={detailFilm.hinhAnh} src={detailFilm.hinhAnh} />
+                            <img alt={detailFilm.hinhAnh} src={changeHttpIntoHttps(detailFilm.hinhAnh)} />
                         </div>
                         <div >
                             <Grid className="content--info tab--child" container spacing={3}>
                                 <Grid className='film--poster' item xs={4} sm={3}>
-                                    <div className="box--card" style={{ backgroundImage: `url(${detailFilm.hinhAnh}), url("../img/default-film.webp")` }}>
+                                    <div className="box--card" style={{ backgroundImage: `url(${changeHttpIntoHttps(detailFilm.hinhAnh)}), url("../img/default-film.webp")` }}>
                                         <div className="show--hover">
                                             <button onClick={(e) => handleOpenTrailer(detailFilm.trailer, e)} className='play__trailer'>
                                                 <img width={60} src="../img/play-video.png" alt="play" />
