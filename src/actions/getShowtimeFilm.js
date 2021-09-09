@@ -8,11 +8,13 @@ export function getShowtimeFilm(idFilm) {
             type: GET_SHOWTIME_FILM_REQUEST
         })
         try {
-            const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${idFilm}`);
-            dispatch({
-                type: GET_SHOWTIME_FILM_SUCCESS,
-                payload: {data},
-            })
+            if (idFilm) {
+                const {data} = await axiosClient.get(`/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${idFilm}`);
+                dispatch({
+                    type: GET_SHOWTIME_FILM_SUCCESS,
+                    payload: {data},
+                }) 
+            }
         } catch (error) {
             dispatch({
                 type: GET_SHOWTIME_FILM_FAILURE
