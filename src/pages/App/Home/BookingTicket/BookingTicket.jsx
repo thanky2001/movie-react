@@ -37,23 +37,21 @@ const useStyle = makeStyles((theme) => ({
             },
             '& .chooseing': {
                 display: 'block'
-            }
+            },
         },
         [theme.breakpoints.down('sm')]: {
             '& .content--booking': {
                 maxWidth: '700px'
             },
-            '& #checkout':{
-                paddingBottom: '60px'
+            '& #checkout': {
+                paddingBottom: '60px',
+                marginTop: 0,
             }
         },
         [theme.breakpoints.up('md')]: {
             '& .bg-main': {
                 paddingTop: '30%',
-            },
-            '& .note span': {
-                margin: '6px'
-            },
+            }
         },
         '& .loading--component': {
             height: 'calc(100vh - 451px)'
@@ -88,23 +86,25 @@ const useStyle = makeStyles((theme) => ({
         '& .checkout': {
             paddingTop: '20px'
         },
-        '& .MuiPaper-root': {
-            backgroundColor: '#fdfcf0',
+        '& #chair.MuiPaper-root': {
+            backgroundColor: 'transparent',
+            color: '#fff'
         },
         '& .MuiTableCell-root': {
             padding: '10px'
         },
-        '& .MuiTable-root': {
-            borderSpacing: 'revert'
-        },
         '& .MuiTableContainer-root': {
-            maxHeight: '400px',
-            overflowX: 'hidden'
+            maxHeight: '340px',
+            overflowX: 'hidden',
+            borderRadius: '5px',
+            [theme.breakpoints.down('sm')]: {
+                maxHeight: '200px'
+            }
         },
         '& .MuiSvgIcon-root': {
             fill: '#ff1919'
         },
-        '& .MuiCircularProgress-root':{
+        '& .MuiCircularProgress-root': {
             margin: '-1px 13px'
         }
 
@@ -122,7 +122,7 @@ export default function BookingTicket() {
         window.onbeforeunload = function () {
             return true;
         };
-    }else{
+    } else {
         window.onbeforeunload = null;
     }
     useEffect(() => {
@@ -130,14 +130,14 @@ export default function BookingTicket() {
         if (idSt) {
             dispatch(getListTicketRoom(idSt))
         }
-    }, [location,isReload]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [location, isReload]) // eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
         setUpdateListChairs({
             maLichChieu: listChairs && listChairs.thongTinPhim.maLichChieu,
             danhSachVe: [],
             taiKhoanNguoiDung: userInfo && userInfo.taiKhoan
         })
-    }, [listChairs && listChairs.thongTinPhim, userInfo,isReload]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [listChairs && listChairs.thongTinPhim, userInfo, isReload]) // eslint-disable-line react-hooks/exhaustive-deps
     const handleChooseChair = (stt) => {
         if (userInfo) {
             dispatch(addChair(listChairs, stt));
@@ -155,7 +155,7 @@ export default function BookingTicket() {
                     updateListChairs.danhSachVe.splice(i, 1);
                 }
             }
-        }else{
+        } else {
             goToLogin()
         }
     }
@@ -185,7 +185,7 @@ export default function BookingTicket() {
                     }
                 })
             }
-        }else{
+        } else {
             goToLogin()
         }
     }
@@ -234,35 +234,44 @@ export default function BookingTicket() {
                                 <span>và tận hưởng bộ phim vui vẻ</span>
                                 <Grid className='checkout' container spacing={2}>
                                     <Grid item xs={12} md={8}>
-                                        <Paper elevation={3} id='chair'>
-                                            <div className='note'>
-                                                <span >Loại ghế:</span>
-                                                <span><span className='chair chair--normal'></span>Thường</span>
-                                                <span><span className='chair chair--vip'></span>Vip</span>
-                                                <span className='compartment'>|</span>
-                                                <span className='chooseing'>Đang chọn:
-                                                    <span><span className='chair chair--choosing-normal'></span>Thường</span>
-                                                    <span><span className='chair chair--choosing-vip'></span>vip</span>
-                                                </span>
-                                                <span className='compartment'>|</span>
-                                                <span><span className='chair chair--choosed'></span>Không có sẵn</span>
-                                            </div>
+                                        <div id='chair'>
                                             <div className='screen--img'>
                                                 <img src="../img/screen.png" alt="../img/screen.png" />
                                             </div>
-                                            <div className='list__chair'>
-                                                {
-                                                    listChairs.danhSachGhe && listChairs.danhSachGhe.map((ds, index) => {
-                                                        return (
-                                                            <span onClick={() => handleChooseChair(ds.stt)} key={index} className={`
-                                                            chair 
-                                                            ${ds.daDat ? 'chair--choosed disable' : ds.loaiGhe === 'Vip' ? ds.dangChon ? 'chair--choosing-vip' : 'chair--vip' : ds.dangChon ? 'chair--choosing-normal' : 'chair--normal'}
-                                                            `}><span className='name-chair'>{ds.tenGhe}</span></span>
-                                                        )
-                                                    })
-                                                }
+                                            <div className='d-flex'>
+                                                <div className='rows-of-seats'>
+                                                    <span>1</span>
+                                                    <span>2</span>
+                                                    <span>3</span>
+                                                    <span>4</span>
+                                                    <span>5</span>
+                                                    <span>6</span>
+                                                    <span>7</span>
+                                                    <span>8</span>
+                                                    <span>9</span>
+                                                    <span>10</span>
+                                                </div>
+                                                <div className='list__chair'>
+                                                    {
+                                                        listChairs.danhSachGhe && listChairs.danhSachGhe.map((ds, index) => {
+                                                            return (
+                                                                <span
+                                                                    onClick={() => handleChooseChair(ds.stt)}
+                                                                    key={index}
+                                                                    className={`chair ${ds.daDat ? 'chair--choosed disable' : ds.loaiGhe === 'Vip' ? ds.dangChon ? 'chair--choosing' : 'chair--vip' : ds.dangChon ? 'chair--choosing' : 'chair--normal'}`}
+                                                                ></span>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
                                             </div>
-                                        </Paper>
+                                            <div className='note'>
+                                                <span><span className='chair chair--normal'></span>Thường</span>
+                                                <span><span className='chair chair--vip'></span>Vip</span>
+                                                <span><span className='chair chair--choosing'></span>Đang chọn</span>
+                                                <span><span className='chair chair--choosed'></span>Không có sẵn</span>
+                                            </div>
+                                        </div>
                                     </Grid>
                                     <Grid item xs={12} md={4}>
                                         <Paper elevation={3} id='checkout' >

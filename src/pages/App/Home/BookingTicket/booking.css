@@ -62,53 +62,56 @@
 .screen--img img{
     width: 80%;
 }
+.container__list--chair{
+    display: flex;
+}
+.rows-of-seats{
+    padding: 20px 10px 0 0;
+    display: grid;
+    grid-gap: 10px;
+}
+.rows-of-seats span{
+    display: block;
+}
 .list__chair{
-    padding: 20px 5%;
-}
-.list__chair span.chair{
-    position: relative;
-    cursor: pointer;
-    width: 9%;
-    padding-top: 9%;
-}
-.list__chair span.name-chair{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-gap: 10px;
+    padding: 20px 20px 0 10px;
 }
 .chair{
-    padding: 5px;
-    margin: 0px 2px !important;
-    display: inline-block;
-    height: 10px;
+    cursor: pointer;
+    padding: 50% 0;
+    border-radius: 100% 100% 0 0;
 }
 .chair--normal{
-    border: 1px solid #002fe6e6;
+    background: rgb(62, 81, 93) none repeat scroll 0% 0%;
 }
 .chair--vip{
-    border: 1px solid #fa5238;
+    background: #f6b304;
 }
-.chair--choosing-normal{
-    color: #fff;
-    background-color: #002fe6e6;
-    border: 1px solid #002fe6e6;
-}
-.chair--choosing-vip{
-    color: #fff;
-    background-color: #fa5238;
-    border: 1px solid #fa5238;
+.chair--choosing{
+    background-color: #4abe21;
 }
 .chair--choosed{
-    color: #fff;
-    background-color: rgb(109, 106, 106);
-    border: 1px solid rgb(109, 106, 106);
+    background-color: #fff;
 }
 .note{
-    padding: 20px 0 0 0;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 10px;
+    padding: 20px 20px 0;
 }
 .note span{
-    margin: 10px;
+    text-align: left;
+}
+.note .chair{
+    width: 15px;
+    height: 20px;
+    display: inline-grid;
+    margin: 0 10px;
+    padding: 0;
 }
 .delete{
     cursor: pointer;
@@ -140,6 +143,7 @@
 #checkout{
     position: relative;
     padding-bottom: 60px;
+    margin-top: 40px;
 }
 /* reponsive */
 @media screen and (min-width:960px) and (max-width: 1060px) {
@@ -147,17 +151,25 @@
         top: 55%
     }
 }
-@media screen and (min-width:600px) and (max-width: 690px) {
-    .note span{
-        margin: 4px;
+@media screen and (max-width: 960px) {
+    .list__chair{
+        padding: 20px 0 0;
     }
 }
-@media screen and (max-width: 464px) {
-    .list__chair{
-        padding: 20px 2%;
+@media screen and (max-width: 600px) {
+    .content--booking{
+        padding: 0 5px 40px 5px;
     }
-    .list__chair span.chair{
-        width: 8.5%;
-        padding-top: 8.5%;
+    .list__chair{
+        grid-gap: 5px;
+    }
+    .chair{
+        padding-top: 60%;
+    }
+    .rows-of-seats span{
+        font-size: 10px;
+    }
+    .note{
+        grid-template-columns: auto auto;
     }
 }
