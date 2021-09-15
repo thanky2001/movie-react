@@ -161,9 +161,11 @@ export default function BookingTicket() {
     }
     const goToLogin = () => {
         Swal.fire({
-            title: '<span style="font-size: 25px">Vui lòng đăng nhập để có thể đặt vé</span>',
+            title: `<span style="font-size: 25px">Vui lòng đăng nhập để có thể đặt vé</span>`,
             confirmButtonText: 'Đăng nhập',
             confirmButtonColor: '#fa5238',
+            showCancelButton: true,
+            cancelButtonText: 'Hủy bỏ',
         }).then((result) => {
             if (result.isConfirmed) {
                 history.push('/login')
@@ -174,7 +176,16 @@ export default function BookingTicket() {
         if (userInfo) {
             if (updateListChairs && updateListChairs.danhSachVe.length) {
                 Swal.fire({
-                    title: '<span style="font-size: 25px">Vui lòng kiểm tra kỹ trước khi đặt vé!!</span>',
+                    title: `
+                        <span style="font-size: 20px">Vui lòng kiểm tra kỹ trước khi đặt vé!!</span>
+                        <span style="font-size: 16px; font-weight: 500">Bạn đã chọn <span style="font-size: 16px; font-weight: 500; color: red"> ${updateListChairs && updateListChairs.danhSachVe.length} </span> ghế </span>
+                        <span style="font-size: 16px; font-weight: 500">Số tiền phải thanh toán là <span style="font-size: 16px; font-weight: 500; color: red"> ${updateListChairs && updateListChairs.danhSachVe.length ?
+                            updateListChairs.danhSachVe.reduce((total, currentValue) => {
+                                return total + currentValue.giaVe
+                            }, 0).toLocaleString('it-IT') :
+                            0
+                        } đồng </span></span>
+                    `,
                     confirmButtonText: 'Đặt vé',
                     confirmButtonColor: '#fa5238',
                     showCancelButton: true,
