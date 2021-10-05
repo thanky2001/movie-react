@@ -16,6 +16,10 @@ h4{
 .admin--title button span{
     color: #fff;
 }
+.info{
+    display: flex;
+    width: 100%;
+}
 .info__admin{
     height: calc(100% - 60px);
     display: flex;
@@ -33,10 +37,12 @@ h4{
 }
 .info__admin--content .info--content{
     width: 70%;
-    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .info__admin--content p{
     display: flex;
+    white-space: nowrap;
 }
  tbody .MuiTableCell-root{
     padding: 0 16px
@@ -111,7 +117,7 @@ h4{
     }
 }
 @media screen and (max-width: 600px){
-    .info__admin{
+    .info, .info__admin{
         display: block;
         padding-top: 20px;
     }

@@ -17,7 +17,7 @@ function userReducer(state = initialState, action) {
         case CHANGE_USER_REQUEST:
             return {...state, isLoading:true}
         case CHANGE_USER_SUCCESS:
-            return {...state, isLoading:false, currentUser: action.payload.data}
+            return {...state, isLoading:false, currentUser: action.payload.data, isReload: !state.isReload}
         case CURRENT_USER_REQUEST:
             return {...state, isLoading:true}
         case CURRENT_USER_SUCCESS:

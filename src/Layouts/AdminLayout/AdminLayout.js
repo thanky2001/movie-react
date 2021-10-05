@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
         minWidth: '280px',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(2),
+        }
     },
 }));
 

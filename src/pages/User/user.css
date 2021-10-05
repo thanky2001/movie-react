@@ -1,0 +1,40 @@
+
+.view-booking{
+    text-align: center;
+}
+.view-booking img{
+    width: 80px;
+}
+.view-booking--content{
+    text-align: start;
+    padding: 0 10%;
+}
+.view-booking--content p{
+    display: flex;
+}
+.info-title{
+    display: inline-block;
+    width: 30%;
+    font-size: 17px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.info-content{
+    display: inline-block;
+    width: 70%;
+    font-size: 17px;
+    color: #f7b500;
+}
+@media screen and (max-width: 600px){
+    .view-booking--content{
+        padding: 0 5%;
+    }
+}
+@media screen and (max-width: 400px){
+    .info-title{
+        width: 40%;
+    }
+    .info-content{
+        width: 60%;
+    }
+}

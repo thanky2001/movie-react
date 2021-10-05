@@ -15,7 +15,8 @@ const Dashboard = lazy(()=>import('./pages/Admin/Dashboard/Index'));
 const UserInfo = lazy(()=>import('./pages/Admin/UserInfo/UserInfo'));
 const UserManager = lazy(()=>import('./pages/Admin/UserManager/UserManager'));
 const FilmsManager = lazy(()=>import('./pages/Admin/FilmsManager/FilmsManager'));
-const ShowingSession = lazy(()=>import('./pages/Admin/ShowingSession/Index'))
+const ShowingSession = lazy(()=>import('./pages/Admin/ShowingSession/Index'));
+const MyBookingInfo = lazy(()=>import('./pages/User/MyBookingInfo'))
 function App() {
   const location = useLocation();
   useEffect(() => {
@@ -63,6 +64,9 @@ function App() {
         <Route path="/">
             <AppLayout>
               <Switch>
+                <Route path="/thong-tin">
+                  <MyBookingInfo/>
+                </Route>
                 <Route path="/goc-dien-anh">
                   <DetailNews/>
                 </Route>
