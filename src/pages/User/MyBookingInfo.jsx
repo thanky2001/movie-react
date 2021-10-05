@@ -42,7 +42,6 @@ export default function MyBookingInfo() {
             dispatch(getCurrentUser({ 'taiKhoan': userInfo && userInfo.taiKhoan }))
         }
     }, [isReload]) // eslint-disable-line react-hooks/exhaustive-deps
-    console.log(currentUser);
     return (
         <div className={classes.root}>
             {
@@ -54,7 +53,7 @@ export default function MyBookingInfo() {
                         </div>
                         <div className="transaction" >
                             {
-                                currentUser.thongTinDatVe.length && currentUser.thongTinDatVe.map((ticket, index)=>{
+                                currentUser.thongTinDatVe && currentUser.thongTinDatVe.length && currentUser.thongTinDatVe.map((ticket, index)=>{
                                     return (
                                         <div key={index} className="tab--child view-booking">
                                             <Hidden xsDown>
