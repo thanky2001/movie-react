@@ -1,11 +1,10 @@
-import { ADD_CHAIR_SUCCESS, GET_LIST_TICKET_ROOM_REQUEST, GET_LIST_TICKET_ROOM_SUCCESS, POST_BOOKING_TICKET_REQUEST, POST_BOOKING_TICKET_SUCCESS } from "../constants/booking";
+import { ADD_CHAIR_SUCCESS, GET_LIST_TICKET_ROOM_REQUEST, GET_LIST_TICKET_ROOM_SUCCESS, POST_BOOKING_TICKET_SUCCESS } from "../constants/booking";
 
 
 const initialState={
     isLoading: false,
     listChairs: null,
     isReload: true,
-    isLoadingButton:false
 }
 function bookingReducer(state=initialState, action) {
     switch (action.type) {
@@ -15,10 +14,8 @@ function bookingReducer(state=initialState, action) {
             return {...state, isLoading:false, listChairs: action.payload.data}
         case ADD_CHAIR_SUCCESS:
             return {...state, isLoading:false, listChairs: action.payload.data}
-        case POST_BOOKING_TICKET_REQUEST:
-            return {...state, isLoadingButton:true}
         case POST_BOOKING_TICKET_SUCCESS:
-            return {...state,isLoadingButton: false, isReload: !state.isReload}
+            return {...state, isReload: !state.isReload}
         default:
             return state
     }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, makeStyles, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableFooter, CircularProgress } from '@material-ui/core';
+import { Grid, makeStyles, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableFooter } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ReactLoading from 'react-loading';
 import '../home.css';
@@ -115,7 +115,7 @@ export default function BookingTicket() {
     const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
-    const { isLoading, listChairs, isReload, isLoadingButton } = useSelector(state => state.bookingReducer);
+    const { isLoading, listChairs, isReload } = useSelector(state => state.bookingReducer);
     const { userInfo } = useSelector(state => state.authReducer);
     const [updateListChairs, setUpdateListChairs] = useState(null);
     if (updateListChairs && updateListChairs.danhSachVe.length > 0) {
@@ -187,6 +187,7 @@ export default function BookingTicket() {
                         } đồng </span></span>
                     `,
                     confirmButtonText: 'Đặt vé',
+                    showLoaderOnConfirm: true ,
                     confirmButtonColor: '#fa5238',
                     showCancelButton: true,
                     cancelButtonText: 'Hủy bỏ',
@@ -328,7 +329,7 @@ export default function BookingTicket() {
                                                                     }, 0).toLocaleString('it-IT') :
                                                                     0
                                                             }</span></TableCell>
-                                                            <TableCell><button onClick={handleBookTicket} className='btn btn--booking'>{isLoadingButton ? <CircularProgress size={20} color='inherit' /> : 'Đặt vé'}</button></TableCell>
+                                                            <TableCell><button onClick={handleBookTicket} className='btn btn--booking'> Đặt vé</button></TableCell>
                                                         </TableRow>
                                                     </TableFooter>
                                                 </Table>
